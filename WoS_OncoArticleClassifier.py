@@ -7,16 +7,19 @@ nlp = spacy.load('en_core_web_sm')
 # detect key words for cancer types
 def categorize_cancer(description):
     keywords = {
-        'breast cancer': ['breast cancer', 'mammogram', 'BI-RADS', 'HER2', 'ductal carcinoma', 'lobular carcinoma'],
+        'breast cancer': ['breast cancer', 'mammogram', 'BI-RADS', 'ductal carcinoma', 'lobular carcinoma'],
         'rectal cancer': ['rectal cancer', 'colon cancer', 'colorectal cancer', 'rectum', 'sigmoid colon'],
         'prostate cancer': ['prostate cancer', 'PSA', 'prostate biopsy', 'prostatic adenocarcinoma'],
         'lung cancer': ['lung cancer', 'NSCLC', 'SCLC', 'ALK mutation'],
         'brain cancer': ['brain tumor', 'glioma', 'astrocytoma', 'meningioma', 'glioblastoma'],
-        'cervical cancer': ['cervical cancer', 'HPV', 'Pap-smear', 'cervical intraepithelial neoplasia'],
+        'cervical cancer': ['cervical cancer', 'cervical tumor', 'HPV', 'Pap-smear', 'cervical intraepithelial neoplasia'],
         'liver cancer': ['liver cancer', 'HCC', 'hepatocellular carcinoma', 'cirrhosis', 'hepatitis B', 'AFP'],
-        'stomach cancer': ['stomach cancer', 'gastric cancer', 'gastric adenocarcinoma', 'Helicobacter pylori'],
-        'endometrial cancer': ['endometrial cancer', 'uterine cancer', 'endometrial carcinoma', 'hyperplasia'],
-        'skin cancer': ['skin cancer', 'melanoma', 'basal cell carcinoma', 'squamous cell carcinoma']
+        'stomach cancer': ['stomach cancer', 'gastric tumor', 'gastric cancer', 'gastric adenocarcinoma', 'Helicobacter pylori'],
+        'endometrial cancer': ['endometrial cancer', 'uterine cancer', 'endometrial carcinoma'],
+        'skin cancer': ['skin cancer', 'skin tumor*', 'basal cell carcinoma', 'squamous cell carcinoma'],
+        'ovarian cancer': ['ovarian cancer', 'FIGO'],
+        'head and neck cancer': ['head and neck cancer'],
+        'renal cancer': ['renal cell carcinoma', 'clear cell renal cell carcinoma', 'ccRCC', 'Fuhrman grading system', 'kidney tumor']
     }
 
     # Text processing with spaCy
@@ -35,11 +38,11 @@ def categorize_articles_in_excel_and_save_in_same_file(file_path):
     df = pd.read_excel(file_path)
 
     # Checking if there is a description column
-    if 'abstract' not in df.columns:
-        raise ValueError("Column 'abstract' not found in the Excel file.")
+    if 'Abstract' not in df.columns:
+        raise ValueError("Column 'Abstract' not found in the Excel file.")
 
     # Creating a new column for cancer types
-    df['Cancer Type'] = df['abstract'].apply(categorize_cancer)
+    df['Cancer Type'] = df['Abstract'].apply(categorize_cancer)
 
     # Save to the same file with the updated column
     df.to_excel(file_path, index=False)
