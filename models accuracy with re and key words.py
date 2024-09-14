@@ -23,15 +23,15 @@ def classify_accuracy(description):
 
     # Перевірка на наявність числових значень у тексті
     if re.search(very_high_accuracy_pattern, description) or any(word in description.lower() for word in very_high_keywords):
-        return "Дуже висока точність (≥ 0.95 або ≥ 95%)"
+        return "Very high accuracy (≥ 95%)"
     elif re.search(high_accuracy_pattern, description) or any(word in description.lower() for word in high_keywords):
-        return "Висока точність (0.90 - 0.949 або 90% - 94.9%)"
+        return "High accuracy (90% - 94.9%)"
     elif re.search(medium_accuracy_pattern, description) or any(word in description.lower() for word in medium_keywords):
-        return "Середня точність (0.80 - 0.899 або 80% - 89.9%)"
+        return "Medium accuracy (80% - 89.9%)"
     elif re.search(low_accuracy_pattern, description) or any(word in description.lower() for word in low_keywords):
-        return "Низька точність (0.70 - 0.799 або 70% - 79.9%)"
+        return "Low accuracy (70% - 79.9%)"
     elif re.search(very_low_accuracy_pattern, description) or any(word in description.lower() for word in very_low_keywords):
-        return "Дуже низька точність (< 0.70 або < 70%)"
+        return "Very low accuracy (< 70%)"
     
     return "Unknown"
 
