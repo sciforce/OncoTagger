@@ -1,6 +1,7 @@
 import pandas as pd
 import spacy
 import re
+from tqdm import tqdm
 
 # Завантажуємо модель spaCy
 nlp = spacy.load('en_core_web_sm')
@@ -15,11 +16,11 @@ def categorize_cancer(row):
         'brain cancer': ['brain tumor', 'glioma', 'astrocytoma', 'meningioma', 'glioblastoma'],
         'cervical cancer': ['cervical cancer', 'cervical tumor', 'hpv', 'pap-smear', 'cervical intraepithelial neoplasia'],
         'liver cancer': ['liver cancer', 'hepatic tumor', 'hcc', 'hepatocellular carcinoma', 'cirrhosis', 'hepatitis b', 'afp'],
-        'stomach cancer': ['stomach cancer', 'gastric tumor', 'gastric cancer', 'gastric adenocarcinoma', 'helicobacter pylori'],
+        'stomach cancer': ['stomach cancer', 'gastrointestinal cancer', 'gastric tumor', 'gastric cancer', 'gastric adenocarcinoma', 'helicobacter pylori'],
         'endometrial cancer': ['endometrial cancer', 'uterine cancer', 'endometrial carcinoma'],
         'skin cancer': ['skin cancer', 'skin tumors', 'skin tumor', 'basal cell carcinoma', 'squamous cell carcinoma'],
         'ovarian cancer': ['ovarian cancer', 'figo', 'ovarian tumors', 'ovarian tumor', 'adnexal masses'],
-        'head and neck cancer': ['head and neck cancer', 'pharyngeal cancer'],
+        'head and neck cancer': ['neck tumor', 'neck tumors', 'tongue tumor', 'head and neck cancer', 'pharyngeal cancer', 'oral cancer'],
         'renal cancer': ['renal cell carcinoma', 'clear cell renal cell carcinoma', 'ccrcc', 'fuhrman grading system', 'kidney tumor'],
         'mesothelioma': ['mesothelioma', 'pleural mesothelioma'],
         'melanoma': ['melanoma', 'cutaneous melanoma', 'malignant melanoma', 'skin melanoma', 'metastatic melanoma', 'melanocytic nevus', 'BRAF mutation', 'NRAS mutation', 'KIT mutation', 'superficial spreading melanoma', 'nodular melanoma', 'acral lentiginous melanoma', 'lentigo maligna melanoma', 'amelanotic melanoma', 'melanoma in situ', 'Clark level', 'Breslow depth', 'sentinel lymph node biopsy', 'immunotherapy for melanoma', 'targeted therapy for melanoma', 'melanoma staging', 'ABCDE criteria'],
@@ -27,10 +28,10 @@ def categorize_cancer(row):
         'oncohematologic malignancies': ['leukemia', 'lymphoma', 'multiple myeloma', 'acute myeloid leukemia', 'AML', 'chronic lymphocytic leukemia', 'CLL', 'acute lymphoblastic leukemia', 'ALL', 'Hodgkin\'s lymphoma', 'non-Hodgkin\'s lymphoma', 'plasma cell neoplasms', 'bone marrow biopsy'],
         'bladder cancer': ['bladder cancer', 'urothelial carcinoma', 'transitional cell carcinoma', 'hematuria', 'Bacillus Calmette-Guérin', 'BCG therapy', 'TURBT', 'non-muscle invasive bladder cancer', 'muscle-invasive bladder cancer', 'cystoscopy'],
         'esophageal cancer': ['esophageal cancer', 'esophageal adenocarcinoma', 'esophageal squamous cell carcinoma', 'Barrett\'s esophagus', 'esophagectomy', 'dysphagia', 'GERD', 'gastroesophageal reflux disease', 'endoscopic resection'],
-        'thyroid cancer': ['thyroid cancer', 'papillary thyroid carcinoma', 'follicular thyroid carcinoma', 'medullary thyroid carcinoma', 'anaplastic thyroid carcinoma', 'thyroidectomy', 'TSH', 'thyroid-stimulating hormone', 'thyroid nodules', 'radioiodine therapy'],
+        'thyroid cancer': ['thyroid cancer', 'thyroid nodules', 'medullary thyroid carcinoma', 'papillary thyroid carcinoma', 'follicular thyroid carcinoma', 'follicular thyroid adenoma', 'papillary thyroid carcinoma', 'follicular thyroid carcinoma', 'medullary thyroid carcinoma', 'anaplastic thyroid carcinoma', 'thyroidectomy', 'TSH', 'thyroid-stimulating hormone', 'thyroid nodules', 'radioiodine therapy'],
         'testicular cancer': ['testicular cancer', 'germ cell tumors', 'seminoma', 'non-seminoma', 'orchiectomy', 'alpha-fetoprotein', 'AFP', 'beta-HCG', 'testicular mass'],
         'pancreatic cancer': ['pancreatic neuroendocrine neoplasms', 'pancreatic tumor', 'pancreatic cancer', 'pancreatic neoplasm', 'pancreatic adenocarcinoma', 'pancreatic neuroendocrine tumors', 'PNET'],
-        'various cancers': ['multiple cancers', 'various cancer types', 'different cancer types', 'cancer detection across multiple types', 'broad cancer diagnostic model', 'pan-cancer', 'multi-cancer detection', 'multi-cancer', 'tumor agnostic', 'common cancer markers', 'ai model for cancer diagnosis', 'deep learning for various cancer detection']
+        'various cancers': ['multiple cancers', 'various cancer types', 'pan-cancer', 'different cancer types', 'cancer detection across multiple types', 'broad cancer diagnostic model', 'pan-cancer', 'multi-cancer detection', 'multi-cancer', 'tumor agnostic', 'common cancer markers', 'ai model for cancer diagnosis', 'deep learning for various cancer detection']
     }
 
     combined_text = ' '.join([
@@ -97,11 +98,11 @@ def classify_accuracy(description):
     low_accuracy_pattern = r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'
     very_low_accuracy_pattern = r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b'
     
-    very_high_keywords = ['outstanding performance', 'clinically reliable']
-    high_keywords = ['high accuracy', 'clinically useful']
-    medium_keywords = ['moderate accuracy', 'reasonable prediction']
-    low_keywords = ['low accuracy', 'limited clinical use']
-    very_low_keywords = ['very low accuracy', 'not suitable for clinical use']
+    very_high_keywords = ['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy']
+    high_keywords = ['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful']
+    medium_keywords = ['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment']
+    low_keywords = ['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use']
+    very_low_keywords = ['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement']
 
     if re.search(very_high_accuracy_pattern, description) or any(word in description.lower() for word in very_high_keywords):
         return "Very high accuracy (≥ 95%)"
@@ -116,59 +117,89 @@ def classify_accuracy(description):
 
     return "Unknown"
 
-# Функція для підрахунку та збереження типів раку
-def count_cancer_types_and_save(df, output_path):
+# Підрахунок кількості статей за категоріями без групування по роках і збереження результатів
+def count_and_save_overall(df):
+    print("Підрахунок кількості статей для кожної категорії...")
+    # Підрахунок типів раку
     cancer_counts = df['Cancer Type'].value_counts()
     cancer_counts_df = cancer_counts.reset_index()
     cancer_counts_df.columns = ['Cancer Type', 'Count']
-    cancer_counts_df.to_excel(output_path, index=False)
+    cancer_counts_df.to_excel(output_path_cancer, index=False)
 
-# Функція для підрахунку та збереження моделей ШІ
-def count_ai_models_and_save(df, output_path):
+    # Підрахунок моделей ШІ
     ai_model_counts = df['AI Model'].value_counts()
     ai_model_counts_df = ai_model_counts.reset_index()
     ai_model_counts_df.columns = ['AI Model', 'Count']
-    ai_model_counts_df.to_excel(output_path, index=False)
+    ai_model_counts_df.to_excel(output_path_ai, index=False)
 
-# Функція для підрахунку та збереження категорій точності
-def count_accuracy_category_and_save(df, output_path):
+    # Підрахунок категорій точності
     accuracy_category_counts = df['Accuracy_Category'].value_counts()
     accuracy_category_df = accuracy_category_counts.reset_index()
     accuracy_category_df.columns = ['Accuracy_Category', 'Count']
-    accuracy_category_df.to_excel(output_path, index=False)
+    accuracy_category_df.to_excel(output_path_accuracy, index=False)
+
+# Підрахунок кількості статей за категоріями по роках і збереження результатів
+def count_by_year_and_save(df, column_name, output_path):
+    print(f"Підрахунок статей за роками для {column_name}...")
+    grouped_counts = df.groupby(['Publication Year', column_name]).size().reset_index(name='Count')
+    grouped_counts.to_excel(output_path, index=False)
 
 # Основна функція обробки файлу
 def process_excel_file(file_path):
     try:
         # Завантаження Excel файлу
+        print(f"Завантаження файлу: {file_path}")
         df = pd.read_excel(file_path)
 
         # Перевірка, чи існують необхідні колонки
-        required_columns = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract']
+        required_columns = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract', 'Publication Year']
         if not all(column in df.columns for column in required_columns):
             missing_columns = [column for column in required_columns if column not in df.columns]
             raise ValueError(f"Missing columns in the Excel file: {', '.join(missing_columns)}")
 
         # Обробка типів раку
+        print("Класифікація статей за типом раку...")
         df['Cancer Type'] = df.apply(categorize_cancer, axis=1)
         
         # Обробка моделей ШІ
+        print("Класифікація статей за моделями ШІ...")
         df['AI Model'] = df.apply(categorize_ai_model, axis=1)
         
         # Обробка категорій точності
+        print("Класифікація статей за точністю моделей...")
         df['Accuracy_Category'] = df['Abstract'].apply(classify_accuracy)
 
         # Збереження результатів у початковий файл
+        print("Збереження оновленого файлу з класифікацією...")
         df.to_excel(file_path, index=False)
-        
-        # Підрахунок та збереження результатів
-        count_cancer_types_and_save(df, file_path.replace('.xlsx', '_cancer_counts.xlsx'))
-        count_ai_models_and_save(df, file_path.replace('.xlsx', '_ai_model_counts.xlsx'))
-        count_accuracy_category_and_save(df, file_path.replace('.xlsx', '_accuracy_category_counts.xlsx'))
+
+        # Шляхи до вихідних файлів для загальних підрахунків
+        global output_path_cancer, output_path_ai, output_path_accuracy
+        output_path_cancer = file_path.replace('.xlsx', '_cancer_counts.xlsx')
+        output_path_ai = file_path.replace('.xlsx', '_ai_model_counts.xlsx')
+        output_path_accuracy = file_path.replace('.xlsx', '_accuracy_category_counts.xlsx')
+
+        # Підрахунок та збереження загальних результатів
+        count_and_save_overall(df)
+
+        # Шляхи до вихідних файлів для підрахунків по роках
+        output_path_cancer_year = file_path.replace('.xlsx', '_cancer_by_year.xlsx')
+        output_path_ai_year = file_path.replace('.xlsx', '_ai_model_by_year.xlsx')
+        output_path_accuracy_year = file_path.replace('.xlsx', '_accuracy_category_by_year.xlsx')
+
+        # Підрахунок та збереження результатів по роках
+        count_by_year_and_save(df, 'Cancer Type', output_path_cancer_year)
+        count_by_year_and_save(df, 'AI Model', output_path_ai_year)
+        count_by_year_and_save(df, 'Accuracy_Category', output_path_accuracy_year)
 
         print(f"File processed and saved successfully: {file_path}")
+        print(f"Overall counts saved to: {output_path_cancer}, {output_path_ai}, {output_path_accuracy}")
+        print(f"Yearly counts saved to: {output_path_cancer_year}, {output_path_ai_year}, {output_path_accuracy_year}")
     except Exception as e:
         print(f"Error processing the file: {e}")
+
+# Додавання прогресу з tqdm
+tqdm.pandas()
 
 # Виклик основної функції
 path_to_excel_file = r'D:\results\\1-6466.xlsx'
