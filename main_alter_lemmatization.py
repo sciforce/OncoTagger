@@ -1,15 +1,38 @@
 import pandas as pd
 import spacy
 from spacy.matcher import Matcher
-import re
 from tqdm import tqdm
+import re
+
+# Функція для видалення апострофів у тексті (наприклад, "barrett's" -> "barretts")
+def preprocess_text_smart(text):
+    # Видаляє апострофи тільки всередині слів, залишаючи цілі терміни
+    text = re.sub(r"(\w)'(\w)", r"\1\2", text)
+    return text
 
 # Завантажуємо модель spaCy
 nlp = spacy.load('en_core_web_sm')
 
+matcher = Matcher(nlp.vocab)
+
+keywords_with_hyphens = [ 'triple-negative', 'non-small', 'microsatellite-instability', 'androgen-dependent', 'castration-resistant', 'non-muscle-invasive', 'muscle-invasive', 'signet-ring', 'serous-endometrial', 'low-grade', 'high-grade', 't1-weighted', 't2-weighted', 'gray-level', 'multi-gray', 'diffuse-intrinsic', 'small-cell', 'large-cell', 'endometrioid-type', 'neuroendocrine-tumors', 'cutaneus-squamous-cell', 'basal-cell', 'clear-cell', 'low-grade', 'non-seminoma', 'solid-pseudopapillary', 'pan-cancer', 'multi-cancer', 'extra-adrenal', 'catecholamine-secreting', 'gastrointestinal-stromal', 'low-grade-myofibroblastic', 'low-grade-fibromyxoid', 'smooth-muscle', 'soft-tissue', 'epithelioid-sarcoma', 'chronic-lymphocytic', 'acute-lymphoblastic', 'multiple-myeloma', 'stage-iii', 'stage-iv', 'barrett-esophagus', 'ck5/6', 'vascular-endothelial', 'endometrial-stromal', 'non-hodgkin', 'hodgkin-lymphoma', 'superficial-spreading', 'sentinel-lymph-node', 'abcde-criteria', 'breast-ductal-carcinoma', 'ductal-carcinoma', 'artificial-neural-network', 'convolutional-neural-network', 'long-short-term', 'large-cell-neuroendocrine', 'support-vector', 'data-driven', 'non-hodgkin-lymphoma', 'multi-cancer-type', 'organs-at-risk', 'wide-area' ]
+
+for keyword in keywords_with_hyphens:
+    parts = keyword.split('-')
+    
+    # Провіряємо, що parts містить как мінімум два елементи
+    if len(parts) == 2:
+        pattern1 = [{'LOWER': keyword.replace('-', '')}]  # case without hyphen
+        pattern2 = [{'LOWER': parts[0]}, {'LOWER': parts[1]}]  # case with space
+        pattern3 = [{'LOWER': parts[0]}, {'IS_PUNCT': True}, {'LOWER': parts[1]}]  # case with hyphen or other punctuation
+        matcher.add(keyword, [pattern1, pattern2, pattern3])
+    else:
+        # якщо дефіса немає, додаємо тільки шаблон без дефіса
+        pattern1 = [{'LOWER': keyword}]  # Оригинальная строка
+        matcher.add(keyword, [pattern1])
+
 # Функція для класифікації статей за типом раку
-def categorize_cancer(row):
-    keywords = {
+keywords = {
     'breast cancer': ['breast cancer', 'breast carcinoma', 'invasive ductal carcinoma', 'breast carcinomas', 'breast adenocarcinoma', 'breast adenocarcinomas', 'breast malignancy', 'breast malignancies', 'tnbc',  'triple-negative breast cancer', 'invasive breast carcinoma', 'breast ductal carcinoma in situ', 'invasive lobular carcinoma', 'breast ultrasound', 'mammograms', 'breast masses', 'breast tumor', 'breast tumors', 'mcf-7', 'breast neoplasm', 'breast neoplasms', 'abus', 'mammography', 'mammogram', 'bi-rads', 'lobular carcinoma', 'breast biopsies', 'breast biopsy'],
     'colorectal cancer': ['colorectal cancer', 'colorectal carcinoma', 'colorectal carcinomas', 'msi-h', 'colorectal carcinoma', 'colorectal carcinomas', 'colorectal adenocarcinoma', 'colorectal adenocarcinomas', 'colorectal malignancy', 'colon carcinoma', 'colon carcinomas', 'colon adenocarcinoma', 'colon adenocarcinomas', 'colon malignancy', 'colon malignancies', 'colorectal malignancies', 'microsatellite instability', 'msi', 'colorectal cancers', 'colon cancer', 'colon cancers', 'rectal cancer', 'rectal cancers', 'colon tumor', 'colon tumors', 'rectal tumor', 'rectal tumors', 'colon neoplasm', 'colon neoplasms', 'rectal neoplasm', 'rectal neoplasms', 'adenocarcinoma of the colon', 'adenocarcinoma of the rectum', 'familial adenomatous polyposis', 'lynch syndrome', 'rectum', 'sigmoid colon', 'anal cancer', 'anal cancers', 'anal tumor', 'anal tumors', 'anal neoplasm', 'anal neoplasms', 'squamous cell carcinoma of the anus', 'anal squamous cell carcinoma', 'anorectal cancer', 'anorectal cancers', 'anorectal tumor', 'anorectal tumors', 'anorectal neoplasm', 'anorectal neoplasms', 'perianal cancer', 'perianal cancers', 'perianal tumor', 'perianal tumors', 'perianal neoplasm', 'perianal neoplasms'],
     'prostate cancer': ['prostate cancer', 'prostate carcinoma', 'tmprss2-erg', 'prostate cancers', 'prostate tumor', 'prostate tumors', 'prostate neoplasm', 'prostate neoplasms', 'prostatic adenocarcinoma', 'gleason score', 'androgen-dependent prostate cancer', 'benign prostatic hyperplasia', 'abiraterone', 'enzalutamide', 'prostate carcinomas', 'prostate adenocarcinoma', 'prostate adenocarcinomas', 'prostate malignancy', 'prostate malignancies', 'apalutamide', 'castration-resistant', 'psa', 'prostate biopsy', 'prostatic adenocarcinoma'],
@@ -41,16 +64,34 @@ def categorize_cancer(row):
     'various cancers': ['multiple cancers', 'various diseases', 'subclonal selection', 'genotype matrix', 'tumor phylogeny', 'variant allele frequencies', 'methylation data', 'cancer origin determination', 'cell lines', 'cell line', 'circulating tumor cells', 'circulating tumor cell', 'several subtypes', 'cancer spheroids', 'cancer cell model', 'multi-cancer', 'ras/mek/erk', 'ck7', 'ck18', 'ck8', 'ctnnb1', 'p63', 'p53', 'tp53', 'ck5/6', 'pd-l1', 'pdl', 'pten', 'myc', 'cdkn2a', 'various tumor', 'various tumors', 'organs-at-risk', 'oars', 'multiple cancer types',  'various carcinoma', 'various carcinomas', 'various adenocarcinoma', 'various adenocarcinomas', 'various malignancy', 'various malignancies', 'pan-cancer', 'organoid growth', 'segmentation of cscs', 'ed visit risk among patients with cancer', 'nci-60', 'plwc', 'tumor exomes', 'vascular endothelial growth factor receptor', 'vegfr-2', 'different cancers', 'tumor angiogenic factors', 'extracellular matrix', 'breast-colorectal-endometrial','more than two hd cancers of interest', 'human tumors', 'multi-cancer-type', 'tumor type prediction', 'various cancer types', 'pan-cancer', 'different cancer types', 'cancer detection across multiple types', 'broad cancer diagnostic model', 'pan-cancer', 'multi-cancer detection', 'multi-cancer', 'tumor agnostic', 'common cancer markers', 'ai model for cancer diagnosis', 'deep learning for various cancer detection', 'various cancers', 'various atll cancer']
 }
 
-    combined_text = ' '.join([
-        str(row['Article Title']).lower(),
-        str(row['Author Keywords']).lower(),
-        str(row['Keywords Plus']).lower(),
-        str(row['Abstract']).lower()
-    ])
+def match_keywords(text):
+    doc = nlp(text)
+    matches = matcher(doc)
+    matched_keywords = set()
+    for match_id, start, end in matches:
+        span = doc[start:end].text
+        matched_keywords.add(span.lower())
+    return matched_keywords
 
+def categorize_cancer(row):
+    # Об'єднуємо текст в одну строку і застосовуємо предобробку для видалення апострофів
+    combined_text = preprocess_text_smart(' '.join([str(row['Article Title']).lower(), str(row['Author Keywords']).lower(), str(row['Keywords Plus']).lower(), str(row['Abstract']).lower()]))
+
+    # Застосовуємо spaCy до об'єднаного тексту
     doc = nlp(combined_text)
+
+    # Лематизуємо текст
     lemmatized_text = ' '.join([token.lemma_ for token in doc])
 
+    # Перевіряємо через matcher для слів з дефісами
+    matched_keywords = match_keywords(combined_text)
+
+    # Якщо знайдені збіги з ключовими словами, повертаємо тип раку
+    for cancer_type, cancer_keywords in keywords.items():
+        if any(keyword in matched_keywords for keyword in cancer_keywords):
+            return cancer_type
+
+    # Додаткова перевірка для ключових слів без дефісів
     for cancer_type, cancer_keywords in keywords.items():
         if any(f" {keyword} " in f" {lemmatized_text} " for keyword in cancer_keywords):
             return cancer_type
@@ -78,12 +119,7 @@ def categorize_ai_model(row):
         'Ensemble': ['ensemble', 'ensemble machine learning classification model', 'ensemble method', 'bagging', 'stacking', 'blending', 'voting classifier', 'catboost', 'ensemble learning', 'ensemble classifier', 'majority voting', 'bootstrap aggregation', 'ensemble model']
     }
 
-    combined_text = ' '.join([
-        str(row['Article Title']).lower(),
-        str(row['Author Keywords']).lower(),
-        str(row['Keywords Plus']).lower(),
-        str(row['Abstract']).lower()
-    ])
+    combined_text = ' '.join([str(row['Article Title']).lower(), str(row['Author Keywords']).lower(), str(row['Keywords Plus']).lower(), str(row['Abstract']).lower()])
 
     doc = nlp(combined_text)
     lemmatized_text = ' '.join([token.lemma_ for token in doc])
@@ -104,7 +140,7 @@ def classify_accuracy(description):
     medium_accuracy_pattern = r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'
     low_accuracy_pattern = r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'
     very_low_accuracy_pattern = r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b'
-    
+
     very_high_keywords = ['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy']
     high_keywords = ['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful']
     medium_keywords = ['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment']
@@ -165,18 +201,25 @@ def process_excel_file(file_path):
             raise ValueError(f"Missing columns in the Excel file: {', '.join(missing_columns)}")
 
         # Обробка типів раку
-        print("Класифікація статей за типом раку...")
-        df['Cancer Type'] = tqdm(df.apply(categorize_cancer, axis=1), total=len(df))
-        print(f"Категоризовано {len(df)} статей за типом раку.")
+        print("Класифікация статей по типам раку...")
+        with tqdm(total=len(df), desc="Типи раку") as pbar:
+            df['Cancer Type'] = df.apply(lambda row: categorize_cancer(row), axis=1)
+            pbar.update(1)
+
+        print(f"Категоризировано {len(df)} статей по типам раку.")
         
         # Обробка моделей ШІ
         print("Класифікація статей за моделями ШІ...")
-        df['AI Model'] = tqdm(df.apply(categorize_ai_model, axis=1), total=len(df))
+        with tqdm(total=len(df), desc="Моделі ШІ") as pbar:
+            df['AI Model'] = df.apply(lambda row: categorize_ai_model(row), axis=1)
+            pbar.update(1)
         print(f"Категоризовано {len(df)} статей за моделями ШІ.")
         
         # Обробка категорій точності
         print("Класифікація статей за точністю моделей...")
-        df['Accuracy_Category'] = tqdm(df['Abstract'].apply(classify_accuracy), total=len(df))
+        with tqdm(total=len(df), desc="Точність моделей") as pbar:
+            df['Accuracy_Category'] = df['Abstract'].apply(lambda description: classify_accuracy(description))
+            pbar.update(1)
         print(f"Категоризовано {len(df)} статей за точністю моделей.")
 
         # Збереження результатів у початковий файл
@@ -214,3 +257,4 @@ tqdm.pandas()
 # Виклик основної функції
 path_to_excel_file = r'D:\results\\1-6437.xlsx'
 process_excel_file(path_to_excel_file)
+    
