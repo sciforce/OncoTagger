@@ -1,0 +1,52 @@
+Linear/Logistic Regression,Decision Trees / Random Forests,Support Vector Machines (SVM),Convolutional Neural Networks (CNN),Recurrent Neural Networks (RNN/LSTM),Generative Adversarial Networks (GANs),Artificial Neural Networks (ANN),Text Classification,Recommendation Systems,Genomic Models,Clinical Decision Support Systems,Autoencoder,U-Net Models,Gradient Boosting Models,Information Extraction,Ensemble
+logistic regression,decision tree,support vector machine,image classification,sequence model,wasserstein gan,stochastic gradient descent,text classification,recommendation system,genomic model,clinical decision support system,variational autoencoder,3d u-net,gradient-boosted decision trees,information extraction,ensemble
+linear regression,llm,svm,PathML,time-series analysis,multilevel-graph neural networkimage synthesis,Tumor Dynamic Neural-ODE,natural language processing,recommender system,genomic prediction,cdss,vae,residual u-net,gbdt,feature extraction,different machine learning
+regression model,prognostic model,kernel svm,image recognition,temporal data analysis,wgan,TDNODE,nlp,collaborative filtering,gene expression profiling,clinical support tool,denoising autoencoder,attention u-net,regularization,text analysis,ensemble machine learning classification model
+lasso regression,decision trees,svm classifier,medical image analysisefficientnet,speech recognition,synthetic data,adam optimizer,sentiment analysis,content-based filtering,rna sequencing,decision support system,sparse autoencoder,u-net++,early stopping,entity extraction,ensemble method
+stepwise regression,random forest,rbf kernel,mobilenet,sentiment analysis,adversarial training,drop-out layers,topic modeling,user-item interaction,genotype-phenotype model,computer-aided diagnosis,contractive autoencoder,u-net plus plus,shrinkage,information retrieval,bagging
+,classification tree,polynomial kernel,shufflenet,time-series prediction,unsupervised image generation,regularization,text mining,matrix factorization,genetic model,,latent vector,skip connections,decision boundary,,stacking
+,tree-based model,,vggnet,gated recurrent unit,conditional gan,hyperparameter tuning,named entity recognition,,,,reconstruction error,encoder-decoder architecture,weak learners,,blending
+,out-of-bag error,,squeeznet,gru,cgan,weight initialization,,,,,bottleneck layer,multi-scale feature extraction,out-of-bag evaluation,,voting classifier
+,gini impurity,,medical image segmentation,bi-directional lstm,progressive gan,activation functions,,,,,dimensionality reduction,region of interest,cross-validation,,catboost
+,entropy,,feature pyramid networks,attention mechanism,pgan,relu,,,,,data compression,feature map merging,hyperparameter tuning,,ensemble learning
+,pruning,,fpn,sequence-to-sequence models,cyclegan,leaky relu,,,,,autoencoder,unet,learning rate,,ensemble classifier
+,max depth,,fully connected layers,time-series forecasting,stylegan,sigmoid,,,,,deepc,u-net,tree depth,,majority voting
+,min samples split,,stride,speech recognition,pix2pix,tanh,,,,,deept2vec,wsunet,number of estimators,,bootstrap aggregation
+,min samples leaf,,filter size,language modeling,latent space,batch normalization,,,,,transcriptomic feature vectors,weakly supervised unet,boosted trees,,ensemble model
+,random state,,pooling layers,vanishing gradient,discriminator loss,momentum,,,,,tfv,semantic segmentation,gradient boosting,,
+,tree depth,,dilated convolution,exploding gradient,generator loss,early stopping,,,,,,,gradient boosting machine,,
+,forest ensemble,,transform,recurrent connections,mode collapse,learning rate decay,,,,,,,gbm,,
+,random feature selection,,wavelet transform,recurrent neural network,unsupervised learning,xavier initialization,,,,,,,boosting algorithm,,
+,variable importance,,feature maps,rnn,image-to-image translation,he initialization,,,,,,,boosted trees,,
+,bootstrap samples,,pooling,long short-term memory,image generation,mini-batch gradient descent,,,,,,,gradient boosting trees,,
+,oob score,,spatial pyramid pooling,lstm,super-resolution,edge computing,,,,,,,ensemble learning,,
+,splitting criterion,,spp,gru,style transfer,fused weighted model,,,,,,,boosted decision trees,,
+,Logic Learning Machine,,tensorflow,sequential model,data augmentation,fused weighted deep extreme learning,,,,,,,adaboost,,
+,,,keras,gated recurrent units,synthetic data generation,federated learning,,,,,,,adaptive boosting,,
+,,,diffusion-weighted imaging,,generative adversarial network,deep neural network,,,,,,,xgboost,,
+,,,dwi,,gan,adaptive transfer-learning-based deep cox neural network,,,,,,,extreme gradient boosting,,
+,,,texture feature analysis,,gans,atrcn,,,,,,,categorical boosting,,
+,,,intelligent imaging technology,,generator network,transfer learning,,,,,,,sequential model correction,,
+,,,t2-weighted imaging,,discriminator network,cox neural network,,,,,,,,,
+,,,t1-weighted imaging,,adversarial training,artificial neural network,,,,,,,,,
+,,,gray level co-occurrence matrix,,,ann,,,,,,,,,
+,,,multi-gray level size zone matrix,,,feedforward neural network,,,,,,,,,
+,,,glcm,,,backpropagation,,,,,,,,,
+,,,mglszm,,,multilayer perceptron,,,,,,,,,
+,,,convolutional neural network,,,mlp,,,,,,,,,
+,,,radiomics,,,neural network model,,,,,,,,,
+,,,matrix-assisted laser desorption/ionization,,,deep learning network,,,,,,,,,
+,,,image segmentation,,,neural network classifier,,,,,,,,,
+,,,whole slide images,,,,,,,,,,,,
+,,,whole slide image,,,,,,,,,,,,
+,,,WSI,,,,,,,,,,,,
+,,,MALDI,,,,,,,,,,,,
+,,,cnn,,,,,,,,,,,,
+,,,deep cnn,,,,,,,,,,,,
+,,,densenet,,,,,,,,,,,,
+,,,resnet,,,,,,,,,,,,
+,,,inception,,,,,,,,,,,,
+,,,alexnet,,,,,,,,,,,,
+,,,multi-layered cnn,,,,,,,,,,,,
+,,,convnet,,,,,,,,,,,,
+,,,convolution neural network,,,,,,,,,,,,
