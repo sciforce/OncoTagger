@@ -3,7 +3,15 @@ import spacy
 from spacy.matcher import Matcher
 from tqdm import tqdm
 import re
+import logging
 
+# Configure the logging
+logging.basicConfig(
+    filename='app.log',  # Set the filename
+    filemode='w',        # Set the file mode ('a' for append, 'w' for overwrite)
+    level=logging.DEBUG, # Set the logging level
+    format='%(asctime)s - %(levelname)s - %(message)s'  # Set the format
+)
 # Функція для видалення апострофів у тексті (наприклад, "barrett's" -> "barretts")
 def preprocess_text_smart(text):
     # Видаляє апострофи тільки всередині слів, залишаючи цілі терміни
@@ -43,44 +51,54 @@ def match_keywords(text):
         matched_keywords.add(span.lower())
     return matched_keywords
 
-def categorize_cancer(row):
-    # Об'єднуємо текст в одну строку і застосовуємо предобробку для видалення апострофів
-    combined_text = preprocess_text_smart(' '.join([str(row['Article Title']).lower(), str(row['Author Keywords']).lower(), str(row['Keywords Plus']).lower(), str(row['Abstract']).lower()]))
 
-    # Застосовуємо spaCy до об'єднаного тексту
+# Function to process matched text
+def process_matched_text(text):
+    combined_text = preprocess_text_smart(text.lower())
     doc = nlp(combined_text)
-
-    # Лематизуємо текст
     lemmatized_text = ' '.join([token.lemma_ for token in doc])
+    matched_cancers = match_keywords(combined_text)
+    return lemmatized_text, matched_cancers
 
-    # Перевіряємо через matcher для слів з дефісами
-    matched_keywords = match_keywords(combined_text)
+def categorize_cancer(row):
+    # Process each field separately and collect results into lists
+    fields = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract']
 
-    # Якщо знайдені збіги з ключовими словами, повертаємо тип раку
-    for cancer_type in keywords.columns:
-        if any(keyword in matched_keywords for keyword in keywords[cancer_type].dropna()):
-            return cancer_type
+    cancer_types = []
+    for field in fields:
+        field_text = str(row[field])
+        lemmatized_text, matched_cancers = process_matched_text(field_text)
 
-    # Додаткова перевірка для ключових слів без дефісів
-    for cancer_type in keywords.columns:
-        if any(f" {keyword} " in f" {lemmatized_text} " for keyword in keywords[cancer_type].dropna()):
-            return cancer_type
+    # Check for cancer types in matched keywords
+        for cancer_type in keywords.columns:
+            if any(cancer_keyword in matched_cancers for cancer_keyword in keywords[cancer_type].dropna()):
+                cancer_types.append((field,cancer_type))
 
+    # Additional check for cancer types in lemmatized text
+        for cancer_type in keywords.columns:
+            if any(f" {cancer_keyword} " in f" {lemmatized_text} " for cancer_keyword in keywords[cancer_type].dropna()):
+                cancer_types.append((field,cancer_type))
+
+    if len(cancer_types) > 0:
+        return cancer_types
     return 'unknown'
 
 # Функція для класифікації статей за моделями ШІ
 def categorize_ai_model(row):
     ai_keywords = pd.read_csv('ai_keywords.csv')
+    fields = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract']
+    ai_types = []
+    for field in fields:
+        field_text = str(row[field])
+        combined_text = preprocess_text_smart(field_text.lower())
+        doc = nlp(combined_text)
+        lemmatized_text = ' '.join([token.lemma_ for token in doc])
 
-    combined_text = ' '.join([str(row['Article Title']).lower(), str(row['Author Keywords']).lower(), str(row['Keywords Plus']).lower(), str(row['Abstract']).lower()])
-
-    doc = nlp(combined_text)
-    lemmatized_text = ' '.join([token.lemma_ for token in doc])
-
-    for ai_type in ai_keywords.columns:
-        if any(keyword in lemmatized_text for keyword in ai_keywords[ai_type].dropna()):
-            return ai_type
-
+        for ai_type in ai_keywords.columns:
+            if any(keyword in lemmatized_text for keyword in ai_keywords[ai_type].dropna()):
+                ai_types.append((field, ai_type))
+    if len(ai_types) > 0:
+        return ai_types
     return 'unknown'
 
 # Функція для класифікації точності моделей
@@ -145,7 +163,7 @@ def process_excel_file(file_path):
     try:
         # Завантаження Excel файлу
         print(f"Завантаження файлу: {file_path}")
-        df = pd.read_excel(file_path)#.head(100) # Для тестування можна обмежити кількість рядків
+        df = pd.read_excel(file_path).head(100) # Для тестування можна обмежити кількість рядків
 
         # Перевірка, чи існують необхідні колонки
         required_columns = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract', 'Publication Year']
