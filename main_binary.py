@@ -28,22 +28,26 @@ class CancerClassifier:
 
     def add_keywords_to_matcher(self, keywords):
         for keyword_type in keywords.columns:
-            logging.info(f"Adding keywords for: {keyword_type}")
+            logging.info(f"Keyword type: {keyword_type}")
             keywords_list = keywords[keyword_type].dropna()
-            logging.info(f"Keywords: {keywords_list}")
             for keyword in keywords_list:
                 logging.info(f"Keyword: {keyword}")
                 keyword = keyword.lower()
-                parts = keyword.split('-')
-                if len(parts) == 2:
+                if '-' in keyword:
+                    parts = keyword.split('-')
                     pattern1 = [{'LOWER': keyword.replace('-', '')}]  # case without hyphen
                     pattern2 = [{'LOWER': parts[0]}, {'LOWER': parts[1]}]  # case with space
                     pattern3 = [{'LOWER': parts[0]}, {'IS_PUNCT': True}, {'LOWER': parts[1]}]  # case with hyphen or other punctuation
                     self.matcher.add(keyword, [pattern1, pattern2, pattern3])
+                elif ' ' in keyword:
+                    parts = keyword.split(' ')
+                    pattern1 = [{'LOWER': keyword.replace(' ', '')}]  # Original string
+                    pattern2 = [{'LOWER': parts[0]}, {'LOWER': parts[1]}]  # case with space
+                    self.matcher.add(keyword, [pattern1, pattern2])
                 else:
-                    # if no hyphen, add only the pattern without hyphen
                     pattern1 = [{'LOWER': keyword}]  # Original string
                     self.matcher.add(keyword, [pattern1])
+
 
     def match_keywords(self, text):
         logging.info(f"Text: {text}")
@@ -130,7 +134,7 @@ class CancerClassifier:
         try:
             # Load Excel file
             print(f"Loading file: {self.file_path}")
-            df = pd.read_excel(self.file_path).head(5)  # For testing, limit the number of rows
+            df = pd.read_excel(self.file_path).head(20)  # For testing, limit the number of rows
             self.check_columns(df)
             self.add_keywords_to_matcher(self.cancer_keywords)
             self.add_keywords_to_matcher(self.ai_keywords)
