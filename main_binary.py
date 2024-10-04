@@ -99,28 +99,17 @@ class CancerClassifier:
         if not isinstance(description, str):
             return "Unknown"
 
-        very_high_accuracy_pattern = r'\b(0\.(9[5-9]\d*)|[9][5-9]\.\d+|100)(\%)?\b'
-        high_accuracy_pattern = r'\b(0\.(9[0-4]\d*)|[9][0-4]\.\d+|[9][0-4])(\%)?\b'
-        medium_accuracy_pattern = r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'
-        low_accuracy_pattern = r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'
-        very_low_accuracy_pattern = r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b'
+        accuarcy = {
+            "Very high accuracy (≥ 95%)": [['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy'], r'\b(0\.(9[5-9]\d*)|[9][5-9]\.\d+|100)(\%)?\b'],
+            "High accuracy (90% - 94.9%)": [['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful'], r'\b(0\.(9[0-4]\d*)|[9][0-4]\.\d+|[9][0-4])(\%)?\b'],
+            "Medium accuracy (80% - 89.9%)": [['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment'], r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'],
+            "Low accuracy (70% - 79.9%)": [['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use'], r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'],
+            "Very low accuracy (< 70%)": [['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement', r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b']]
+        }
 
-        very_high_keywords = ['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy']
-        high_keywords = ['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful']
-        medium_keywords = ['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment']
-        low_keywords = ['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use']
-        very_low_keywords = ['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement']
-
-        if re.search(very_high_accuracy_pattern, description) or any(word in description.lower() for word in very_high_keywords):
-            return "Very high accuracy (≥ 95%)"
-        elif re.search(high_accuracy_pattern, description) or any(word in description.lower() for word in high_keywords):
-            return "High accuracy (90% - 94.9%)"
-        elif re.search(medium_accuracy_pattern, description) or any(word in description.lower() for word in medium_keywords):
-            return "Medium accuracy (80% - 89.9%)"
-        elif re.search(low_accuracy_pattern, description) or any(word in description.lower() for word in low_keywords):
-            return "Low accuracy (70% - 79.9%)"
-        elif re.search(very_low_accuracy_pattern, description) or any(word in description.lower() for word in very_low_keywords):
-            return "Very low accuracy (< 70%)"
+        for category, (keywords, pattern) in accuarcy.items():
+            if any(word in description.lower() for word in keywords) or re.search(pattern, description):
+                return category
 
         return "Unknown"
 
