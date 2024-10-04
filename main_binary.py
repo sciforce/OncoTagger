@@ -4,219 +4,162 @@ from spacy.matcher import Matcher
 from tqdm import tqdm
 import re
 import logging
-import csv
 
-# Configure the logging
-logging.basicConfig(
-    filename='app.log',  # Set the filename
-    filemode='w',        # Set the file mode ('a' for append, 'w' for overwrite)
-    level=logging.DEBUG, # Set the logging level
-    format='%(asctime)s - %(levelname)s - %(message)s'  # Set the format
-)   
-# Функція для видалення апострофів у тексті (наприклад, "barrett's" -> "barretts")
-def preprocess_text_smart(text):
-    # Видаляє апострофи тільки всередині слів, залишаючи цілі терміни
-    text = re.sub(r"(\w)'(\w)", r"\1\2", text)
-    return text
+class CancerClassifier:
+    def __init__(self):
+        # Load keywords for cancer types and AI models
+        self.cancer_keywords = pd.read_csv('cancer_keywords.csv')
+        self.ai_keywords = pd.read_csv('ai_keywords.csv')
+        self.nlp = spacy.load('en_core_web_sm')
+        self.matcher = Matcher(self.nlp.vocab)
+        self.file_path = '1-6437.xlsx'
+        # Add progress bar with tqdm
+        tqdm.pandas()
+        # Set logging level
+        logging.basicConfig(filename='app.log',  # Set the filename
+                            filemode='w',        # Set the file mode ('a' for append, 'w' for overwrite)
+                            level=logging.DEBUG, # Set the logging level
+                            format='%(asctime)s - %(levelname)s - %(message)s')  # Set the format)
 
-# Завантажуємо модель spaCy
-nlp = spacy.load('en_core_web_sm')
+    # Function to remove apostrophes in text (e.g., "barrett's" -> "barretts")
+    def preprocess_text_smart(self, text):
+        # Remove apostrophes only inside words, leaving whole terms
+        return re.sub(r"(\w)'(\w)", r"\1\2", text)
 
-matcher = Matcher(nlp.vocab)
+    def add_keywords_to_matcher(self, keywords):
+        for keyword_type in keywords.columns:
+            logging.info(f"Adding keywords for: {keyword_type}")
+            keywords_list = keywords[keyword_type].dropna()
+            logging.info(f"Keywords: {keywords_list}")
+            for keyword in keywords_list:
+                logging.info(f"Keyword: {keyword}")
+                keyword = keyword.lower()
+                parts = keyword.split('-')
+                if len(parts) == 2:
+                    pattern1 = [{'LOWER': keyword.replace('-', '')}]  # case without hyphen
+                    pattern2 = [{'LOWER': parts[0]}, {'LOWER': parts[1]}]  # case with space
+                    pattern3 = [{'LOWER': parts[0]}, {'IS_PUNCT': True}, {'LOWER': parts[1]}]  # case with hyphen or other punctuation
+                    self.matcher.add(keyword, [pattern1, pattern2, pattern3])
+                else:
+                    # if no hyphen, add only the pattern without hyphen
+                    pattern1 = [{'LOWER': keyword}]  # Original string
+                    self.matcher.add(keyword, [pattern1])
 
-keywords_with_hyphens = ['triple-negative', 'ti-rads', 'fine-needle', 'multilevel-graph', 'bladder-cancer', 'early-stage', 'pancreatic-cancer', 'gastric-cancer', 'whole-brain', 'non-small', 'microsatellite-instability', 'androgen-dependent', 'castration-resistant', 'non-muscle-invasive', 'muscle-invasive', 'signet-ring', 'serous-endometrial', 'low-grade', 'high-grade', 't1-weighted', 't2-weighted', 'head-and-neck', 'gray-level', 'multi-gray', 'diffuse-intrinsic', 'small-cell', 'large-cell', 'endometrioid-type', 'neuroendocrine-tumors', 'cutaneus-squamous-cell', 'basal-cell', 'clear-cell', 'low-grade', 'non-seminoma', 'solid-pseudopapillary', 'pan-cancer', 'multi-cancer', 'extra-adrenal', 'catecholamine-secreting', 'gastrointestinal-stromal', 'low-grade-myofibroblastic', 'non-neoplastic', 'low-grade-fibromyxoid', 'smooth-muscle', 'soft-tissue', 'epithelioid-sarcoma', 'chronic-lymphocytic', 'acute-lymphoblastic', 'multiple-myeloma', 'stage-iii', 'stage-iv', 'barrett-esophagus', 'ck5/6', 'vascular-endothelial', 'endometrial-stromal', 'non-hodgkin', 'hodgkin-lymphoma', 'superficial-spreading', 'sentinel-lymph-node', 'abcde-criteria', 'breast-ductal-carcinoma', 'ductal-carcinoma', 'artificial-neural-network', 'convolutional-neural-network', 'long-short-term', 'large-cell-neuroendocrine', 'support-vector', 'data-driven', 'non-hodgkin-lymphoma', 'multi-cancer-type', 'organs-at-risk', 'wide-area', 'ovarian-cancer', 'pancreatobiliary-type']
+    def match_keywords(self, text):
+        logging.info(f"Text: {text}")
+        doc = self.nlp(text)
+        matches = self.matcher(doc)
+        logging.info(f"Matches: {matches}")
+        matched_keywords = set()
+        for match_id, start, end in matches:
+            logging.info(f"Matched keyword: {doc[start:end].text}")
+            span = doc[start:end].text
+            matched_keywords.add(span.lower())
+        logging.info(f"Matched keywords: {matched_keywords}")
+        return matched_keywords
 
-for keyword in keywords_with_hyphens:
-    parts = keyword.split('-')
-    
-    # Провіряємо, що parts містить как мінімум два елементи
-    if len(parts) == 2:
-        pattern1 = [{'LOWER': keyword.replace('-', '')}]  # case without hyphen
-        pattern2 = [{'LOWER': parts[0]}, {'LOWER': parts[1]}]  # case with space
-        pattern3 = [{'LOWER': parts[0]}, {'IS_PUNCT': True}, {'LOWER': parts[1]}]  # case with hyphen or other punctuation
-        matcher.add(keyword, [pattern1, pattern2, pattern3])
-    else:
-        # якщо дефіса немає, додаємо тільки шаблон без дефіса
-        pattern1 = [{'LOWER': keyword}]  # Оригинальная строка
-        matcher.add(keyword, [pattern1])
+    def process_matched_text(self, text):
+        combined_text = self.preprocess_text_smart(text.lower())
+        doc = self.nlp(combined_text)
+        lemmatized_text = ' '.join([token.lemma_ for token in doc])
+        logging.info(f"Lemmatized text: {lemmatized_text}")
+        matched_keywords = self.match_keywords(lemmatized_text)
+        return matched_keywords
 
-# Функція для класифікації статей за типом раку
-keywords = pd.read_csv('cancer_keywords.csv')
+    def categorize_binary(self, row, keywords_df):
+        binary_result = {key_word: 0 for key_word in keywords_df.columns}
+        # First check only 'Article Title'
+        title_text = str(row['Article Title'])
+        logging.info(f"Article Title: {title_text}")
+        matched = self.process_matched_text(title_text)
+        for key_type in keywords_df.columns:
+            keywords_list = keywords_df[key_type].dropna()
+            if any(key_word in matched for key_word in keywords_list):
+                binary_result[key_type] = 1
 
-def match_keywords(text):
-    doc = nlp(text)
-    matches = matcher(doc)
-    matched_keywords = set()
-    for match_id, start, end in matches:
-        span = doc[start:end].text
-        matched_keywords.add(span.lower())
-    return matched_keywords
+        # If keywords are not found in 'Article Title', check other fields
+        if all(value == 0 for value in binary_result.values()):
+            fields = ['Author Keywords', 'Keywords Plus', 'Abstract']
+            for field in fields:
+                field_text = str(row[field])
+                matched_additional = self.process_matched_text(field_text)
 
-# Функція для обробки тексту: лематизація та пошук ключових слів
-def process_matched_text(text):
-    combined_text = preprocess_text_smart(text.lower())
-    
-    doc = nlp(combined_text)
-    lemmatized_text = ' '.join([token.lemma_ for token in doc])
-    
-    matched_keywords = match_keywords(lemmatized_text)
-    
-    # Логирование для отладки
-    logging.debug(f"Text: {text}")
-    logging.debug(f"Lemmatized Text: {lemmatized_text}")
-    logging.debug(f"Matched Keywords: {matched_keywords}")
-    
-    return matched_keywords
+                for key_type in keywords_df.columns:
+                    keywords_list = keywords_df[key_type].dropna()
+                    if any(key_word in matched_additional for key_word in keywords_list):
+                        binary_result[key_type] = 1
+        return pd.Series(binary_result)
 
-# Функция для бінарной классификации статей за типами рака
-def categorize_cancer_binary(row, cancer_keywords):
-    cancer_result = {cancer: 0 for cancer in cancer_keywords.columns}
-    
-    # Сначала проверяем только 'Article Title'
-    title_text = str(row['Article Title'])
-    matched_cancers = process_matched_text(title_text)
-    
-    # Логирование для отладки
-    logging.debug(f"Title Text: {title_text}")
-    logging.debug(f"Matched Cancers in Title: {matched_cancers}")
-    
-    for cancer_type in cancer_keywords.columns:
-        cancer_keywords_list = cancer_keywords[cancer_type].dropna()
-        if any(cancer_keyword in matched_cancers for cancer_keyword in cancer_keywords_list):
-            cancer_result[cancer_type] = 1
-    
-    # Если ключевые слова не найдены в 'Article Title', проверяем остальные поля
-    if all(value == 0 for value in cancer_result.values()):
-        fields = ['Author Keywords', 'Keywords Plus', 'Abstract']
-        for field in fields:
-            field_text = str(row[field])
-            matched_cancers = process_matched_text(field_text)
-            
-            # Логирование для отладки
-            logging.debug(f"Field Text: {field_text}")
-            logging.debug(f"Matched Cancers in {field}: {matched_cancers}")
-            
-            for cancer_type in cancer_keywords.columns:
-                if any(cancer_keyword in matched_cancers for cancer_keyword in cancer_keywords_list):
-                    cancer_result[cancer_type] = 1
-    
-    return pd.Series(cancer_result)
+    @staticmethod
+    def classify_accuracy(description):
+        if not isinstance(description, str):
+            return "Unknown"
 
-# Функция для бінарной классификации статей за моделями ИИ
-def categorize_ai_model_binary(row, ai_keywords):
-    ai_keywords = pd.read_csv('ai_keywords.csv')
-    ai_result = {ai_model: 0 for ai_model in ai_keywords.columns}
-    
-    # Сначала проверяем только 'Article Title'
-    title_text = str(row['Article Title'])
-    matched_ai_models = process_matched_text(title_text)
-    
-    # Логирование для отладки
-    logging.debug(f"Title Text: {title_text}")
-    logging.debug(f"Matched AI Models in Title: {matched_ai_models}")
-    
-    for ai_model in ai_keywords.columns:
-        if any(keyword in matched_ai_models for keyword in ai_keywords[ai_model].dropna()):
-            ai_result[ai_model] = 1
-    
-    # Если ключевые слова не найдены в 'Article Title', проверяем остальные поля
-    if all(value == 0 for value in ai_result.values()):
-        fields = ['Author Keywords', 'Keywords Plus', 'Abstract']
-        for field in fields:
-            field_text = str(row[field])
-            matched_ai_models = process_matched_text(field_text)
-            
-            # Логирование для отладки
-            logging.debug(f"Field Text: {field_text}")
-            logging.debug(f"Matched AI Models in {field}: {matched_ai_models}")
-            
-            for ai_model in ai_keywords.columns:
-                if any(keyword in matched_ai_models for keyword in ai_keywords[ai_model].dropna()):
-                    ai_result[ai_model] = 1
-    
-    return pd.Series(ai_result)
+        very_high_accuracy_pattern = r'\b(0\.(9[5-9]\d*)|[9][5-9]\.\d+|100)(\%)?\b'
+        high_accuracy_pattern = r'\b(0\.(9[0-4]\d*)|[9][0-4]\.\d+|[9][0-4])(\%)?\b'
+        medium_accuracy_pattern = r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'
+        low_accuracy_pattern = r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'
+        very_low_accuracy_pattern = r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b'
 
+        very_high_keywords = ['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy']
+        high_keywords = ['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful']
+        medium_keywords = ['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment']
+        low_keywords = ['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use']
+        very_low_keywords = ['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement']
 
-# Функція для класифікації точності моделей
-def classify_accuracy(description):
-    if not isinstance(description, str):
+        if re.search(very_high_accuracy_pattern, description) or any(word in description.lower() for word in very_high_keywords):
+            return "Very high accuracy (≥ 95%)"
+        elif re.search(high_accuracy_pattern, description) or any(word in description.lower() for word in high_keywords):
+            return "High accuracy (90% - 94.9%)"
+        elif re.search(medium_accuracy_pattern, description) or any(word in description.lower() for word in medium_keywords):
+            return "Medium accuracy (80% - 89.9%)"
+        elif re.search(low_accuracy_pattern, description) or any(word in description.lower() for word in low_keywords):
+            return "Low accuracy (70% - 79.9%)"
+        elif re.search(very_low_accuracy_pattern, description) or any(word in description.lower() for word in very_low_keywords):
+            return "Very low accuracy (< 70%)"
+
         return "Unknown"
 
-    very_high_accuracy_pattern = r'\b(0\.(9[5-9]\d*)|[9][5-9]\.\d+|100)(\%)?\b'
-    high_accuracy_pattern = r'\b(0\.(9[0-4]\d*)|[9][0-4]\.\d+|[9][0-4])(\%)?\b'
-    medium_accuracy_pattern = r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'
-    low_accuracy_pattern = r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'
-    very_low_accuracy_pattern = r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b'
-
-    very_high_keywords = ['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy']
-    high_keywords = ['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful']
-    medium_keywords = ['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment']
-    low_keywords = ['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use']
-    very_low_keywords = ['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement']
-
-    if re.search(very_high_accuracy_pattern, description) or any(word in description.lower() for word in very_high_keywords):
-        return "Very high accuracy (≥ 95%)"
-    elif re.search(high_accuracy_pattern, description) or any(word in description.lower() for word in high_keywords):
-        return "High accuracy (90% - 94.9%)"
-    elif re.search(medium_accuracy_pattern, description) or any(word in description.lower() for word in medium_keywords):
-        return "Medium accuracy (80% - 89.9%)"
-    elif re.search(low_accuracy_pattern, description) or any(word in description.lower() for word in low_keywords):
-        return "Low accuracy (70% - 79.9%)"
-    elif re.search(very_low_accuracy_pattern, description) or any(word in description.lower() for word in very_low_keywords):
-        return "Very low accuracy (< 70%)"
-
-    return "Unknown"
-
-# Основна функція для обробки файлу
-def process_excel_file(file_path):
-    try:
-         # Завантаження Excel файлу
-        print(f"Завантаження файлу: {file_path}")
-        df = pd.read_excel(file_path).head(100) # Для тестування можна обмежити кількість рядків
-
-        # Перевірка, чи існують необхідні колонки
+    def check_columns(self, df):
         required_columns = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract', 'Publication Year']
-        if not all(column in df.columns for column in required_columns):
-            missing_columns = [column for column in required_columns if column not in df.columns]
+        missing_columns = [column for column in required_columns if column not in df.columns]
+        if missing_columns:
             raise ValueError(f"Missing columns in the Excel file: {', '.join(missing_columns)}")
 
-        # Завантажуємо ключові слова для типів раку та моделей ШІ
-        cancer_keywords = pd.read_csv('cancer_keywords.csv')
-        ai_keywords = pd.read_csv('ai_keywords.csv')
+    def process_excel_file(self):
+        try:
+            # Load Excel file
+            print(f"Loading file: {self.file_path}")
+            df = pd.read_excel(self.file_path).head(5)  # For testing, limit the number of rows
+            self.check_columns(df)
+            self.add_keywords_to_matcher(self.cancer_keywords)
+            self.add_keywords_to_matcher(self.ai_keywords)
+            # Create binary classification for cancer types
+            print("Creating binary classification for cancer types...")
+            df_cancer = df.progress_apply(lambda row: self.categorize_binary(row, self.cancer_keywords), axis=1)
 
-        # Створення бінарної класифікації для типів раку
-        print("Створення бінарної класифікації для типів раку...")
-        with tqdm(total=len(df), desc="Типи раку") as pbar:
-            df_cancer = df.progress_apply(lambda row: categorize_cancer_binary(row, cancer_keywords), axis=1)
-            pbar.update(len(df))
+            # Create binary classification for AI models
+            print("Creating binary classification for AI models...")
+            df_ai_model = df.progress_apply(lambda row: self.categorize_binary(row, self.ai_keywords), axis=1)
 
-        # Створення бінарної класифікації для моделей ШІ
-        print("Створення бінарної класифікації для моделей ШІ...")
-        with tqdm(total=len(df), desc="Моделі ШІ") as pbar:
-            df_ai_model = df.progress_apply(lambda row: categorize_ai_model_binary(row, ai_keywords), axis=1)
-            pbar.update(len(df))
+            # Process accuracy categories
+            print("Classifying articles by model accuracy...")
+            df['Accuracy_Category'] = df['Abstract'].progress_apply(self.classify_accuracy)
 
-        # Обробка категорій точності
-        print("Класифікація статей за точністю моделей...")
-        with tqdm(total=len(df), desc="Точність моделей") as pbar:
-            df['Accuracy_Category'] = df.progress_apply(lambda description: classify_accuracy(description), axis=1)
-            pbar.update(len(df))
+            # Combine result with the original DataFrame
+            df_combined = pd.concat([df, 
+                                     df_cancer, 
+                                     df_ai_model
+                                     ], axis=1)
 
-        # Об'єднуємо результат з початковим DataFrame
-        df_combined = pd.concat([df, df_cancer, df_ai_model], axis=1)
+            # Save the file with binary classification
+            output_file = self.file_path.replace('.xlsx', '_binary_classification.xlsx')
+            df_combined.to_excel(output_file, index=False)
+            print(f"File successfully saved: {output_file}")
 
-        # Збереження файлу з бінарною класифікацією
-        output_file = file_path.replace('.xlsx', '_binary_classification.xlsx')
-        df_combined.to_excel(output_file, index=False)
-        print(f"Файл успішно збережено: {output_file}")
-    
-    except Exception as e:
-        print(f"Помилка під час обробки файлу: {e}")
+        except Exception as e:
+            print(f"Error processing file: {e}")
 
-# Додавання прогресу з tqdm
-tqdm.pandas()
-
-# Виклик основної функції
-if __name__ == "__main__":
-    path_to_excel_file = '1-6437.xlsx'
-    process_excel_file(path_to_excel_file)
+if __name__ == '__main__':
+    cancer_classifier = CancerClassifier()
+    cancer_classifier.process_excel_file()
