@@ -40,13 +40,14 @@ for keyword in keywords_with_hyphens:
         pattern1 = [{'LOWER': keyword}]  # Оригинальная строка
         matcher.add(keyword, [pattern1])
 
-matcher.add(keyword, [pattern1])
+# Функція для класифікації статей за типом раку
+keywords = pd.read_csv('cancer_keywords.csv')
 
 def match_keywords(text):
     doc = nlp(text)
     matches = matcher(doc)
     matched_keywords = set()
-    for _, start, end in matches:  # Use underscore to ignore match_id
+    for match_id, start, end in matches:
         span = doc[start:end].text
         matched_keywords.add(span.lower())
     return matched_keywords
@@ -103,6 +104,7 @@ def categorize_cancer_binary(row, cancer_keywords):
 
 # Функция для бінарной классификации статей за моделями ИИ
 def categorize_ai_model_binary(row, ai_keywords):
+    ai_keywords = pd.read_csv('ai_keywords.csv')
     ai_result = {ai_model: 0 for ai_model in ai_keywords.columns}
     
     # Сначала проверяем только 'Article Title'
