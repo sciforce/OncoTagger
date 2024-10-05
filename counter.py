@@ -2,10 +2,8 @@ import pandas as pd
 import logging
 from tqdm import tqdm
 
-# Установка уровня логирования
 logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Основной класс для анализа
 class ArticleAnalyzer:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -31,7 +29,7 @@ class ArticleAnalyzer:
             'Information Extraction', 'Ensemble'
         ]
 
-    # Функция для подсчета типов рака и создания меток
+   
     def count_cancer_types(self):
         for index, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Подсчет типов рака"):
             count = row[self.cancer_columns].sum()
@@ -41,44 +39,38 @@ class ArticleAnalyzer:
             elif count == 0:
                 self.df.at[index, 'not_specified'] = 1
 
-    # Функция для подсчета моделей ИИ
+    
     def count_ai_models(self):
         self.df['number_of_ai_models'] = self.df[self.ai_columns].sum(axis=1)
 
-    # Функция для подсчета по годам
+    
     def count_by_years(self, columns, sheet_name, output_writer):
         df_year = self.df.groupby(['Publication Year'])[columns].sum()
         df_year.to_excel(output_writer, sheet_name=sheet_name)
 
-    # Функция для подсчета категорий точности по годам
+    
     def count_accuracy_by_year(self, output_writer):
         df_accuracy_by_year = self.df.groupby(['Publication Year', 'Accuracy_Category']).size().unstack(fill_value=0)
         df_accuracy_by_year.to_excel(output_writer, sheet_name='Accuracy by Year')
 
-    # Основная функция для запуска анализа
+    
     def run_analysis(self):
-        self.count_cancer_types()  # Подсчет типов рака и создание меток
-        self.count_ai_models()  # Подсчет моделей ИИ
+        self.count_cancer_types()  
+        self.count_ai_models() 
         
-        # Создание выходного файла с несколькими листами
+        
         output_file = self.file_path.replace('.xlsx', '_analysis.xlsx')
         with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
-            # 1. Лист с частотой встречаемости типов рака
+            
             self.df[self.cancer_columns].sum().to_excel(writer, sheet_name='Cancer Types Frequency')
-            # 2. Лист с частотой моделей ИИ
             self.df[self.ai_columns].sum().to_excel(writer, sheet_name='AI Models Frequency')
-            # 3. Лист с категориями точности
             self.count_accuracy_categories(writer)
-            # 4. Лист с распределением типов рака по годам
             self.count_by_years(self.cancer_columns, 'Cancer Types by Year', writer)
-            # 5. Лист с распределением моделей ИИ по годам
             self.count_by_years(self.ai_columns, 'AI Models by Year', writer)
-            # 6. Лист с распределением категорий точности по годам
             self.count_by_years(['Accuracy_Category'], 'Accuracy by Year', writer)
         
         logging.info(f"Анализ завершен. Файл сохранен: {output_file}")
 
-# Запуск анализа
 if __name__ == "__main__":
     input_file = '1-6437_binary_classification.xlsx'  # Можем заменить на динамический вход
     analyzer = ArticleAnalyzer(input_file)
