@@ -72,28 +72,32 @@ class CancerClassifier:
 
     def categorize_binary(self, row, keywords_df):
         binary_result = {key_word: 0 for key_word in keywords_df.columns}
-        # First check only 'Article Title'
-        title_text = str(row['Article Title'])
-        logging.info(f"Article Title: {title_text}")
-        matched = self.process_matched_text(title_text)
-        for key_type in keywords_df.columns:
-            keywords_list = keywords_df[key_type].dropna()
-            if any(key_word in matched for key_word in keywords_list):
-                binary_result[key_type] = 1
+        
+        # Пріоритетність поля для перевірки
+        fields_priority = ['Article Title', 'Abstract', 'Author Keywords', 'Keywords Plus']
 
-        # If keywords are not found in 'Article Title', check other fields
-        if all(value == 0 for value in binary_result.values()):
-            fields = ['Author Keywords', 'Keywords Plus', 'Abstract']
-            for field in fields:
-                field_text = str(row[field])
-                matched_additional = self.process_matched_text(field_text)
+        for field in fields_priority:
+            field_text = str(row[field])
+            logging.info(f"Checking '{field}': {field_text}")
 
-                for key_type in keywords_df.columns:
-                    keywords_list = keywords_df[key_type].dropna()
-                    if any(key_word in matched_additional for key_word in keywords_list):
-                        binary_result[key_type] = 1
+            # Обробляємо текст з кожного поля
+            matched_keywords = self.process_matched_text(field_text)
+
+            # Пройдемося по всіх типах раку і перевіримо, чи є ключові слова
+            for key_type in keywords_df.columns:
+                keywords_list = keywords_df[key_type].dropna()
+                if any(key_word in matched_keywords for key_word in keywords_list):
+                    binary_result[key_type] = 1
+                
+                    # Якщо знайдено ключове слово у полі з вищим пріоритетом, перериваємо цикл
+                    if field == 'Article Title' or field == 'Abstract':
+                        break
+            # Якщо знайшли ключові слова в полі з пріоритетом, виходимо з циклу
+            if any(binary_result.values()):
+                break
+    
         return pd.Series(binary_result)
-
+        
     @staticmethod
     def classify_accuracy(description):
         if not isinstance(description, str):
@@ -104,7 +108,7 @@ class CancerClassifier:
             "High accuracy (90% - 94.9%)": [['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful'], r'\b(0\.(9[0-4]\d*)|[9][0-4]\.\d+|[9][0-4])(\%)?\b'],
             "Medium accuracy (80% - 89.9%)": [['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment'], r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'],
             "Low accuracy (70% - 79.9%)": [['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use'], r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'],
-            "Very low accuracy (< 70%)": [['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement', r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b']]
+            "Very low accuracy (< 70%)": [['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement'], r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b']
         }
 
         for category, (keywords, pattern) in accuarcy.items():
@@ -123,7 +127,7 @@ class CancerClassifier:
         try:
             # Load Excel file
             print(f"Loading file: {self.file_path}")
-            df = pd.read_excel(self.file_path).head(20)  # For testing, limit the number of rows
+            df = pd.read_excel(self.file_path).head(200)  # For testing, limit the number of rows
             self.check_columns(df)
             self.add_keywords_to_matcher(self.cancer_keywords)
             self.add_keywords_to_matcher(self.ai_keywords)

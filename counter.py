@@ -1,62 +1,85 @@
 import pandas as pd
-import spacy
-from spacy.matcher import Matcher
-from tqdm import tqdm
-import re
 import logging
-import csv
+from tqdm import tqdm
 
-# Підрахунок кількості статей за категоріями без групування по роках і збереження результатів
-def count_and_save_overall(df):
-    print("Підрахунок кількості статей для кожної категорії...")
-    # Підрахунок типів раку
-    cancer_counts = df['Cancer Type'].value_counts()
-    cancer_counts_df = cancer_counts.reset_index()
-    cancer_counts_df.columns = ['Cancer Type', 'Count']
-    cancer_counts_df.to_excel(output_path_cancer, index=False)
+# Установка уровня логирования
+logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    # Підрахунок моделей ШІ
-    ai_model_counts = df['AI Model'].value_counts()
-    ai_model_counts_df = ai_model_counts.reset_index()
-    ai_model_counts_df.columns = ['AI Model', 'Count']
-    ai_model_counts_df.to_excel(output_path_ai, index=False)
+# Основной класс для анализа
+class ArticleAnalyzer:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.df = pd.read_excel(file_path)
+        self.df['number_of_cancer_types'] = 0
+        self.df['various_cancers'] = 0
+        self.df['not_specified'] = 0
+        self.cancer_columns = [
+            'breast cancer', 'colorectal cancer', 'prostate cancer', 'lung cancer',
+            'brain cancer', 'cervical cancer', 'liver cancer', 'stomach cancer',
+            'endometrial cancer', 'skin cancer', 'ovarian cancer', 'head and neck cancer',
+            'renal cancer', 'mesothelioma', 'parathyroid cancer', 'gallbladder cancer',
+            'occult primary cancer', 'vaginal cancer', 'vulvar cancer', 'penile cancer',
+            'neuroendocrine tumors', 'mediastinal tumors', 'bone cancers', 'melanoma',
+            'sarcoma', 'oncohematologic malignancies', 'bladder cancer', 'esophageal cancer',
+            'thyroid cancer', 'testicular cancer', 'pancreatic cancer', 'various cancers'
+        ]
+        self.ai_columns = [
+            'Linear/Logistic Regression', 'Decision Trees / Random Forests', 'Support Vector Machines (SVM)',
+            'Convolutional Neural Networks (CNN)', 'Recurrent Neural Networks (RNN/LSTM)', 'Generative Adversarial Networks (GANs)',
+            'Artificial Neural Networks (ANN)', 'Text Classification', 'Recommendation Systems', 'Genomic Models',
+            'Clinical Decision Support Systems', 'Autoencoder', 'U-Net Models', 'Gradient Boosting Models',
+            'Information Extraction', 'Ensemble'
+        ]
 
-    # Підрахунок категорій точності
-    accuracy_category_counts = df['Accuracy_Category'].value_counts()
-    accuracy_category_df = accuracy_category_counts.reset_index()
-    accuracy_category_df.columns = ['Accuracy_Category', 'Count']
-    accuracy_category_df.to_excel(output_path_accuracy, index=False)
+    # Функция для подсчета типов рака и создания меток
+    def count_cancer_types(self):
+        for index, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Подсчет типов рака"):
+            count = row[self.cancer_columns].sum()
+            self.df.at[index, 'number_of_cancer_types'] = count
+            if count > 1:
+                self.df.at[index, 'various_cancers'] = 1
+            elif count == 0:
+                self.df.at[index, 'not_specified'] = 1
 
-# Підрахунок кількості статей за категоріями по роках і збереження результатів
-def count_by_year_and_save(df, column_name, output_path):
-    print(f"Підрахунок статей за роками для {column_name}...")
-    grouped_counts = df.groupby(['Publication Year', column_name]).size().reset_index(name='Count')
-    grouped_counts.to_excel(output_path, index=False)
-def process_excel_file(file_path):
-    try:
-            # Збереження результатів у початковий файл
-        print("Збереження оновленого файлу з класифікацією...")
-        df.to_excel('1-6437_categorized.xlsx', index=False)
+    # Функция для подсчета моделей ИИ
+    def count_ai_models(self):
+        self.df['number_of_ai_models'] = self.df[self.ai_columns].sum(axis=1)
 
-        # Шляхи до вихідних файлів для загальних підрахунків
-        global output_path_cancer, output_path_ai, output_path_accuracy
-        output_path_cancer = file_path.replace('.xlsx', '_cancer_counts.xlsx')
-        output_path_ai = file_path.replace('.xlsx', '_ai_model_counts.xlsx')
-        output_path_accuracy = file_path.replace('.xlsx', '_accuracy_category_counts.xlsx')
+    # Функция для подсчета по годам
+    def count_by_years(self, columns, sheet_name, output_writer):
+        df_year = self.df.groupby(['Publication Year'])[columns].sum()
+        df_year.to_excel(output_writer, sheet_name=sheet_name)
 
-        # Підрахунок та збереження загальних результатів
-        count_and_save_overall(df)
+    # Функция для подсчета категорий точности по годам
+    def count_accuracy_by_year(self, output_writer):
+        df_accuracy_by_year = self.df.groupby(['Publication Year', 'Accuracy_Category']).size().unstack(fill_value=0)
+        df_accuracy_by_year.to_excel(output_writer, sheet_name='Accuracy by Year')
 
-        # Шляхи до вихідних файлів для підрахунків по роках
-        output_path_cancer_year = file_path.replace('.xlsx', '_cancer_by_year.xlsx')
-        output_path_ai_year = file_path.replace('.xlsx', '_ai_model_by_year.xlsx')
-        output_path_accuracy_year = file_path.replace('.xlsx', '_accuracy_category_by_year.xlsx')
+    # Основная функция для запуска анализа
+    def run_analysis(self):
+        self.count_cancer_types()  # Подсчет типов рака и создание меток
+        self.count_ai_models()  # Подсчет моделей ИИ
+        
+        # Создание выходного файла с несколькими листами
+        output_file = self.file_path.replace('.xlsx', '_analysis.xlsx')
+        with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
+            # 1. Лист с частотой встречаемости типов рака
+            self.df[self.cancer_columns].sum().to_excel(writer, sheet_name='Cancer Types Frequency')
+            # 2. Лист с частотой моделей ИИ
+            self.df[self.ai_columns].sum().to_excel(writer, sheet_name='AI Models Frequency')
+            # 3. Лист с категориями точности
+            self.count_accuracy_categories(writer)
+            # 4. Лист с распределением типов рака по годам
+            self.count_by_years(self.cancer_columns, 'Cancer Types by Year', writer)
+            # 5. Лист с распределением моделей ИИ по годам
+            self.count_by_years(self.ai_columns, 'AI Models by Year', writer)
+            # 6. Лист с распределением категорий точности по годам
+            self.count_by_years(['Accuracy_Category'], 'Accuracy by Year', writer)
+        
+        logging.info(f"Анализ завершен. Файл сохранен: {output_file}")
 
-        # Підрахунок та збереження результатів по роках
-        count_by_year_and_save(df, 'Cancer Type', output_path_cancer_year)
-        count_by_year_and_save(df, 'AI Model', output_path_ai_year)
-        count_by_year_and_save(df, 'Accuracy_Category', output_path_accuracy_year)
-        print(f"Overall counts saved to: {output_path_cancer}, {output_path_ai}, {output_path_accuracy}")
-        print(f"Yearly counts saved to: {output_path_cancer_year}, {output_path_ai_year}, {output_path_accuracy_year}")
-    except Exception as e:
-        print(f"Error processing the file: {e}")
+# Запуск анализа
+if __name__ == "__main__":
+    input_file = '1-6437_binary_classification.xlsx'  # Можем заменить на динамический вход
+    analyzer = ArticleAnalyzer(input_file)
+    analyzer.run_analysis()
