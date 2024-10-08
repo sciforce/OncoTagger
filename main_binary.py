@@ -88,13 +88,6 @@ class CancerClassifier:
                 keywords_list = keywords_df[key_type].dropna()
                 if any(key_word in matched_keywords for key_word in keywords_list):
                     binary_result[key_type] = 1
-                
-                    # Якщо знайдено ключове слово у полі з вищим пріоритетом, перериваємо цикл
-                    if field == 'Article Title' or field == 'Abstract':
-                        break
-            # Якщо знайшли ключові слова в полі з пріоритетом, виходимо з циклу
-            if any(binary_result.values()):
-                break
     
         return pd.Series(binary_result)
         
@@ -127,7 +120,7 @@ class CancerClassifier:
         try:
             # Load Excel file
             print(f"Loading file: {self.file_path}")
-            df = pd.read_excel(self.file_path)  # For testing, limit the number of rows by  'add .head(100)'
+            df = pd.read_excel(self.file_path).head(10)  # For testing, limit the number of rows by  'add .head(100)'
             self.check_columns(df)
             self.add_keywords_to_matcher(self.cancer_keywords)
             self.add_keywords_to_matcher(self.ai_keywords)
