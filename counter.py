@@ -12,8 +12,9 @@ class ArticleAnalyzer:
         self.df['number_of_cancer_types'] = self.df.get('number_of_cancer_types', 0)
         self.df['how_many_cancer_studied'] = self.df.get('how_many_cancer_studied', 'not specified')
 
-        self.cancer_columns = mb.CancerClassifier().cancer_keywords.columns[1:]
-        self.ai_columns = mb.CancerClassifier().ai_keywords.columns[1:]
+        self.cancer_columns = mb.CancerClassifier().cancer_keywords.columns
+        
+        self.ai_columns = mb.CancerClassifier().ai_keywords.columns
 
     def count_cancer_types(self):
         for index, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Counting cancer types"):
