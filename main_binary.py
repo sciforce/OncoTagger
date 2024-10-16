@@ -12,7 +12,7 @@ class CancerClassifier:
         self.ai_keywords = pd.read_csv('ai_keywords.csv')
         self.nlp = spacy.load('en_core_web_sm')
         self.matcher = Matcher(self.nlp.vocab)
-        self.file_path = '1-13429.xlsx'
+        self.file_path = 'filtered_dataset.xlsx'
         # Add progress bar with tqdm
         tqdm.pandas()
         # Set logging level

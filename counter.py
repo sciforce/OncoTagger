@@ -66,6 +66,6 @@ class ArticleAnalyzer:
         logging.info(f"Analysis complete. File saved: {output_file}")
 
 if __name__ == "__main__":
-    input_file = '1-13429_binary_classification.xlsx'
+    input_file = 'filtered_dataset_binary_classification.xlsx'
     analyzer = ArticleAnalyzer(input_file)
     analyzer.run_analysis()
