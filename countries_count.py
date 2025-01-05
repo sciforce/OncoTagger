@@ -10,8 +10,8 @@ logging.basicConfig(
 )
 
 # Paths to input and output files
-input_file = r"C:\Users\Владелец\.vscode\oncotagger\45к\wos_oncoarticleclassifier\filtered_dataset.xlsx"
-output_file = r"C:\Users\Владелец\.vscode\oncotagger\45к\wos_oncoarticleclassifier\processed_dataset.xlsx"
+input_file = r"D:\results\filtered_dataset.xlsx"
+output_file = r"D:\results\processed_dataset.xlsx"
 
 # Load the dataset (use .head(100) for testing)
 df = pd.read_excel(input_file)
