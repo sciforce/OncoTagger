@@ -6,6 +6,35 @@ import re
 import logging
 
 class CancerClassifier:
+    metric_synonyms = {
+        'accuracy':       ['accuracy', 'acc', 'precision', 'ppv', 'positive predictive value', 'overall accuracy', 'classification accuracy', 'correct classification rate'],
+        'sensitivity':    ['sensitivity', 'recall', 'tpr', 'true positive rate'],
+        'specificity':    ['specificity', 'tnr', 'true negative rate'],
+        'f1-score':       ['f1-score', 'f1 score', 'f1'],
+        'roc-auc':        ['roc-auc', 'roc auc', 'rocauc', 'auc', 'aucroc', 'auroc', 'area under roc curve', 'area under the roc curve', 'area under receiver operating characteristic', 'area under the receiver operating characteristic curve', 'auc-roc', 'auc roc'],
+        'pr-auc':         ['pr-auc', 'pr auc', 'prauc',
+            'area under pr curve', 'area under the pr curve',
+            'area under precision-recall curve',
+            'area under precision recall curve'],
+        'balanced accuracy': ['balanced accuracy', 'balanced-accuracy', 'bacc',
+            'balanced classification accuracy'],
+        'mcc':            ['mcc', 'matthews correlation coefficient', 'matthews correlation-coefficient', 'matthews cc'],
+        "cohen's kappa":  ["cohen's kappa", 'cohen kappa', 'kappa',
+            'cohen-kappa', 'cohen kappa coefficient'],
+        'dice':           ['dice', 'dice score', 'dice-score', 'dice coefficient',
+            'dice similarity coefficient', 'dsc'],
+        'iou':            ['iou', 'intersection over union', 'jaccard', 'jaccard index', 'jaccard-index'],
+        'hd95':           ['hd95', 'hausdorff distance', 'hausdorff 95th percentile',
+            'hausdorff-95', 'hd 95', 'hd-95', 'hausdorff'],
+        'mae':            ['mae', 'mean absolute error', 'l1 error', 'l1 loss'],
+        'rmse':           ['rmse', 'root mean squared error', 'root mean square error',
+            'rms error', 'rms-error', 'rms loss', 'rms-loss'],
+        'r2':             ['r2', 'r²', 'r^2', 'coefficient of determination',
+            'r-squared', 'r squared'],
+        'c-index':        ['c-index', 'concordance index', 'concordance-index',
+            'c index', 'concordance', "harrell's c"]
+    }
+
     def __init__(self):
         # Load keywords for cancer types and AI models
         self.cancer_keywords = pd.read_csv('cancer_keywords.csv')
@@ -74,7 +103,7 @@ class CancerClassifier:
         binary_result = {key_word: 0 for key_word in keywords_df.columns}
         
         # Пріоритетність поля для перевірки
-        fields_priority = ['Article Title', 'Abstract', 'Author Keywords', 'Keywords Plus']
+        fields_priority = ['Article Title', 'Abstract', 'Author Keywords']
 
         for field in fields_priority:
             field_text = str(row[field])
@@ -95,26 +124,121 @@ class CancerClassifier:
         return pd.Series(binary_result)
         
     @staticmethod
-    def classify_accuracy(description):
-        if not isinstance(description, str):
-            return "Unknown"
-
-        accuarcy = {
-            "Very high accuracy (≥ 95%)": [['outstanding performance', 'clinically reliable', 'superior classification', 'exceptional accuracy'], r'\b(0\.(9[5-9]\d*)|[9][5-9]\.\d+|100)(\%)?\b'],
-            "High accuracy (90% - 94.9%)": [['high accuracy', 'reliable for diagnosis', 'good prediction', 'clinically useful'], r'\b(0\.(9[0-4]\d*)|[9][0-4]\.\d+|[9][0-4])(\%)?\b'],
-            "Medium accuracy (80% - 89.9%)": [['moderate accuracy', 'acceptable performance', 'reasonable prediction', 'risk assessment'], r'\b(0\.(8[0-9]\d*)|[8][0-9]\.\d+|[8][0-9])(\%)?\b'],
-            "Low accuracy (70% - 79.9%)": [['low accuracy', 'requires improvement', 'preliminary assessment', 'limited clinical use'], r'\b(0\.(7[0-9]\d*)|[7][0-9]\.\d+|[7][0-9])(\%)?\b'],
-            "Very low accuracy (< 70%)": [['very low accuracy', 'unreliable', 'not suitable for clinical use', 'requires significant improvement'], r'\b(0\.(6\d+|[0-6]\.\d+|[0-6]))(\%)?\b']
+    def extract_auc_by_group(text: str) -> dict:
+        """
+        Парсит предложения вида
+        "… were 0.81, 0.80, and 0.68 in the training group and 0.91, 0.80, and 0.81 in the test group …"
+        и возвращает словарь { model_name: auc_value } по тестовой группе.
+        """
+        pattern = re.compile(
+            r'the auc of the (?P<models>.*?) were '
+            r'(?P<train>[\d\.\s,]+) in the training group and '
+            r'(?P<test>[\d\.\s,]+) in the test group',
+            re.IGNORECASE
+        )
+        m = pattern.search(text)
+        if not m:
+            return {}
+        raw_models = m.group('models')
+        parts = re.split(r',|and', raw_models)
+        models = [p.strip().replace(' model','') for p in parts if p.strip()]
+        test_vals = [float(v) for v in m.group('test').split(',')]
+        return {
+            models[i]: test_vals[i]
+            for i in range(min(len(models), len(test_vals)))
         }
 
-        for category, (keywords, pattern) in accuarcy.items():
-            if any(word in description.lower() for word in keywords) or re.search(pattern, description):
-                return category
+    @staticmethod
+    def assign_category(metric: str, value: float) -> str:
 
-        return "Unknown"
+        thresholds = {
+            'accuracy':       [(0.95,'Very High'), (0.85,'High'), (0.75,'Medium'),
+                               (0.65,'Low'),      (0.00,'Very Low')],
+            'sensitivity':    [(0.90,'Very High'), (0.80,'High'), (0.70,'Medium'),
+                               (0.60,'Low'),      (0.00,'Very Low')],
+            'specificity':    [(0.90,'Very High'), (0.80,'High'), (0.70,'Medium'),
+                               (0.60,'Low'),      (0.00,'Very Low')],
+            'precision':      [(0.95,'Very High'), (0.85,'High'), (0.75,'Medium'),
+                               (0.65,'Low'),      (0.00,'Very Low')],
+            'recall':         [(0.95,'Very High'), (0.85,'High'), (0.70,'Medium'),
+                               (0.50,'Low'),      (0.00,'Very Low')],
+            'f1-score':       [(0.85,'Very High'), (0.75,'High'), (0.60,'Medium'),
+                               (0.50,'Low'),      (0.00,'Very Low')],
+            'roc-auc':        [(0.90,'Very High'), (0.80,'High'), (0.70,'Medium'),
+                               (0.60,'Low'),      (0.00,'Very Low')],
+            'balanced accuracy': [(0.90,'Very High'), (0.80,'High'), (0.70,'Medium'),
+                                  (0.60,'Low'),      (0.00,'Very Low')],
+            'mcc':            [(0.70,'Very High'), (0.50,'High'), (0.30,'Medium'),
+                               (0.10,'Low'),      (0.00,'Very Low')],
+            "cohen's kappa":  [(0.70,'Very High'), (0.50,'High'), (0.30,'Medium'),
+                               (0.10,'Low'),      (0.00,'Very Low')],
+            'dice':           [(0.80,'Very High'), (0.70,'High'), (0.60,'Medium'),
+                               (0.50,'Low'),      (0.00,'Very Low')],
+            'iou':            [(0.70,'Very High'), (0.60,'High'), (0.40,'Medium'),
+                               (0.30,'Low'),      (0.00,'Very Low')],
+            'hd95':           [(1,    'Very High'), (4,    'High'),   (9,    'Medium'),
+                               (19,   'Low'),      (float('inf'),'Very Low')],
+            'mae':            [(1,    'Very High'), (3,    'High'),   (6,    'Medium'),
+                               (12,   'Low'),      (float('inf'),'Very Low')],
+            'rmse':           [(1,    'Very High'), (3,    'High'),   (6,    'Medium'),
+                               (12,   'Low'),      (float('inf'),'Very Low')],
+            'r2':             [(0.85,'Very High'), (0.70,'High'), (0.50,'Medium'),
+                               (0.30,'Low'),      (0.00,'Very Low')],
+            'c-index':        [(0.80,'Very High'), (0.70,'High'), (0.60,'Medium'),
+                               (0.55,'Low'),      (0.00,'Very Low')],
+        }
+        for cutoff, label in thresholds.get(metric.lower(), []):
+            
+            if metric in ('hd95','mae','rmse'):
+                if value <= cutoff:
+                    return label
+            else:
+                if value >= cutoff:
+                    return label
+        return 'Unknown'
+
+    @staticmethod
+    def classify_performance(text: str) -> dict:
+        """
+        Парсит все упоминания метрик по синонимам.
+        Если не нашлось ни одной — берёт первый %-ок и кладёт под proxy_metric.
+        """
+        results = {}
+
+        # 1) Спец-шаблон для AUC test-group (если есть) 
+        aucs = CancerClassifier.extract_auc_by_group(text)
+        if 'combined' in aucs:
+            results['roc-auc'] = CancerClassifier.assign_category('roc-auc', aucs['combined'])
+            return results
+
+        # 2) Общий парсинг по синонимам
+        all_syns = [syn for syns in CancerClassifier.metric_synonyms.values() for syn in syns]
+        pattern = re.compile(
+            r'\b(' + '|'.join(re.escape(s) for s in sorted(all_syns, key=len, reverse=True)) + r')\b'
+            r'.{0,20}?'
+            r'(\d+\.?\d+)\s*(%?)',
+            re.IGNORECASE
+        )
+        for m in pattern.finditer(text):
+            found = m.group(1).lower()
+            val   = float(m.group(2)) / (100 if m.group(3) == '%' else 1)
+            for key, syns in CancerClassifier.metric_synonyms.items():
+                if found in syns:
+                    results[key] = CancerClassifier.assign_category(key, val)
+                    break
+        # 3) Фоллбэк: если не нашли ни одной метрики —
+        #    берём первое упоминание процента и заводим proxy_metric
+        if not results:
+            pct = re.search(r'(\d+\.?\d+)\s*%', text)
+            if pct:
+                val = float(pct.group(1)) / 100
+                # выберем в качестве шаблона пороги 'accuracy'
+                results['proxy_metric'] = CancerClassifier.assign_category('accuracy', val)
+
+        return results
 
     def check_columns(self, df):
-        required_columns = ['Article Title', 'Author Keywords', 'Keywords Plus', 'Abstract', 'Publication Year']
+        required_columns = ['Article Title', 'Author Keywords', 'Abstract', 'Publication Year']
         missing_columns = [column for column in required_columns if column not in df.columns]
         if missing_columns:
             raise ValueError(f"Missing columns in the Excel file: {', '.join(missing_columns)}")
@@ -137,7 +261,10 @@ class CancerClassifier:
 
             # Process accuracy categories
             print("Classifying articles by model accuracy...")
-            df['Accuracy_Category'] = df['Abstract'].progress_apply(self.classify_accuracy)
+            perf_df = df['Abstract'].progress_apply(
+            lambda txt: pd.Series(self.classify_performance(txt))
+            )
+            df = pd.concat([df, perf_df], axis=1)
 
             # Combine result with the original DataFrame
             df_combined = pd.concat([df, 
