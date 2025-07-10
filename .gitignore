@@ -1,2 +1,4 @@
 /.vscode
-1-6437.xlsx
+.codegpt
+__pycache__/
+app.log
