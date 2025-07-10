@@ -1,10 +1,26 @@
 import pandas as pd
 import re
 from collections import OrderedDict
+import os
 
-df = pd.read_excel(r"D:\results\new_dataset_cleaned.xlsx", dtype=str).fillna('')
+def uniq_lower(lst):
+    return list(OrderedDict.fromkeys(w.lower() for w in lst))
 
-exclusion_categories = [
+def compile_pattern(keywords):
+    esc = sorted((re.escape(w) for w in keywords), key=len, reverse=True)
+    return re.compile(r'\b(?:' + '|'.join(esc) + r')\b', re.IGNORECASE)
+
+def filter_dataset(input_file: str = "processed_dataset.xlsx",
+                   output_file: str = "filtered_dataset.xlsx"):
+
+    if not os.path.exists(input_file):
+        raise FileNotFoundError(f"Input file not found: {input_file}")
+
+    # 1. Read the entire dataset
+    df = pd.read_excel(input_file, dtype=str).fillna("")
+
+    # 2. WoS categories we want to exclude
+    exclusion_categories = [
     'Communication',
     'Agricultural Engineering',
     'Agriculture, Dairy & Animal Science',
@@ -123,10 +139,10 @@ exclusion_categories = [
     'Virology',
     'Zoology'
 ]
+    df = df[~df['WoS Categories'].isin(exclusion_categories)]
 
-df = df[~df['WoS Categories'].isin(exclusion_categories)]
-
-raw_onco = [
+    # 3. onco terms vocab (keywords)
+    raw_onco = [
 'acute lymphoblastic leukemia', 'acute myeloid leukemia', 'adrenal carcinoma', 'adrenal neoplasm', 'adenocarcinoma', 'adenocarcinoma of the colon', 
 'ampullary adenocarcinoma', 'anal carcinoma', 'anaplastic thyroid carcinoma', 'astrocytomas', 'basal cell skin cancer', 'b-cell lymphomas', 'bilary tract cancers', 
 'bladder cancer', 'bone cancer', 'bone cancers', 'brain cancer', 'brainstem neoplasm', 'brainstem tumor', 'brain tumour', 'breast cancer', 'breast carcinoma', 'carcinoma', 
@@ -193,8 +209,11 @@ raw_onco = [
 'thyroid carcinomas', 'thyroid adenocarcinoma', 'thyroid adenocarcinomas', 'thyroid malignancy', 'thyroid malignancies', 'ret', 'ret/ptc', 'thyroid nodules', 'medullary thyroid carcinoma', 'papillary thyroid carcinoma', 'follicular thyroid carcinoma', 'follicular thyroid adenoma', 'anaplastic thyroid carcinoma', 'thyroidectomy', 'tsh', 'thyroid-stimulating hormone', 'radioiodine therapy', 'testicular cancer', 'testicular cancers', 'testicular tumor', 'testicular tumors', 'testicular carcinoma', 'testicular carcinomas', 'testicular adenocarcinoma', 'testicular adenocarcinomas', 'testicular malignancy', 'testicular malignancies', 'testicular neoplasm', 'testicular neoplasms', 'germ cell tumors', 'seminoma', 'non-seminoma', 'orchiectomy', 'alpha-fetoprotein', 'beta-hcg', 'testicular mass', 'pancreatic cancer', 'pancreatic neuroendocrine neoplasms', 'autoimmune pancreatitis', 'pancreatic duct carcinoma', 'pancreatic serous cystic neoplasms', 'pancreatic cystic neoplasms', 'scn and mcn', 'pancreatic mucinous and serous cystic neoplasms', 'pancreatobiliary-type', 'pancreatic scns', 'pancreatic-cancer', 'pancreaticoduodenectomy', 'glucagon', 'men1', 'pancreatic ductal adenocarcinoma', 'pdac', 'pancreatic cancers', 'pancreatic tumor', 'pancreatic carcinoma', 'pancreatic carcinomas', 'pancreatic adenocarcinoma', 'pancreatic adenocarcinomas', 'pancreatic malignancy', 'pancreatic malignancies', 'pancreatic tumors', 'pancreatic neoplasm', 'pancreatic neoplasms', 'mucinous cystic neoplasm of the pancreas', 'intraductal papillary mucinous neoplasm', 'solid tumor', 'solid tumors', 'solid tumours', 'solid cancers', 'solid pseudopapillary neoplasm of the pancreas', 'pancreatic neuroendocrine tumors', 'pancreatic neuroendocrine tumor', 'pancreas cancer', 'pancreas tumor', 'pancreas cancers', 'pancreas tumors', 'pancreas neoplasms', 'pancreas neoplasm', 'pnet', 'various cancers', 'multiple cancers', 'nanomask', 'cancer phenotypes', 'submucosal tumors', 'brain metastasis', 'brain metastases', 'intronic long noncoding rna', 'multiple types of early-stage cancer', 'the cancer genome atlas', 'multiple sites of origin', 'bone metastatic cancer', 'cancer driver genes', 'tumor suppressor genes', 'different cancers', 'lung and colon', 'major types of cancers', 'types of cancers', 'various diseases', 'subclonal selection', 'genotype matrix', 'tumor phylogeny', 'variant allele frequencies', 'methylation data', 'cancer origin determination', 'cell lines', 'cell line', 'circulating tumor cells', 'circulating tumor cell', 'several subtypes', 'cancer spheroids', 'cancer cell model', 'multi-cancer', 'ras/mek/erk', 'ck7', 'ck18', 'ck8', 'ctnnb1', 'p63', 'p53', 'tp53', 'ck5/6', 'pd-l1', 'pdl', 'pten', 'myc', 'cdkn2a', 'various tumor', 'various tumors', 'organs-at-risk', 'oars', 'multiple cancer types', 'various carcinoma', 'various carcinomas', 'various adenocarcinoma', 'various adenocarcinomas', 'various malignancy', 'various malignancies', 'pan-cancer', 'organoid growth', 'segmentation of cscs', 'ed visit risk among patients with cancer', 'nci-60', 'plwc', 'tumor exomes', 'vascular endothelial growth factor receptor', 'vegfr-2', 'tumor angiogenic factors', 'extracellular matrix', 'breast-colorectal-endometrial', 'more than two hd cancers of interest', 'human tumors', 'multi-cancer-type', 'tumor type prediction', 'various cancer types', 'pancancer', 
 'different cancer types', 'cancer detection across multiple types', 'broad cancer diagnostic model', 'pan cancer', 'multi-cancer detection', 'tumor agnostic', 'common cancer markers', 'cancer diagnosis', 'deep learning for various cancer detection', 'various atll cancer'
 ]
+    onco = uniq_lower(raw_onco)
+    onc_pat = compile_pattern(onco)
 
-raw_ai = ['Linear Regression', 'Logistic Regression', 'Decision Trees', 'Random Forests', 
+    # 4. AI keywords
+    raw_ai = ['Linear Regression', 'Logistic Regression', 'Decision Trees', 'Random Forests', 
     'Support Vector Machines', 'SVM', 'Convolutional Neural Networks', 'CNN', 
     'Recurrent Neural Networks', 'RNN', 'LSTM', 'Generative Adversarial Networks', 
     'GANs', 'Artificial Neural Networks', 'ANN', 'Text Classification', 
@@ -495,25 +514,21 @@ raw_ai = ['Linear Regression', 'Logistic Regression', 'Decision Trees', 'Random 
     'integrated graph survival network', 'gbm-survival', 'gradient boosted survival analysis', 'weighted random forest', 'neural network classifier', 'whole slide images', 'WSI', 'MALDI', 'densenet', 
     'resnet', 'inception', 'alexnet', 'multi-layered cnn', 'convnet', 'transformers', 'Bidirectional Encoder Representations from Transformers', 'BERT', 'ViT', 'Vision transformer'
     ]
+    ai = uniq_lower(raw_ai)
+    ai_pat = compile_pattern(ai)
 
-def uniq_lower(lst):
-    return list(OrderedDict.fromkeys(w.lower() for w in lst))
+    # 5. Merge text of search fields
+    cols = ['Authors', 'Article Title', 'Source Title', 'Author Keywords', 'Abstract']
+    df['__combined_text'] = df[cols].agg(' '.join, axis=1).str.lower()
 
-onco = uniq_lower(raw_onco)
-ai   = uniq_lower(raw_ai)
+    # 6. Select only those lines that contain both onco and ai
+    mask = df['__combined_text'].str.contains(onc_pat) & df['__combined_text'].str.contains(ai_pat)
+    result = df[mask].drop(columns='__combined_text')
 
-def compile_pattern(keywords):
-    esc = sorted((re.escape(w) for w in keywords), key=len, reverse=True)
-    return re.compile(r'\b(?:' + '|'.join(esc) + r')\b', re.IGNORECASE)
+    # 7. save results
+    result.to_excel(output_file, index=False)
+    print(f"✅  Filtered {len(result)} articles. Saved to: {output_file}")
 
-onc_pat = compile_pattern(onco)
-ai_pat  = compile_pattern(ai)
 
-cols = ['Authors', 'Article Title', 'Source Title', 'Author Keywords', 'Abstract']
-df['combined'] = df[cols].agg(' '.join, axis=1).str.lower()
-
-mask = df['combined'].str.contains(onc_pat) & df['combined'].str.contains(ai_pat)
-result = df[mask].drop(columns='combined')
-
-result.to_excel(r"D:\results\filtered_dataset.xlsx", index=False)
-print(f"Відфільтровано {len(result)} статей")
+if __name__ == "__main__":
+    filter_dataset()

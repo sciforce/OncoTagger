@@ -2,3 +2,4 @@
 .codegpt
 __pycache__/
 app.log
+~$*.xlsx
