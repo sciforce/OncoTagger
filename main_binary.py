@@ -46,10 +46,10 @@ class CancerClassifier:
         self.task_keywords.rename(columns=col_map, inplace=True)
 
         # 1. Prioritise tasks (from most important to least important)
-        self.task_priority = [
-            'prognosis',    
+        self.task_priority = [ 
             'segmentation',
             'classification',
+            'prognosis', 
             'synthesis',
             'genomic',
             'integration',
@@ -339,7 +339,10 @@ class CancerClassifier:
         try:
             # Load Excel file
             print(f"Loading file: {self.file_path}")
-            df = pd.read_excel(self.file_path)  # For testing, limit the number of rows by  'add .head(100)'
+            df = pd.read_excel(self.file_path) # For testing, limit the number of rows by  add '.head(100)'
+            for col in ['Article Title','Abstract','Author Keywords']:
+                if col in df.columns:
+                    df[col] = df[col].fillna('').astype(str)  
             self.check_columns(df)
             self.add_keywords_to_matcher(self.cancer_keywords)
             self.add_keywords_to_matcher(self.ai_keywords)
