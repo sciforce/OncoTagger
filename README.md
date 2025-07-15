@@ -72,13 +72,13 @@ Process `filtered_dataset.xlsx` from start to finish:
 
    * **Cancer type** (via `cancer_keywords.csv`)
    * **AI model type** (via `ai_keywords.csv`)
-   * **Task type** (via `task_keywords.csv`)
+   * **Task type** 8 categories (prognosis, segmentation, classification, etc.) (via `task_keywords.csv`)
 3. **Parse performance metrics** in the Abstract:
 
    * Special handling for “test-group AUC” phrases.
-   * General regex matching over 18 metric synonyms.
+   * General regex matching over 18 different performance metrics.
    * Fallback “proxy\_metric” for the first percentage found.
-4. **Categorize** each metric into five levels (`Very Low` … `Very High`) via `assign_category()`.
+4. **Categorize** each metric into five levels (Very High, High, Medium, Low, Very Low) via `assign_category()` through task-specific thresholds: different performance expectations per task type
 5. **Compute**:
 
    * `composite_metric`: the highest-priority metric present for that paper’s task.
