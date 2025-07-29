@@ -46,17 +46,10 @@ class CancerClassifier:
         self.task_keywords.rename(columns=col_map, inplace=True)
 
         # 1. Prioritise tasks (from most important to least important)
-<<<<<<< HEAD
-        self.task_priority = [  
-            'segmentation',
-            'classification',
-            'prognosis',
-=======
         self.task_priority = [ 
             'segmentation',
             'classification',
             'prognosis', 
->>>>>>> origin/master
             'synthesis',
             'genomic',
             'integration',
