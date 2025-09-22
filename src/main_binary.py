@@ -4,34 +4,54 @@ from spacy.matcher import Matcher
 from tqdm import tqdm
 import re
 import logging
+import os
+from pathlib import Path
+
+script_dir   = Path(__file__).parent.resolve()        # …/wos_oncoarticleclassifier/src
+project_root = script_dir.parent                      # …/wos_oncoarticleclassifier
+sources_dir  = project_root / 'sources'
+filtered_path = project_root / 'data' / 'filtered' / 'filtered_dataset.xlsx'
+results_dir  = project_root / 'data' / 'results'
+results_dir.mkdir(exist_ok=True, parents=True)
 
 class CancerClassifier:
-    metric_synonyms = {
-        'precision':      ['accuracy', 'positive predictive rate', 'acc', 'precision', 'ppv', 'positive predictive value', 'overall accuracy', 'classification accuracy', 'correct classification rate'],
-        'sensitivity':    ['sensitivity', 'hit rate', 'recall', 'tpr', 'true positive rate'],
-        'specificity':    ['specificity', 'tnr', 'true negative rate', 'selectivity'],
-        'f1-score':       ['f1-score', 'f1 score', 'f1', 'f-1', 'f-measure', 'f measure'],
-        'npv':            ['negative predictive value', 'npv'],
-        'fpr':            ['false positive rate', 'fpr', 'fall-out'],
-        'roc-auc':        ['roc-auc', 'roc auc', 'rocauc', 'auc',  'auc-roc',  'auc roc', 'aucroc', 'auroc', 'area under roc curve', 'area under the roc curve', 'area under receiver operating characteristic', 'area under the receiver operating characteristic curve', 'receiver operating characteristic area'],
-        'pr-auc':         ['pr-auc', 'pr auc', 'prauc', 'area under pr curve', 'area under the pr curve', 'area under precision-recall curve', 'area under precision recall curve'],
-        'balanced accuracy': ['balanced accuracy', 'balanced-accuracy', 'bacc', 'balanced classification accuracy'],
-        'mcc':            ['mcc', 'phi coefficient', 'matthews correlation coefficient', 'matthews correlation-coefficient', 'matthews cc'],
-        "cohen's kappa":  ["cohen's kappa", 'cohen kappa', 'kappa', 'cohen-kappa', 'cohen kappa coefficient'],
-        'dice':           ['dice', 'dice score', 'dice-score', 'dice coefficient', 'dice similarity coefficient', 'dsc', 'sørensen-dice', 'sorensen-dice'],
-        'iou':            ['iou', 'intersection over union', 'jaccard', 'intersection-over-union', 'jaccard index', 'jaccard-index'],
-        'hd95':           ['hd95', 'hausdorff distance', 'hausdorff 95th percentile', 'hausdorff-95', 'hd 95', 'hd-95', 'hausdorff'],
-        'mae':            ['mae', 'mean absolute error', 'l1 error', 'l1 loss'],
-        'rmse':           ['rmse', 'root mean squared error', 'root mean square error', 'rms error', 'rms-error', 'rms loss', 'rms-loss'],
-        'r2':             ['r2', 'r²', 'r^2', 'coefficient of determination', 'r-squared', 'r squared'],
-        'c-index':        ['c-index', 'concordance index', 'concordance-index', 'c index', 'concordance', "harrell's c",'harrell c','c statistic']
-    }
-
+    
     def __init__(self):
         # Load keywords for cancer types and AI models
-        self.cancer_keywords = pd.read_csv('cancer_keywords.csv')
-        self.ai_keywords = pd.read_csv('ai_keywords.csv')
-        self.task_keywords = pd.read_csv('task_keywords.csv')
+        # main location
+        script_dir = Path(__file__).parent.resolve()    # …/wos_oncoarticleclassifier/src
+        project_root = script_dir.parent               # …/wos_oncoarticleclassifier
+        sources_dir = project_root / 'sources'         # …/wos_oncoarticleclassifier/sources
+
+        self.cancer_keywords = pd.read_csv(sources_dir / 'cancer_keywords.csv')
+        self.task_keywords = pd.read_csv(sources_dir / 'task_keywords.csv')
+        self.ai_keywords   = pd.read_csv(sources_dir / 'ai_keywords.csv')
+
+        df_ms = pd.read_csv(sources_dir / 'metric_synonyms.csv')
+        self.metric_synonyms = df_ms.groupby('metric')['synonym'].apply(list).to_dict()
+
+
+        df_tp = pd.read_csv(sources_dir / 'task_priority.csv')
+        self.task_priority = df_tp.sort_values('priority')['task'].tolist()
+
+        df_tmp = pd.read_csv(sources_dir / 'task_metric_priority.csv')
+        self.task_metric_priority = {
+            task: grp.sort_values('order')['metric'].tolist()
+            for task, grp in df_tmp.groupby('task')
+        }
+
+        df_cs = pd.read_csv(sources_dir / 'category_scores.csv')
+        self.category_scores = dict(zip(df_cs['category'], df_cs['score']))
+
+        df_th = pd.read_csv(sources_dir / 'thresholds.csv')
+        self.thresholds = {
+            metric: [
+                (row['cutoff'], row['label'], row['comparison'])
+                for _, row in grp.iterrows()
+            ]
+            for metric, grp in df_th.groupby('metric')
+        }
+
         #0 synonyms of headers in task_keywords csv
         col_map = {
             'Classification / Detection':    'classification',
@@ -46,36 +66,13 @@ class CancerClassifier:
         self.task_keywords.rename(columns=col_map, inplace=True)
 
         # 1. Prioritise tasks (from most important to least important)
-        self.task_priority = [ 
-            'segmentation',
-            'classification',
-            'prognosis', 
-            'synthesis',
-            'genomic',
-            'integration',
-            'nlp',
-            'auxiliary',
-        ]
-        self.task_metric_priority = {
-            'classification': ['roc-auc','pr-auc','f1-score','precision','sensitivity', 'balanced accuracy','specificity','npv','fpr','mcc', "cohen's kappa",'c-index','r2','mae','rmse','dice','iou','hd95', 'proxy_metric'],
-            'segmentation': [ 'dice','iou','hd95','precision','sensitivity','specificity', 'f1-score','mcc',"cohen's kappa",'balanced accuracy', 'npv','fpr','roc-auc','pr-auc','proxy_metric', 'c-index','r2','mae','rmse' ],
-            'prognosis': [ 'c-index','r2','mae','rmse','roc-auc','pr-auc', 'f1-score','precision','sensitivity','specificity', 'balanced accuracy','mcc',"cohen's kappa", 'npv','fpr','dice','iou','hd95','proxy_metric' ],
-            'synthesis': [ 'mae','rmse','r2','hd95', 'f1-score','precision','sensitivity','roc-auc','pr-auc', 'mcc', 'proxy_metric', "cohen's kappa",'balanced accuracy','dice','iou','c-index' ],
-            'integration': [ 'roc-auc','pr-auc','f1-score','precision','sensitivity','specificity', 'balanced accuracy','c-index','proxy_metric', 'mae','rmse','r2','mcc',"cohen's kappa", 'npv','fpr','dice','iou','hd95' ],
-            'nlp': [ 'f1-score','precision','roc-auc','pr-auc', 'mcc',"cohen's kappa",'balanced accuracy','proxy_metric', 'specificity','sensitivity','npv','fpr', 'c-index','r2','mae','rmse','dice','iou','hd95' ],
-            'genomic': [ 'roc-auc','pr-auc','precision','f1-score','balanced accuracy', 'specificity','sensitivity','mcc',"cohen's kappa", 'c-index','r2','mae','rmse','dice','iou','hd95','proxy_metric' ],
-            'auxiliary': [ 'roc-auc','pr-auc', 'precision', 'f1-score','sensitivity', 'specificity', 'mae','rmse','r2','balanced accuracy','mcc',"cohen's kappa", 'c-index','npv','fpr','dice','iou','hd95','proxy_metric' ],
-        }
-        self.category_scores = {
-            'very high': 4,
-            'high':      3,
-            'medium':    2,
-            'low':       1,
-            'very low':  0
-        }
+        
         self.nlp = spacy.load('en_core_web_sm')
         self.matcher = Matcher(self.nlp.vocab)
-        self.file_path = 'filtered_dataset.xlsx'
+        script_dir    = Path(__file__).parent.resolve()
+        project_root  = script_dir.parent
+        self.filtered_path = project_root / 'data' / 'filtered' / 'filtered_dataset.xlsx'
+
         # Add progress bar with tqdm
         tqdm.pandas()
         # Set logging level
@@ -156,9 +153,21 @@ class CancerClassifier:
                 break  # Move to the next row if a match is found in this field
 
         return pd.Series(binary_result)
-        
-    @staticmethod
-    def extract_auc_by_group(text: str) -> dict:
+
+    def categorize_task(self, row):
+        result = {task: 0 for task in self.task_priority}
+        fields = ['Article Title', 'Abstract', 'Author Keywords']
+        for field in fields:
+            text = str(row[field])
+            matched = self.process_matched_text(text)
+            for task in self.task_priority:
+                keywords = self.task_keywords[task].dropna().str.lower()
+                if any(kw in matched for kw in keywords):
+                    result[task] = 1
+                    return pd.Series(result)
+        return pd.Series(result)
+
+    def extract_auc_by_group(self, text: str) -> dict:
         # parsing  phrases patterns such as        "… were 0.81, 0.80, and 0.68 in the training group and 0.91, 0.80, and 0.81 in the test group …"
         # and returns a dictionary { model_name: auc_value } on the test group.
         pattern = re.compile(
@@ -179,48 +188,15 @@ class CancerClassifier:
             for i in range(min(len(models), len(test_vals)))
         }
 
-    @staticmethod
-    def assign_category(metric: str, value: float) -> str:
-
-        thresholds = {
-        # === detection ===
-        'precision':          [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'), (0.50,'Low'),       (0.00,'Very Low')],
-        'sensitivity':        [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'), (0.60,'Low'),       (0.00,'Very Low')],
-        'specificity':        [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'),  (0.60,'Low'),       (0.00,'Very Low')],
-        'f1-score':           [(0.85,'Very High'), (0.75,'High'),   (0.60,'Medium'),  (0.50,'Low'),       (0.00,'Very Low')],
-        'roc-auc':            [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'),  (0.60,'Low'),       (0.00,'Very Low')],
-        'pr-auc':             [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'),  (0.60,'Low'),       (0.00,'Very Low')],
-        'balanced accuracy':  [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'),   (0.60,'Low'),       (0.00,'Very Low')],
-        'mcc':                [(0.70,'Very High'), (0.50,'High'),   (0.30,'Medium'),   (0.10,'Low'),       (0.00,'Very Low')],
-        "cohen's kappa":      [(0.70,'Very High'), (0.50,'High'),   (0.30,'Medium'),    (0.10,'Low'),       (0.00,'Very Low')],
-        'npv':                [(0.90,'Very High'), (0.80,'High'),   (0.70,'Medium'),    (0.60,'Low'),       (0.00,'Very Low')],
-        'fpr':                [(0.05,'Very High'), (0.10,'High'),   (0.20,'Medium'),    (0.30,'Low'),       (1.00,'Very Low')],
-
-        # === segmentation ===
-        'dice':               [(0.80,'Very High'), (0.70,'High'),   (0.60,'Medium'),  (0.50,'Low'),       (0.00,'Very Low')],
-        'iou':                [(0.70,'Very High'), (0.60,'High'),   (0.40,'Medium'),   (0.30,'Low'),       (0.00,'Very Low')],
-        'hd95':               [(2,    'Very High'), (5,    'High'),   (10,   'Medium'), (20,   'Low'),       (float('inf'),'Very Low')],
-
-        # === survival ===
-        'mae':                [(2,    'Very High'), (5,    'High'),   (10,   'Medium'),   (15,   'Low'),       (float('inf'),'Very Low')],
-        'rmse':               [(2,    'Very High'), (5,    'High'),   (10,   'Medium'),   (15,   'Low'),       (float('inf'),'Very Low')],
-        'r2':                 [(0.85,'Very High'), (0.70,'High'),   (0.50,'Medium'),  (0.30,'Low'),       (0.00,'Very Low')],
-        'c-index':            [(0.80,'Very High'), (0.70,'High'),   (0.60,'Medium'),  (0.55,'Low'),       (0.00,'Very Low')],
-        #PROXY
-        'proxy_metric':       [(0.90,'Very High'), (0.80,'High'), (0.70,'Medium'),   (0.60,'Low'),      (0.00,'Very Low')],                       
-    }
-        for cutoff, label in thresholds.get(metric.lower(), []):
-            
-            if metric in ('hd95','mae','rmse'):
-                if value <= cutoff:
-                    return label
-            else:
-                if value >= cutoff:
-                    return label
+    def assign_category(self, metric: str, value: float) -> str:
+        for cutoff, label, comp in self.thresholds.get(metric.lower(), []):
+            if comp == 'le' and value <= cutoff:
+                return label
+            if comp == 'ge' and value >= cutoff:
+                return label
         return 'Unknown'
 
-    @staticmethod
-    def classify_performance(text: str) -> dict:
+    def classify_performance(self, text: str) -> dict:
         """
         Parses all metric mentions by synonyms.
         If none are found, it takes the first percentage and puts it under proxy_metric.
@@ -228,13 +204,13 @@ class CancerClassifier:
         results = {}
 
         # 1) Special template for AUC test-group (if available) 
-        aucs = CancerClassifier.extract_auc_by_group(text)
+        aucs = self.extract_auc_by_group(text)
         if 'combined' in aucs:
-            results['roc-auc'] = CancerClassifier.assign_category('roc-auc', aucs['combined'])
+            results['roc-auc'] = self.assign_category('roc-auc', aucs['combined'])
             return results
 
         # 1) Special template for AUC test-group (if available) 
-        all_syns = [syn for syns in CancerClassifier.metric_synonyms.values() for syn in syns]
+        all_syns = [syn for syns in self.metric_synonyms.values() for syn in syns]
         pattern = re.compile(
             r'\b(' + '|'.join(re.escape(s) for s in sorted(all_syns, key=len, reverse=True)) + r')\b'
             r'.{0,20}?'
@@ -244,9 +220,9 @@ class CancerClassifier:
         for m in pattern.finditer(text):
             found = m.group(1).lower()
             val   = float(m.group(2)) / (100 if m.group(3) == '%' else 1)
-            for key, syns in CancerClassifier.metric_synonyms.items():
+            for key, syns in self.metric_synonyms.items():
                 if found in syns:
-                    results[key] = CancerClassifier.assign_category(key, val)
+                    results[key] = self.assign_category(key, val)
                     break
         # 3) Fallback: if no metrics are found —
         #    take the first mention of a percentage and assign it to proxy_metric
@@ -254,8 +230,8 @@ class CancerClassifier:
             pct = re.search(r'(\d+\.?\d+)\s*%', text)
             if pct:
                 val = float(pct.group(1)) / 100
-                # choose 'accuracy' thresholds as a template
-                results['proxy_metric'] = CancerClassifier.assign_category('accuracy', val)
+                # choose proxy_metric thresholds
+                results['proxy_metric'] = self.assign_category('proxy_metric', val)
 
         return results
 
@@ -338,8 +314,8 @@ class CancerClassifier:
     def process_excel_file(self):
         try:
             # Load Excel file
-            print(f"Loading file: {self.file_path}")
-            df = pd.read_excel(self.file_path) # For testing, limit the number of rows by  add '.head(100)'
+            print(f"Loading: {self.filtered_path}")
+            df = pd.read_excel(self.filtered_path) # For testing, limit the number of rows by  add '.head(100)'
             for col in ['Article Title','Abstract','Author Keywords']:
                 if col in df.columns:
                     df[col] = df[col].fillna('').astype(str)  
@@ -348,22 +324,21 @@ class CancerClassifier:
             self.add_keywords_to_matcher(self.ai_keywords)
             self.add_keywords_to_matcher(self.task_keywords)
             # Create binary classification for cancer types
-            print("Creating binary classification for cancer types...")
+            print("Creating binary classification for cancer types...") 
             df_cancer = df.progress_apply(lambda row: self.categorize_binary(row, self.cancer_keywords), axis=1)
 
-            # Create binary classification for AI models
-            print("Creating binary classification for model's task...")
-            df_task = df.progress_apply(lambda row: self.categorize_binary(row, self.task_keywords), axis=1)
-            
+            # Create binary classification for AI models task type
+            print("Creating categorization for task_type of models...")
+            df_task = df.progress_apply(self.categorize_task, axis=1)
+
             # Create binary classification for AI models
             print("Creating binary classification for AI models...")
             df_ai_model = df.progress_apply(lambda row: self.categorize_binary(row, self.ai_keywords), axis=1)
 
             # Process accuracy categories
             print("Classifying articles by model accuracy...")
-            perf_df = df['Abstract'].progress_apply(
-            lambda txt: pd.Series(self.classify_performance(txt))
-            )
+            perf_df = df['Abstract'].progress_apply(lambda txt: pd.Series(self.classify_performance(txt)))
+
             # 1) collect performance + tasks
             df_perf_and_task = pd.concat([perf_df, df_task], axis=1)
 
@@ -387,9 +362,10 @@ class CancerClassifier:
             ], axis=1)
 
             # 5) save DF
-            output_file = self.file_path.replace('.xlsx', '_binary_classification.xlsx')
+            output_file = results_dir / f"{self.filtered_path.stem}_binary_classification.xlsx"
             df_combined.to_excel(output_file, index=False)
-            print(f"File successfully saved: {output_file}")        
+            print(f"Saved results to: {output_file}")
+       
         except Exception as e:
             print(f"Error processing file: {e}")
 

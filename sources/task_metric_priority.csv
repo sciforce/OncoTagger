@@ -1,0 +1,148 @@
+task,metric,order
+classification,roc-auc,1
+classification,pr-auc,2
+classification,f1-score,3
+classification,precision,4
+classification,sensitivity,5
+classification,balanced accuracy,6
+classification,specificity,7
+classification,npv,8
+classification,fpr,9
+classification,mcc,10
+classification,cohen's kappa,11
+classification,c-index,12
+classification,r2,13
+classification,mae,14
+classification,rmse,15
+classification,dice,16
+classification,iou,17
+classification,hd95,18
+classification,proxy_metric,19
+segmentation,dice,1
+segmentation,iou,2
+segmentation,hd95,3
+segmentation,precision,4
+segmentation,sensitivity,5
+segmentation,specificity,6
+segmentation,f1-score,7
+segmentation,mcc,8
+segmentation,cohen's kappa,9
+segmentation,balanced accuracy,10
+segmentation,npv,11
+segmentation,fpr,12
+segmentation,roc-auc,13
+segmentation,pr-auc,14
+segmentation,proxy_metric,15
+segmentation,c-index,16
+segmentation,r2,17
+segmentation,mae,18
+segmentation,rmse,19
+prognosis,c-index,1
+prognosis,r2,2
+prognosis,mae,3
+prognosis,rmse,4
+prognosis,roc-auc,5
+prognosis,pr-auc,6
+prognosis,f1-score,7
+prognosis,precision,8
+prognosis,sensitivity,9
+prognosis,specificity,10
+prognosis,balanced accuracy,11
+prognosis,mcc,12
+prognosis,cohen's kappa,13
+prognosis,npv,14
+prognosis,fpr,15
+prognosis,dice,16
+prognosis,iou,17
+prognosis,hd95,18
+prognosis,proxy_metric,19
+synthesis,mae,1
+synthesis,rmse,2
+synthesis,r2,3
+synthesis,hd95,4
+synthesis,f1-score,5
+synthesis,precision,6
+synthesis,sensitivity,7
+synthesis,roc-auc,8
+synthesis,pr-auc,9
+synthesis,mcc,10
+synthesis,proxy_metric,11
+synthesis,cohen's kappa,12
+synthesis,balanced accuracy,13
+synthesis,dice,14
+synthesis,iou,15
+synthesis,c-index,16
+integration,roc-auc,1
+integration,pr-auc,2
+integration,f1-score,3
+integration,precision,4
+integration,sensitivity,5
+integration,specificity,6
+integration,balanced accuracy,7
+integration,c-index,8
+integration,proxy_metric,9
+integration,mae,10
+integration,rmse,11
+integration,r2,12
+integration,mcc,13
+integration,cohen's kappa,14
+integration,npv,15
+integration,fpr,16
+integration,dice,17
+integration,iou,18
+integration,hd95,19
+nlp,f1-score,1
+nlp,precision,2
+nlp,roc-auc,3
+nlp,pr-auc,4
+nlp,mcc,5
+nlp,cohen's kappa,6
+nlp,balanced accuracy,7
+nlp,proxy_metric,8
+nlp,specificity,9
+nlp,sensitivity,10
+nlp,npv,11
+nlp,fpr,12
+nlp,c-index,13
+nlp,r2,14
+nlp,mae,15
+nlp,rmse,16
+nlp,dice,17
+nlp,iou,18
+nlp,hd95,19
+genomic,roc-auc,1
+genomic,pr-auc,2
+genomic,precision,3
+genomic,f1-score,4
+genomic,balanced accuracy,5
+genomic,specificity,6
+genomic,sensitivity,7
+genomic,mcc,8
+genomic,cohen's kappa,9
+genomic,c-index,10
+genomic,r2,11
+genomic,mae,12
+genomic,rmse,13
+genomic,dice,14
+genomic,iou,15
+genomic,hd95,16
+genomic,proxy_metric,17
+auxiliary,roc-auc,1
+auxiliary,pr-auc,2
+auxiliary,precision,3
+auxiliary,f1-score,4
+auxiliary,sensitivity,5
+auxiliary,specificity,6
+auxiliary,mae,7
+auxiliary,rmse,8
+auxiliary,r2,9
+auxiliary,balanced accuracy,10
+auxiliary,mcc,11
+auxiliary,cohen's kappa,12
+auxiliary,c-index,13
+auxiliary,npv,14
+auxiliary,fpr,15
+auxiliary,dice,16
+auxiliary,iou,17
+auxiliary,hd95,18
+auxiliary,proxy_metric,19
