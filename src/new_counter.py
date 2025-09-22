@@ -4,6 +4,34 @@ from tqdm import tqdm
 import main_binary as mb
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+from pathlib import Path
+import pycountry
+
+script_dir   = Path(__file__).parent.resolve()
+project_root = script_dir.parent
+sources_dir  = project_root / 'sources'
+results_dir = project_root / 'data' / 'results'
+
+def extract_country(address: str) -> str:
+    if pd.isna(address):
+        return None
+    return address.split()[-1].rstrip('.,;')
+
+df_cn = pd.read_csv(sources_dir / 'country_synonyms.csv')
+country_synonyms = dict(zip(df_cn['raw'], df_cn['normalized']))
+
+def normalize_country(raw: str) -> str:
+    name = raw.strip()
+    tokens = [tok for tok in name.split() if not any(ch.isdigit() for ch in tok)]
+    name_clean = ' '.join(tokens)
+    key = name_clean.title()
+    if key in country_synonyms:
+        return country_synonyms[key]
+    try:
+        return pycountry.countries.lookup(key).name
+    except LookupError:
+        return key
+
 
 class ArticleAnalyzer:
     def __init__(self, file_path):
@@ -28,7 +56,7 @@ class ArticleAnalyzer:
 
     def count_cancer_types(self):
         """Count how many types of cancer are mentioned in each article"""
-        for idx, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Counting cancer types"):
+        for idx, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Counting all the staff..."):
             count = int(row[self.cancer_columns].sum())
             self.df.at[idx, 'number_of_cancer_types'] = count
 
@@ -159,11 +187,37 @@ class ArticleAnalyzer:
             self.crosstab_metric_vs('weighted_category', self.ai_columns,     writer, 'Weighted x AI')
             self.crosstab_metric_vs('roc-auc',           self.cancer_columns, writer, 'ROC-AUC x Cancer')
             self.crosstab_metric_vs('roc-auc',           self.ai_columns,     writer, 'ROC-AUC x AI')
+            
+            self.count_by_years(self.cancer_columns, 'Cancer Types by Year', writer)
+            self.count_by_years(self.ai_columns,     'AI Models by Year',   writer)
 
+            top10_cancers = self.df[self.cancer_columns].sum().nlargest(10).index.tolist()
+            self.count_by_years(top10_cancers, 'Top-10 Cancers by Year', writer)
+
+            top10_models = self.df[self.ai_columns].sum().nlargest(10).index.tolist()
+            self.count_by_years(top10_models, 'Top-10 AI Models by Year', writer)
+
+            raw = (
+            self.df['Reprint Addresses']
+                .dropna()
+                .apply(extract_country)
+                .dropna()
+            )
+            mapped = raw.map(lambda t: country_synonyms.get(t, t))
+            country_counts = (
+                mapped
+                .value_counts()
+                .reset_index()
+            )
+            country_counts.columns = ['Country', 'Count']
+            country_counts.to_excel(writer, sheet_name='Country Counts', index=False)
+
+        
         logging.info(f"Analysis complete. File saved: {output_file}")
 
 
 if __name__ == "__main__":
-    input_file = 'filtered_dataset_binary_classification.xlsx'
+    input_file = str(results_dir / 'filtered_dataset_binary_classification.xlsx')
     analyzer = ArticleAnalyzer(input_file)
     analyzer.run_analysis()
+

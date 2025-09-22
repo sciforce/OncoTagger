@@ -1,0 +1,96 @@
+metric,cutoff,label,comparison
+precision,0.9,Very High,ge
+precision,0.8,High,ge
+precision,0.7,Medium,ge
+precision,0.5,Low,ge
+precision,0.0,Very Low,ge
+sensitivity,0.9,Very High,ge
+sensitivity,0.8,High,ge
+sensitivity,0.7,Medium,ge
+sensitivity,0.6,Low,ge
+sensitivity,0.0,Very Low,ge
+specificity,0.9,Very High,ge
+specificity,0.8,High,ge
+specificity,0.7,Medium,ge
+specificity,0.6,Low,ge
+specificity,0.0,Very Low,ge
+f1-score,0.85,Very High,ge
+f1-score,0.75,High,ge
+f1-score,0.6,Medium,ge
+f1-score,0.5,Low,ge
+f1-score,0.0,Very Low,ge
+roc-auc,0.9,Very High,ge
+roc-auc,0.8,High,ge
+roc-auc,0.7,Medium,ge
+roc-auc,0.6,Low,ge
+roc-auc,0.0,Very Low,ge
+pr-auc,0.9,Very High,ge
+pr-auc,0.8,High,ge
+pr-auc,0.7,Medium,ge
+pr-auc,0.6,Low,ge
+pr-auc,0.0,Very Low,ge
+balanced accuracy,0.9,Very High,ge
+balanced accuracy,0.8,High,ge
+balanced accuracy,0.7,Medium,ge
+balanced accuracy,0.6,Low,ge
+balanced accuracy,0.0,Very Low,ge
+mcc,0.7,Very High,ge
+mcc,0.5,High,ge
+mcc,0.3,Medium,ge
+mcc,0.1,Low,ge
+mcc,0.0,Very Low,ge
+cohen's kappa,0.7,Very High,ge
+cohen's kappa,0.5,High,ge
+cohen's kappa,0.3,Medium,ge
+cohen's kappa,0.1,Low,ge
+cohen's kappa,0.0,Very Low,ge
+npv,0.9,Very High,ge
+npv,0.8,High,ge
+npv,0.7,Medium,ge
+npv,0.6,Low,ge
+npv,0.0,Very Low,ge
+fpr,0.05,Very High,le
+fpr,0.1,High,le
+fpr,0.2,Medium,le
+fpr,0.3,Low,le
+fpr,1.0,Very Low,le
+dice,0.8,Very High,ge
+dice,0.7,High,ge
+dice,0.6,Medium,ge
+dice,0.5,Low,ge
+dice,0.0,Very Low,ge
+iou,0.7,Very High,ge
+iou,0.6,High,ge
+iou,0.4,Medium,ge
+iou,0.3,Low,ge
+iou,0.0,Very Low,ge
+hd95,2.0,Very High,le
+hd95,5.0,High,le
+hd95,10.0,Medium,le
+hd95,20.0,Low,le
+hd95,inf,Very Low,le
+mae,2.0,Very High,le
+mae,5.0,High,le
+mae,10.0,Medium,le
+mae,15.0,Low,le
+mae,inf,Very Low,le
+rmse,2.0,Very High,le
+rmse,5.0,High,le
+rmse,10.0,Medium,le
+rmse,15.0,Low,le
+rmse,inf,Very Low,le
+r2,0.85,Very High,ge
+r2,0.7,High,ge
+r2,0.5,Medium,ge
+r2,0.3,Low,ge
+r2,0.0,Very Low,ge
+c-index,0.8,Very High,ge
+c-index,0.7,High,ge
+c-index,0.6,Medium,ge
+c-index,0.55,Low,ge
+c-index,0.0,Very Low,ge
+proxy_metric,0.9,Very High,ge
+proxy_metric,0.8,High,ge
+proxy_metric,0.7,Medium,ge
+proxy_metric,0.6,Low,ge
+proxy_metric,0.0,Very Low,ge

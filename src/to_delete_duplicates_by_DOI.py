@@ -21,7 +21,7 @@ def remove_duplicates_by_doi(input_file: str = "combined_dataset.xlsx",
 
     # write out
     df_clean.to_excel(output_file, index=False)
-    print(f"✅  Duplicates removed. Clean file written to: {output_file}")
+    print(f"Duplicates removed. Clean file written to: {output_file}")
 
 
 if __name__ == "__main__":
