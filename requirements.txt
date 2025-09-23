@@ -1,0 +1,14 @@
+# Core
+pandas>=2.2
+numpy>=1.26
+
+# NLP / rules
+spacy>=3.7,<3.8
+tqdm>=4.66
+
+# Excel I/O
+openpyxl>=3.1
+xlrd>=2.0.1  
+
+# Utilities
+pycountry>=22.3.5
