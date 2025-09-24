@@ -1,0 +1,77 @@
+Classification / Detection,Segmentation,"Prognosis (survival, recurrence, risk)",Synthesis / Image Enhancement,"Integration / Recommendation (CDSS, multimodal)","NLP (text classification, information extraction)",Genomic Models,Auxiliary Algorithmic Classes
+classification,segmentation,survival,image enhancement,clinical decision support,text classification,gene expression analysis,data preprocessing
+classify,segment,survival prediction,super-resolution,cdss,document classification,rna-seq,data normalization
+classifier,segmented,survival analysis,resolution improvement,recommendation system,named entity recognition,rnaseq,data standardization
+categorization,mask,survival curves,deblurring,treatment recommendation,ner,rna seq,data imputation
+categorise,masking,overall survival,denoising,treatment planning,relation extraction,microarray,outlier detection
+detection,delineation,disease-free survival,image reconstruction,personalized recommendation,information extraction,somatic mutation,feature engineering
+detect,delineate,progression-free survival,data augmentation,multimodal fusion,entity linking,variant calling,feature selection
+diagnosis,roi,recurrence-free survival,augmentation,feature fusion,concept normalization,snp analysis,dimensionality reduction
+diagnostic,region of interest,recurrence prediction,generative model,data fusion,negation detection,copy number variation,pca
+screening,pixel-wise,risk prediction,gan,early fusion,tokenization,cnv detection,t-sne
+screen,semantic segmentation,risk stratification,vae,late fusion,sentence segmentation,differential expression,tsne
+binary classification,instance segmentation,hazard ratio,image-to-image translation,intermediate fusion,dependency parsing,pathway analysis,t sne
+multiclass classification,u-net,cox proportional hazards,style transfer,ensemble integration,semantic parsing,gene set enrichment,umap
+one-vs-all,fcn,cox regression,cyclegan,stacked model,topic modeling,gsea,clustering
+softmax,contour,kaplan‐meier,conditional gan,blending,lda,polygenic risk score,k-means
+cross-entropy,boundary,time‐to‐event,diffusion model,meta-learner,tf-idf,prs,kmeans
+confusion matrix,dice coefficient,brier score,simulation,metalearner,word embedding,multi-omics integration,k means
+precision-recall,intersection over union,integrated brier score,domain adaptation,meta learner,word2vec,multiomics integration,hierarchical clustering
+precision recall curve,jaccard index,prognosis,contrast enhancement,rule-based decision,glove,multi omics integration,dbscan
+precision-recall curve,hausdorff distance,prognostic,artifact correction,rulebased decision,bert,proteomics,cross-validation
+image classification,superpixel,prognostic model,intensity normalization,rule based decision,biobert,metabolomics,crossvalidation
+pattern recognition,watershed,prognostic factor,modality translation,knowledge graph,clinicalbert,methylation analysis,cross validation
+label assignment,contour delineation,nomogram,image synthesis,ontology mapping,transformer,epigenomics,hyperparameter tuning
+anomaly detection,boundary detection,concordance index,gan-based augmentation,rule-based recommendation,rnn,single-cell rna-seq,grid search
+early detection,mask segmentation,c‐index,vae-gan,rulebased recommendation,lstm,singlecell rna-seq,random search
+diagnostic classification,pixel-wise segmentation,event‐free survival,stylegan,rule based recommendation,long short-term memory,single cell rna-seq,bayesian optimization
+label prediction,region segmentation,disease‐specific survival,pix2pix,heuristic rules,long short term memory,single-cell rnaseq,genetic algorithm
+recognition,threshold segmentation,long‐term survival,resolution enhancement,interactive dashboard,long shortterm memory,singlecell rnaseq,particle swarm optimization
+identification,edge detection,mortality prediction,noise reduction,explainable ai,gru,single cell rnaseq,smote
+random forest classifier,watershed segmentation,event-free survival,histogram equalization,,ctakes,single-cell rna seq,imbalance handling
+object detection,superpixel segmentation,kaplan-meier,adaptive histogram equalization,,,singlecell rna seq,model calibration
+lesion detection,graph cuts,predictive,color normalization,,,single cell rna seq,bootstrapping
+tumor detection,active contour,predict,stain normalization,,,scRNA-seq,ablation study
+cell detection,level set,time-to-event,image harmonization,,,scrnaseq,shap
+classification network,deformable model,prognostic modeling,synthetic images,,,sc rna seq,lime
+classification model,3d u-net,log-rank test,virtual staining,,,tcga,saliency map
+classification algorithm,v-net,calibration curve,inpainting,,,gtex,attention map
+decision tree classifier,deeplab,decision curve analysis,transfer learning,,,eqtl analysis,visualization
+svm classifier,segnet,time-dependent auc,pretrained model fine-tuning,,,tcga,
+knn classifier,segmentation network,median survival,phantom generation,,,the cancer genome atlas,
+logistic regression classifier,mask generation,mean survival time,k-space reconstruction,,,cancer genome atlas,
+ensemble classifier,roi extraction,relapse prediction,psnr,,,,
+voting classifier,region growing,forecasting,ssim,,,,
+feedforward network,morphological operations,predictive analytics,mse,,,,
+deep neural network,region merging,prognostic signature,rmse,,,,
+cnn classifier,split-and-merge,long-term survival,dcgan,,,,
+transformer-based classifier,contour detection,c-index,wgan,,,,
+region proposal,boundary refinement,harrell’s c,wgan-gp,,,,
+sliding window,pixel labeling,ibs,autoencoder,,,,
+bounding box,organ segmentation,hr,deblurgan,,,,
+yolo,tumor segmentation,kaplan-meier,srgan,,,,
+ssd,lesion segmentation,decision-curve analysis,esrgan,,,,
+faster r-cnn,object segmentation,cox ph,super resolution,,,,
+retinanet,region adjacency graph,random survival forest,,,,,
+mean average precision,hole filling,rsf,,,,,
+log loss,smoothing,deepsurv,,,,,
+precision,interpolation,nmtlr,,,,,
+ppv,dice,xgboost survival,,,,,
+recall,dice score,lstm survival,,,,,
+sensitivity,dsc,c index,,,,,
+tpr,iou,harrells c,,,,,
+specificity,boundary iou,time dependent auc,,,,,
+transformer classifier,u-net++,kaplan meier,,,,,
+xgboost classifier,pspnet,disease free survival,,,,,
+naive bayes classifier,nnu-net,progression free survival,,,,,
+faster-r cnn,pixel wise,recurrence free survival,,,,,
+mask r-cnn,v net,event free survival,,,,,
+region proposal network,vnet,disease specific survival,,,,,
+non-maximum suppression,u net++,long term survival,,,,,
+non maximum suppression,nnunet,event free survival,,,,,
+faster r cnn,,pfs,,,,,
+mask r cnn,,,,,,,
+one vs all,,,,,,,
+cross entropy,,,,,,,
+confusion matrix,,,,,,,
+precision recall,,,,,,,

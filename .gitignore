@@ -1,0 +1,9 @@
+/.vscode
+.codegpt
+__pycache__/
+*.pyc
+*.log
+~$*.xlsx
+filtered_dataset_binary_classification_analysis.xlsx
+filtered_dataset_binary_classification.xlsx
+!data/raw/combined_dataset.xlsx

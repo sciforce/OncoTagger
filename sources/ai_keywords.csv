@@ -1,0 +1,108 @@
+Linear_Logistic_Regression,Support_Vector_Machines,Decision_Trees,Random_Forests,Gradient_Boosting_Trees,Convolutional_Neural_Networks,U_Net_Family,Vision_Transformers,Vision_Language_Models,Recurrent_Neural_Networks,Graph_Neural_Networks,Generative_Adversarial_Networks,Diffusion_Models,Autoencoders,Large_Language_Models,Classical_Survival_Models,Deep_Cox_Networks,Competing_Risk_Networks,Survival_Transformers,Variant_Callers_DL,Fusion_Detectors,Transformer_GNN_Genomics,k_Nearest_Neighbours,Naive_Bayes,Multimodal_Transformers,Graph_Integrators,Artificial_Neural_Networks,Clinical_Decision_Support,Recommendation_Systems,Ensemble_Learning_Frameworks,Text_Classification_Models,Information_Extraction_NER_Models,Graph_Based_Survival_Nets
+linear regression,support vector machine,decision tree,random forest,gradient boosting,convolutional neural network,u-net,vision transformer,clip,recurrent neural network,graph neural network,generative adversarial network,denoising diffusion probabilistic model,autoencoder,large language model,cox proportional hazards,deepsurv,deephit,trans-surv,deepvariant,arriba,hig2vec,k-nearest neighbours,naive bayes,multimodal transformer,graph integrator,artificial neural network,clinical decision support system,recommendation system,ensemble learning,text-cnn,med7-ner,graphsurvnet
+linear-regression,support-vector machine,decision-tree,random-forest,gradient-boosting,convolutional-neural-network,unet,vit,openai clip,rnn,gnn,gan,ddpm,ae,llm,cox model,deep-surv,deep-hit,transsurv,deep-variant,arriba-dl,prottrans,k-nearest neighbors,naïve bayes,multi-modal transformer,graph integration network,ann,cdss,recommender engine,ensemble classifier,kim-cnn,med7 extractor,graph-survival network
+ordinary least squares,SVM,classification tree,rf classifier,gradient boosted trees,convolutional net,u_net,vit-base,vi-clip,simple rnn,graph convolutional network,conditional gan,ddpm-model,deep autoencoder,llm-based,cox regression,deepsurv-net,deep-hit network,survformer,deeptrio,jaffa,prottrans-t5,k nearest neighbour,bayesian classifier,mm-transformer,graph fusion network,multilayer perceptron,computerised decision support,rec-sys,ensemble regressor,char-cnn,medspacy-ner,gnn-survival model
+ols model,svm classifier,regression tree,rf model,gradient boosted decision tree,convnet,u‐net,vit-large,clip-med,vanilla rnn,gcn,cgan,ddim,dae,foundation language model,coxph,deep cox network,dynamic deephit,surv-former,deep-trio,jaffa-clin,esm-1b,k nearest neighbor,gaussian naive bayes,mmt,multiomic gnn,mlp,clinical decision aid,therapy recommender,model stacking,charcnn,biobert-ner,graph survival transformer
+multivariate linear model,svm-based classifier,cart,rf regressor,gbdt,cnn,unet++,vit-b,medical clip,srnn,graph conv net,pix2pix,denoising diffusion implicit model,denoising autoencoder,gpt,cox-ph,deep-cox,deephit+,bert-survival,deepsomatic,star-fusion,esm-2,knn,multinomial naive bayes,cross-modal transformer,multi-omics gnn,feed-forward neural network,decision support engine,treatment recommender,stacked ensemble,fasttext-classifier,biobert-crf,gst-net
+multiple linear regression,svm model,classification and regression tree,breiman forest,gbrt,deep cnn,u-net++,vit-l,path-clip,long short-term memory,graph-conv,pix2pixhd,latent diffusion model,sparse autoencoder,gpt-2,coxphfit,deepcox,deephit-plus,survbert,deep-somatic,fusioncatcher,protbert,k-nn,bernoulli naive bayes,fusion transformer,omics graphsage,ffnn,intelligent cpoe,drug-combo recommender,stacking learner,hierarchical attention network,clinicalbert-ner,hetero-surv gnn
+simple linear regression,svm-based model,id3,rf,gbm,conv neural network,nested unet,trans-inception,plip,lstm,spectral gcn,dualgan,ldm,sae,gpt2,proportional hazards model,cox-nnet,deep cif,swin-survival,clair,pizzly,prot-bert,kNN classifier,complement naive bayes,perceiver io,heterograph fusion,fully connected net,computer-aided diagnosis,personalised regimen suggestor,blended ensemble,han-classifier,bluebert-ner,sage-survival net
+gaussian linear model,svc,c4.5,random decision forest,boosted regression tree,conv-net,nested u-net,dosvit,plip-model,lstm network,chebyshev gcn,dual-gan,stable diffusion,contractive autoencoder,gpt-3,ph model,coxnnet,cif-net,vit-survival,clairvoyante,defuse,dnabert,kNN regressor,categorical naive bayes,perceiver-ar,graph hetero fusion,deep feed-forward net,cadx engine,neural collaborative filtering,blend model,han-att,spanbert-ner,graphsage-survival
+general linear model,support vector classifier,c4.5 decision tree,bagged trees,stochastic gradient boosting,1d cnn,u2-net,mobilevit,pulmo clip,lstm-net,gcn-conv,cycle-gan,stable-med,cae,gpt3,proportional hazards regression,cox-nnet v2,competing risk deep net,informersurv,clair3,fusionmap,dna-bert,distance-weighted kNN,semi-naive bayes,medical perceiver,graph multimodal aggregator,dense neural network,computer-aided detection tool,ncf model,soft voting committee,bi-lstm-attention,scispacy-ner,gin-survival
+glm (linear),svr,c5.0,bagging forest,additive tree model,1-d cnn,u2net,t2t-vit,radioclip,bi-lstm,graph attention network,cyclegan,meddiffusion,variational autoencoder,gpt-3.5,kaplan–meier,nnet-survival,crnnet,sparse transformer survival,pepper-margin-dv,chimera-scan,genformer,radius neighbors classifier,tree-augmented naive bayes,unified transformer,graph attention fusion,dnn,cade module,matrix factorisation recommender,hard voting committee,bilstm-att,en_ner_bc5cdr_md,gat-survival++
+linear lm,support vector regressor,c50,extra trees,shrinkage tree model,2d cnn,res-unet,token-to-token vit,medclip,bidirectional lstm,gat,spade-gan,med-ddpm,vae,gpt-4,kaplan-meier,nnsurv,compnet,surv-transformer,pepper-dv,fusioninspector,dnaformer,kd-tree kNN,weighted naive bayes,uni-transformer,graph feature fusion,stacked perceptron,virtual nodule clinic,mf recommender,majority voting ensemble,text-slimlstm,dysner,graph-cox surv
+logistic regression,support-vector regressor,j48,extremely randomised trees,xgboost,3d cnn,res_u-net,deepvit,med-clip,stacked lstm,gat-conv,spadegan,score-based generative model,v-autoencoder,gpt4,weibull survival model,deepph,cause-specific dlnn,longformer-surv,octopus variant caller,manta-fusion,allele transformer,ball-tree kNN,kernel naive bayes,bi-modal transformer,graph neural integrator,bp-network,optellum system,deep factorisation machine,weighted voting ensemble,rcnn-text,disease-ner,geo-survnet
+logistic-regression,kernel svm,chaid,ert,xgb,multi-channel cnn,residual unet,cct,medclip-l,deep lstm,global gat,stylegan,sgm,β-vae,gpt-neo,exponential survival model,deep-ph,dni-net,transformer survival model,longshot,soccer-fusion,pangenome transformer,local weighted kNN,locally weighted naive bayes,vl-transformer,gnn-fuser,back-propagation network,paige detect suite,deepfm,bagging ensemble,text-gcn-classifier,chemprot-ner,deep graph hazard model
+binomial regression,linear svm,exhaustive chaid,extratrees,extreme gradient boosting,multiscale cnn,recurrent u-net,compact conv-transformer,medclip-large,conv-lstm,gated gat,stylegan2,ncsn,beta-vae,gpt-j,log-logistic survival,deepphnet,crmnet,surv-attention net,sniffles2,gcook-fusion,splicetransformer,fuzzy kNN,flexible bayes,vil transformer,graph registry network,radial basis function network,paige prostate ai,wide-and-deep network,bootstrap aggregating,tgcn,gatortronnlp-ner,dg-hazard
+binary logistic model,polynomial svm,oblique decision tree,oblique random forest,xgboost classifier,patch-based cnn,rcu-net,swin transformer,rlip (radiology clip),conv lstm,graph isomorphism network,stylegan-v2,noise-conditional score net,cvae,gpt-neox,parametric survival model,scnn-cox,,,banquo,ericscript,nnformer-gene,typicality-based kNN,continuous naive bayes,radgpt,non-euclidean graph integrator,rbf-net,watson for oncology,context aware recommender,pasting ensemble,bayesian text classifier,bertje-ner-med,adaptive graph survival
+logit model,poly-kernel svm,soft decision tree,rotation forest,xgboost regressor,slice-level cnn,rcunet,swin-t,vl-bert,clstm,gin,stylegan3,glide diffusion,conditional variational autoencoder,mt-nlg,piecewise exponential model,survnet-cox,,,vartox,fuseq,graphprot,ranked kNN,naive bayes regressor,radimagegpt,,probabilistic neural net,path_ai dx assistant,caware recommender,random subspace ensemble,tfidf-svm-text,roberta-biomed-ner,ppi-surv gnn
+logit regression,rbf svm,conditional inference tree,quantile forest,lightgbm,alexnet,attention u-net,swin-s,vilbert,spatio-temporal lstm,graphsage,progan,glide-med,vector-quantised vae,megatron-turing,flexible parametric survival,deepcoxmixture,,,peppy,,graph-prot,adaptive kNN,,med-gpt-v,,pnn,guardant inform,knowledge graph recommender,heterogeneous ensemble,linear text classifier,bilstm-crf ner,multiomic-surv gnn
+multinomial logistic,gaussian svm,ctree,qrf,lgbm,vgg,att-unet,swin-b,vil-bert,attention lstm,sage-conv,progressive gan,imagen diffusion,vq-vae,jurassic-2,fpsm,neural cox model,,,sherloc,,gloe2vec,improved kNN,,mmgpt,,generalised regression neural net,imagenome cdss,kg-rec,homogeneous ensemble,transformer text classifier,charlstm-crf ner,spatial graph surv
+multinomial logit,radial basis function svm,model tree,survival random forest,light gradient boosting machine,vgg16,att_unet,swin-l,lulaclassifier,att-lstm,mean-sage,dcgan,palette diffusion,vq-vae-2,palm,aft survival model,,,,hend,,graph genome network,sknn,,fusionformer,,grnn,radgpt-assistant,hybrid recommender,deep ensemble,tinybert-classifier,gazetteer-enhanced ner,attention graph survival
+ordinal logistic regression,sigmoid svm,m5 model tree,rsf,catboost,vgg19,dense-unet,swin-unet,kraken clip variant,hierarchical lstm,pooling graph network,deep convolutional gan,pndm,info-vae,med-palm,accelerated failure time model,,,,elongate,,graphgnn-omics,,,mmt-bert,,cascade correlation net,echonous guidance ai,content-based recommender,snapshot ensemble,distilbert-classifier,rule-based ner (med),temporal graph survival
+ordinal logit,nu-svm,binary decision tree,random survival forest,categorical boosting,googlenet,dense u-net,swin_unet,unified vision-language,gated recurrent unit,top-k pooling gnn,wgan,pseudo numerical diffusion,ivae,medpalm,random survival forest,,,,deepaligner,,graphsage-omics,,,video-image-text transformer,,cc-network,viz-ai stroke,session-based recommender,super learner,electra-text model,ontology-driven ner,integrated graph survival network
+probit regression,one-class svm,multivariate decision tree,conditional inference forest,histogram-based gbdt,inception v1,d-unet,swinunet,unival,gru,sortpool,wasserstein gan,edm diffusion,disentangled vae,gemini,rsf,,,,nanovar,,protein clip,,,graph-text-image transformer,,extreme learning machine,derm-engine assist,seq-recommendation net,meta-learner,albert-text classifier,contextual span extractor,
+bayesian logistic regression,oc-svm,rule-based tree,cforest,dart gbdt,inception-v3,multi-res unet,pvt,vlp unified,bidirectional gru,dmon gnn,wgan-gp,elucidated diffusion,factor-vae,google gemini,survival random forest,,,,,,rtransformer,,,,,elm,lung-rnd assist,co-clinical recommender,mixture of experts,roberta-text cls,symptom extractor net,
+regularised logistic,least-squares svm,quest tree,balanced random forest,goss gbdt,inception-v4,mru-net,pyramid vision transformer,llava,bi-gru,relational graph conv net,lsgan,progressive distillation diffusion,vamp-prior vae,gemini-pro,conditional inference survival tree,,,,,,seqformer,,,,,deep elm,skinvision pro,genomic-drug matcher,moe ensemble,longformer-classifier,tnm-extraction model,
+lasso logistic,ls-svm,fast and frugal tree,weighted random forest,dart booster,inception-resnet,mru_net,pvtv2,llava-med,stacked gru,rgcn,least squares gan,sde-diffusion,wae,gemini-ultra,fine–gray regression,,,,,,,,,,,functional link neural net,qure.ai chestx,oncoassist recommender,boosted ensemble,spanbert-classifier,medexa ie model,
+ridge logistic,probabilistic svm,rotation tree,,goss booster,xception,v-net,twins-svt,llava-med-13b,indrnn,hetero-gnn,ac-gan,plug-sam diffusion,wasserstein autoencoder,gemini-med,fg model,,,,,,,,,,,flnn,gleamer boneview,dose-optimizer rec,gradient ensemble,xlnet-text classifier,uima cTakes ner,
+elastic-net logistic,psvm,DT,,boosted survival tree,resnet,vnet,twins-pcpvt,chat-clip,independent rnn,heterogeneous gnn,auxiliary classifier gan,diffusion-seg,seq-vae,gatortron,subdistribution hazards model,,,,,,,,,,,adaptive resonance theory net,veritone contact ai,radiation plan recommender,population based ensemble,hyperbolic text embedder,deepmedic ner,
+firth logistic,structured svm,,,gbm-survival,resnet18,3d unet,beit,otter medical,skip-rnn,graph transformer network,srgan,ddpm-seg,sequence vae,biogpt,,,,,,,,,,,,art-2 network,,,committee machine,lightweight text net,pharmaconer extractor,
+penalised logistic,multiclass svm,,,gradient boosted survival analysis,resnet34,3-d unet,beitv2,paella clip,phased lstm,gtn,super-resolution gan,sr-diffusion,conv autoencoder,bio-gpt,,,,,,,,,,,,counterpropagation net,,,bayesian model averaging,clinical-note classifier,ehr entity linker,
+sparse logistic regression,multi-class svm,,,,resnet50,3d-u-net,data-efficient image transformer,med-flamingo,clockwork rnn,graphormer,segan,super-resolution diffusion,convolutional ae,clin-gpt,,,,,,,,,,,,cpn,,,,abstract-topic net,relationship extractor cnn,
+lasso regression,weighted svm,,,,resnet101,w-net,deit,flamingo-med,esn,glimpse gnn,segmentation gan,gaussian diffusion model,undercomplete autoencoder,clinigpt,,,,,,,,,,,,gmdh neural net,,,,pubmed-bert classifier,,
+ridge regression,cost-sensitive svm,,,,resnet152,wnet,deit-t,kosmos-2-med,echo state network,hypergraph neural network,attention gan,gdm,overcomplete autoencoder,clinicalgpt,,,,,,,,,,,,group method data handling net,,,,,,
+elastic net regression,string-kernel svm,,,,resnext,double u-net,deit-s,mplug-owl med,reservoir rnn,hgnn,agan,classifier-free guidance diffusion,stacked autoencoder,clinical-gpt,,,,,,,,,,,,bipolar sigmoid net,,,,,,
+elastic-net,spectrum kernel svm,,,,resnext50,du-net,conformer,red-caps radiology,sr-lstm,hyper-gnn,tgan,ddpm-gan hybrid,sae-stack,dxgpt,,,,,,,,,,,,threshold logic unit,,,,,,
+glmnet,tree-kernel svm,,,,resnext101,dual u-net,conformer-vit,convmvlm,self-regularised lstm,hgat,time-series gan,rectified flow model,deep belief autoencoder,dx-gpt,,,,,,,,,,,,,,,,,,
+glm (binomial),,,,,wide-resnet,y-net,cait,blip-2-med,rnng,supergcn,ganomaly,cold-diffusion,graph autoencoder,medgpt,,,,,,,,,,,,,,,,,,
+penalised regression,,,,,wrn,ynet,cait-xxs24,blip-med,recursive neural network grammar,graph autoencoder,anogan,masked image modeling diffusion,gae,medi-gpt,,,,,,,,,,,,,,,,,,
+stepwise regression,,,,,seresnet,linknet,consistent vit,lavis clip fork,tree-lstm,gae,big-gan,,variational graph autoencoder,med-alpaca,,,,,,,,,,,,,,,,,,
+backward elimination,,,,,senet,link-net,pyramidvit,uniter-med,treelstm,variational gcn,biggan,,vgae,medalpaca,,,,,,,,,,,,,,,,,,
+forward selection,,,,,squeeze and excitation network,ma-net,nest-transformer,ibot-vl,gated orthogonal recurrent unit,vgcn,unet-gan,,multimodal autoencoder,pmc-llama,,,,,,,,,,,,,,,,,,
+poisson regression,,,,,densenet,manet,nesvit,s-vilt (small-vilt),goru,link-pred gnn,dragan,,mm-ae,pmc_llama,,,,,,,,,,,,,,,,,,
+quasi-poisson glm,,,,,densenet121,inf-net,pixt,pathgpt-clip,ntm-rnn,spatial gcn,gan-aug,,adversarial autoencoder,chatdoctor,,,,,,,,,,,,,,,,,,
+negative binomial regression,,,,,densenet169,infnet,pixt-small,xo-cls vl model,neural turing lstm,sgcn,,,aae,doctor-glm,,,,,,,,,,,,,,,,,,
+parametric survival regression,,,,,densenet201,u-net-gan,poolformer,med-palm-vl,seq2seq rnn,ppi gnn,,,bigan encoder,llama,,,,,,,,,,,,,,,,,,
+lr model,,,,,efficientnet,unetgan,hierarchical observer transformer,gpv-2 medical,encoder-decoder rnn,ppi-gcn,,,bigan-ae,llama-2,,,,,,,,,,,,,,,,,,
+lr,,,,,efficientnet-b0,r2u-net,crossvit,,time-aware lstm,molecular gnn,,,denoising sparse autoencoder,llama-med,,,,,,,,,,,,,,,,,,
+,,,,,efficientnet-b7,r2unet,cross-vit,,t-lstm,protein-gnn,,,b-vae,alpaca,,,,,,,,,,,,,,,,,,
+,,,,,efficientnet-v2,uception,maxvit,,,mm-gnn,,,,vicuna,,,,,,,,,,,,,,,,,,
+,,,,,mobilenet,u-ception,spectformer,,,multi-modal gnn,,,,falcon-40b,,,,,,,,,,,,,,,,,,
+,,,,,mobilenetv2,unet3+,mamba-vit,,,graph bayesian net,,,,mpt-7b,,,,,,,,,,,,,,,,,,
+,,,,,mobilenetv3,unet 3+,mamba vision,,,graph survival net,,,,bloom,,,,,,,,,,,,,,,,,,
+,,,,,shufflenet,coplenet,segnext transformer,,,gcn-surv,,,,galactica,,,,,,,,,,,,,,,,,,
+,,,,,shufflenet-v2,gated-scnn (unet),,,,gat-surv,,,,mixtral,,,,,,,,,,,,,,,,,,
+,,,,,squeezenet,,,,,,,,,zephyr,,,,,,,,,,,,,,,,,,
+,,,,,nasnet,,,,,,,,,phi-2,,,,,,,,,,,,,,,,,,
+,,,,,nasnet-large,,,,,,,,,anthropic,,,,,,,,,,,,,,,,,,
+,,,,,nasnet-mobile,,,,,,,,,claude,,,,,,,,,,,,,,,,,,
+,,,,,regnet,,,,,,,,,claude-2,,,,,,,,,,,,,,,,,,
+,,,,,regnet-y,,,,,,,,,claude-instant,,,,,,,,,,,,,,,,,,
+,,,,,regnet-x,,,,,,,,,deepseek,,,,,,,,,,,,,,,,,,
+,,,,,convnext,,,,,,,,,deepseek-llm,,,,,,,,,,,,,,,,,,
+,,,,,conv-next,,,,,,,,,deepseek coder,,,,,,,,,,,,,,,,,,
+,,,,,hrnet,,,,,,,,,deepseek-coder,,,,,,,,,,,,,,,,,,
+,,,,,high-resolution net,,,,,,,,,chatpmd,,,,,,,,,,,,,,,,,,
+,,,,,ghostnet,,,,,,,,,meditron,,,,,,,,,,,,,,,,,,
+,,,,,sknet,,,,,,,,,chimera-gpt,,,,,,,,,,,,,,,,,,
+,,,,,yolo,,,,,,,,,samantha-med,,,,,,,,,,,,,,,,,,
+,,,,,yolov3,,,,,,,,,bluebert,,,,,,,,,,,,,,,,,,
+,,,,,yolov4,,,,,,,,,pubmedbert,,,,,,,,,,,,,,,,,,
+,,,,,yolov5,,,,,,,,,medbert,,,,,,,,,,,,,,,,,,
+,,,,,yolov6,,,,,,,,,scibert,,,,,,,,,,,,,,,,,,
+,,,,,yolov7,,,,,,,,,biobert,,,,,,,,,,,,,,,,,,
+,,,,,yolov8,,,,,,,,,bioredom-bert,,,,,,,,,,,,,,,,,,
+,,,,,ssd,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,single shot multibox detector,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,retinanet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,faster r-cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,mask r-cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,cascade r-cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,r-cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,rcnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,region cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,frcnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,mrcnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,cornernet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,centernet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,efficientdet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,detr,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,deformable detr,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,hourglass net,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,deeplab,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,deep-labv3,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,deeplabv3+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,fcn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,fully convolutional network,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,segnet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,pspnet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,gcn-cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,context encoding net,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,ocrnet,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,sigma-net,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,u-former cnn backbone (non-unet),,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,snn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,spiking cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,temporal cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,atrous cnn,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,cnns,,,,,,,,,,,,,,,,,,,,,,,,,,,

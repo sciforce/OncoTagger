@@ -1,0 +1,110 @@
+metric,synonym
+precision,accuracy
+precision,positive predictive rate
+precision,acc
+precision,precision
+precision,ppv
+precision,positive predictive value
+precision,overall accuracy
+precision,classification accuracy
+precision,correct classification rate
+sensitivity,sensitivity
+sensitivity,hit rate
+sensitivity,recall
+sensitivity,tpr
+sensitivity,true positive rate
+specificity,specificity
+specificity,tnr
+specificity,true negative rate
+specificity,selectivity
+f1-score,f1-score
+f1-score,f1 score
+f1-score,f1
+f1-score,f-1
+f1-score,f-measure
+f1-score,f measure
+npv,negative predictive value
+npv,npv
+fpr,false positive rate
+fpr,fpr
+fpr,fall-out
+roc-auc,roc-auc
+roc-auc,roc auc
+roc-auc,rocauc
+roc-auc,auc
+roc-auc,auc-roc
+roc-auc,auc roc
+roc-auc,aucroc
+roc-auc,auroc
+roc-auc,area under roc curve
+roc-auc,area under the roc curve
+roc-auc,area under receiver operating characteristic
+roc-auc,area under the receiver operating characteristic curve
+roc-auc,receiver operating characteristic area
+pr-auc,pr-auc
+pr-auc,pr auc
+pr-auc,prauc
+pr-auc,area under pr curve
+pr-auc,area under the pr curve
+pr-auc,area under precision-recall curve
+pr-auc,area under precision recall curve
+balanced accuracy,balanced accuracy
+balanced accuracy,balanced-accuracy
+balanced accuracy,bacc
+balanced accuracy,balanced classification accuracy
+mcc,mcc
+mcc,phi coefficient
+mcc,matthews correlation coefficient
+mcc,matthews correlation-coefficient
+mcc,matthews cc
+cohen's kappa,cohen's kappa
+cohen's kappa,cohen kappa
+cohen's kappa,kappa
+cohen's kappa,cohen-kappa
+cohen's kappa,cohen kappa coefficient
+dice,dice
+dice,dice score
+dice,dice-score
+dice,dice coefficient
+dice,dice similarity coefficient
+dice,dsc
+dice,sørensen-dice
+dice,sorensen-dice
+iou,iou
+iou,intersection over union
+iou,jaccard
+iou,intersection-over-union
+iou,jaccard index
+iou,jaccard-index
+hd95,hd95
+hd95,hausdorff distance
+hd95,hausdorff 95th percentile
+hd95,hausdorff-95
+hd95,hd 95
+hd95,hd-95
+hd95,hausdorff
+mae,mae
+mae,mean absolute error
+mae,l1 error
+mae,l1 loss
+rmse,rmse
+rmse,root mean squared error
+rmse,root mean square error
+rmse,rms error
+rmse,rms-error
+rmse,rms loss
+rmse,rms-loss
+r2,r2
+r2,r²
+r2,r^2
+r2,coefficient of determination
+r2,r-squared
+r2,r squared
+c-index,c-index
+c-index,concordance index
+c-index,concordance-index
+c-index,c index
+c-index,concordance
+c-index,harrell's c
+c-index,harrell c
+c-index,c statistic
