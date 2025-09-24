@@ -92,7 +92,7 @@ pip install pandas numpy openpyxl xlrd tqdm pycountry
 data/raw/
 ```
 
-Filenames may follow the default WoS pattern (`savedrecs(1).xlsx`, `savedrecs2.csv`, …). We do **not** commit these raw files.
+Filenames may follow the default WoS pattern (`savedrecs(1).xlsx`, `savedrecs(2).csv`, …). We do **not** commit these raw files.
 
 ---
 
@@ -195,7 +195,7 @@ Raw WoSCC exports are **not shared**; the locally created `data/raw/combined_dat
 
 ## Code availability & licence
 
-All code is under `src/` and released under the **MIT License**.
+All code is under `src/` and released under the **MIT License**, see LICENSE.
 A long-term archive of this repository will be posted on Zenodo (DOI **TBA**).
 
 ---
