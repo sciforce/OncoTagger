@@ -73,12 +73,12 @@ pip install pandas numpy openpyxl xlrd tqdm pycountry
 
 ---
 
-## Data source (your snapshot)
+## Data source
 
 * **Index:** Web of Science Core Collection (WoSCC)
-* **Window:** 2019-01-01 … 2024-12-31
+* **Window:** 2019-01-01 … 2025-12-31
 * **Language:** English **Doc type:** Article **Open Access:** yes
-* **Snapshot timestamp (paper run):** **05 Jan 2025 17:29 EET**
+* **Snapshot timestamp (paper run):** **09 Jan 2026 15:45 EET**
 * Rationale for a single index (schema stability, reproducibility) is discussed in the manuscript.
 
 ---
