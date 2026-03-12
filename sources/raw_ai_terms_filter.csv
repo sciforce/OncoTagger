@@ -2631,3 +2631,198 @@ spatial graph surv
 attention graph survival
 temporal graph survival
 integrated graph survival network
+state space model
+structured state space
+selective state space
+s4 model
+h3 model
+hyena hierarchy
+hyena dna
+mamba architecture
+mamba block
+mamba-2
+jamba
+vision mamba
+vim model
+vmamba
+bi-mamba
+segmamba
+u-mamba
+swin-umamba
+swinumamba
+vm-unet
+vmunet
+mamba-unet
+mambaunet
+lightm-unet
+lightmamba
+ultralight vm-unet
+weak-mamba-unet
+semi-mamba-unet
+nn-mamba
+hc-mamba
+h-vmunet
+mamba-hunet
+medmamba
+vivim
+zigma
+motion mamba
+fusionmamba
+res-vmamba
+efficientvmamba
+localmamba
+freqmamba
+plainmamba
+mambamir
+vm-ddpm
+mambamorph
+vmambamorph
+cams-net
+mammil
+rs-mamba
+video mamba
+segment anything model
+sam model
+sam-2
+sam 2
+sam-hq
+hq-sam
+fastsam
+mobilesam
+tinysam
+edgesam
+per-sam
+persam
+medsam
+medsam-2
+lite-medsam
+litemedsam
+biomedsam
+sam-med
+sam-med2d
+sam-med3d
+medical sam adapter
+med-sa
+sa-med2d
+adaptersam
+loramednet
+polyp-sam
+polypsam
+breast-sam
+breastsam
+sam-path
+sampath
+pathsam
+wsi-sam
+nn-sam
+3d-sam-adapter
+segsz
+miss-sam
+skin-sam
+skinsam
+derm-sam
+surgical-sam
+unisam
+mosam
+virchow
+virchow2
+virchow model
+uni model
+uni foundation model
+mass-100k
+prov-gigapath
+gigapath
+h-optimus-0
+h-optimus
+phikon
+conch model
+conch-vqa
+hibou
+kaiko model
+kaiko.ai
+ctranspath
+pathology language-image pretraining
+prism model
+tangle model
+rudolphv
+lunit scope
+owkin model
+llama 3
+llama-3
+gpt-4o
+gpt-4-turbo
+gpt-4v
+gemini 1.5
+gemini pro
+gemini ultra
+med-gemini
+claude 3
+claude 3.5
+claude opus
+claude sonnet
+mistral large
+mixtral 8x7b
+mixtral 8x22b
+gemma
+gemma-2
+phi-3
+phi-3-vision
+qwen
+qwen1.5
+qwen2
+grok-1
+grok-1.5
+dbrx
+biomistral
+openbiollm
+med42
+clinicalcamel
+doctorglm
+huatuo
+ben-tsao
+clincagpt
+pulse model
+almanach
+biomedgpt
+oncogpt
+cancergpt
+onco-llm
+llava-v1.5
+llava-next
+paligemma
+cogvlm
+internvl
+minigpt-4
+minigpt-v2
+chameleon
+radfm
+biomedparse
+ixc-2.5
+foundation model
+generalist medical ai
+gmai
+large multimodal model
+lmm
+vision language model
+vlm
+retrieval augmented generation
+rag framework
+rag pipeline
+parameter efficient fine tuning
+peft
+lora
+qlora
+dora
+agentic ai
+clinical agent
+reasoning model
+world model
+federated learning
+swarm learning
+split learning
+prompt engineering
+chain of thought
+few-shot prompting
+self-supervised learning
+masked image modeling
+mim

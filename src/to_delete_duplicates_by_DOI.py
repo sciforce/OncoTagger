@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-def remove_duplicates_by_doi(input_file: str = "combined_dataset.xlsx",
-                             output_file: str = "processed_dataset.xlsx"):
+def remove_duplicates_by_doi(input_file: str = "data/raw/combined_dataset.xlsx",
+                             output_file: str = "data/processed/processed_dataset.xlsx"):
     """
     Reads combined_dataset.xlsx, drops duplicate DOIs, 
     and writes the cleaned DataFrame to processed_dataset.xlsx.
