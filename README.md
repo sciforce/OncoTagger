@@ -1,6 +1,6 @@
 # OncoTagger — Reproducible Workflow
 
-End-to-end, scriptable pipeline to rebuild the analytic corpus and summary tables for the manuscript **“Artificial Intelligence in Oncology: A Global Review of Emerging Trends, Promising Models, and Unexplored Areas (2019–2024)”**.
+End-to-end, scriptable pipeline to rebuild the analytic corpus and summary tables for the manuscript **“Artificial Intelligence in Oncology: A Global Review of Emerging Trends, Promising Models, and Unexplored Areas (2019–2025)”**.
 
 The workflow ingests **Web of Science Core Collection (WoSCC)** exports, merges batches, de-duplicates by DOI, filters to oncology + AI, annotates cancers/models/tasks, parses performance metrics, and produces counts and temporal trend tables.
 
@@ -61,16 +61,19 @@ The workflow ingests **Web of Science Core Collection (WoSCC)** exports, merges 
 
 ```bash
 python -m venv .venv
+
 # Windows
 .venv\Scripts\activate
 # macOS/Linux
 source .venv/bin/activate
 
-pip install pandas numpy openpyxl xlrd tqdm pycountry
-```
+# Install all dependencies
+pip install -r requirements.txt
 
-> `openpyxl` handles .xlsx; `xlrd>=2.0.1` is needed only if you have legacy `.xls` exports.
+# Download the required spaCy language model
+python -m spacy download en_core_web_sm
 
+openpyxl handles .xlsx; xlrd>=2.0.1 is needed only if you have legacy .xls exports.
 ---
 
 ## Data source

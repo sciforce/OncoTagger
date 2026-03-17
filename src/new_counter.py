@@ -53,6 +53,11 @@ class ArticleAnalyzer:
         
         self.metric_order = ['very high', 'high', 'medium', 'low', 'very low', 'no metrics reported']
 
+        # Нормалізація колонок з метриками для уникнення конфліктів регістру
+        for m in ['composite_metric', 'weighted_category', 'roc-auc']:
+            if m in self.df.columns:
+                self.df[m] = self.df[m].fillna('no metrics reported').astype(str).str.lower().str.strip()
+
     def count_cancer_types(self):
         for idx, row in tqdm(self.df.iterrows(), total=len(self.df), desc="Counting cancer types..."):
             count = int(row[self.cancer_columns].sum())
@@ -104,10 +109,12 @@ class ArticleAnalyzer:
 
     def count_tasks_by_year(self, writer):
         df_ty = self.df.groupby('Publication Year')[self.task_columns].sum()
+        df_ty.index.name = 'Publication Year'
         df_ty.to_excel(writer, sheet_name='Tasks by Year')
 
     def count_by_years(self, columns, sheet_name, writer):
         df_year = self.df.groupby('Publication Year')[columns].sum()
+        df_year.index.name = 'Publication Year'
         df_year.to_excel(writer, sheet_name=sheet_name)
 
     def count_metric_by_year(self, metric, writer):
@@ -118,6 +125,7 @@ class ArticleAnalyzer:
         df_my = df_my[existing_cols]
         
         sheet = f'{metric.replace("_", " ").title()} by Year'
+        df_my.index.name = 'Publication Year'
         df_my.to_excel(writer, sheet_name=sheet)
 
     def count_metric_by_task(self, metric, writer):
@@ -133,6 +141,7 @@ class ArticleAnalyzer:
         df_mt = df_mt.reindex(existing_idx).fillna(0).astype(int)
         
         sheet = f'{metric.replace("_", " ").title()} by Task'
+        df_mt.index.name = metric.replace('_', ' ').title()
         df_mt.to_excel(writer, sheet_name=sheet)
 
     def crosstab_tasks_vs(self, bins, writer, sheet_name):
@@ -141,6 +150,7 @@ class ArticleAnalyzer:
             df_t = self.df[self.df[t] == 1]
             ct.loc[t] = df_t[bins].sum()
         ct = ct.loc[ct.index.notnull()].fillna(0).astype(int)
+        ct.index.name = 'Task Category'
         ct.to_excel(writer, sheet_name=sheet_name)
 
     def crosstab_metric_vs(self, metric, bins, writer, sheet_name):
@@ -151,6 +161,7 @@ class ArticleAnalyzer:
             df_c = self.df[self.df[metric] == c]
             ct.loc[c] = df_c[bins].sum()
         ct = ct.loc[ct.index.notnull()].fillna(0).astype(int)
+        ct.index.name = metric.replace('_', ' ').title()
         ct.to_excel(writer, sheet_name=sheet_name)
 
     def run_analysis(self):
@@ -196,7 +207,6 @@ class ArticleAnalyzer:
             self.count_by_years(top10_models, 'Top-10 AI Models by Year', writer)
 
         logging.info(f"Analysis complete. File saved: {output_file}")
-
 
 if __name__ == "__main__":
     input_file = str(results_dir / 'filtered_dataset_binary_classification.xlsx')
