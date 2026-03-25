@@ -89,8 +89,8 @@ c-index,0.7,High,ge
 c-index,0.6,Medium,ge
 c-index,0.55,Low,ge
 c-index,0.0,Very Low,ge
-proxy_metric,0.9,Very High,ge
-proxy_metric,0.8,High,ge
-proxy_metric,0.7,Medium,ge
-proxy_metric,0.6,Low,ge
-proxy_metric,0.0,Very Low,ge
+accuracy,0.9,Very High,ge
+accuracy,0.8,High,ge
+accuracy,0.7,Medium,ge
+accuracy,0.6,Low,ge
+accuracy,0.0,Very Low,ge
