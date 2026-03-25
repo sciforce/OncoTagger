@@ -54,7 +54,7 @@ class ArticleAnalyzer:
         self.metric_order = ['very high', 'high', 'medium', 'low', 'very low', 'no metrics reported']
 
         # Нормалізація колонок з метриками для уникнення конфліктів регістру
-        for m in ['composite_metric', 'weighted_category', 'roc-auc']:
+        for m in ['composite_metric', 'weighted_category', 'roc-auc', 'accuracy']:
             if m in self.df.columns:
                 self.df[m] = self.df[m].fillna('no metrics reported').astype(str).str.lower().str.strip()
 
@@ -79,7 +79,7 @@ class ArticleAnalyzer:
         if 'Reprint Addresses' not in self.df.columns:
             return
         raw = self.df['Reprint Addresses'].dropna().apply(extract_country).dropna()
-        mapped = raw.map(lambda t: country_synonyms.get(t, t))
+        mapped = raw.map(normalize_country)
         df_countries = mapped.value_counts().reset_index()
         df_countries.columns = ['Country', 'Count']
         df_countries.to_excel(writer, sheet_name='Country Counts', index=False)
@@ -98,6 +98,26 @@ class ArticleAnalyzer:
         df_dist = self.df['how_many_cancer_studied'].value_counts().reset_index()
         df_dist.columns = ['Cancer Study Type', 'Count']
         df_dist.to_excel(writer, sheet_name='Cancer Type Distribution', index=False)
+
+    def count_simple_value_counts(self, col_name, sheet_name, header_name, writer):
+        """
+        Optional helper for additive metadata summaries.
+        Safe: does nothing if the column is absent.
+        """
+        if col_name not in self.df.columns:
+            return
+
+        df_counts = (
+            self.df[col_name]
+            .fillna('not specified')
+            .astype(str)
+            .str.strip()
+            .replace('', 'not specified')
+            .value_counts()
+            .reset_index()
+        )
+        df_counts.columns = [header_name, 'Count']
+        df_counts.to_excel(writer, sheet_name=sheet_name, index=False)
 
     def count_ordered_metric_totals(self, col_name, sheet_name, writer):
         if col_name not in self.df.columns:
@@ -195,7 +215,18 @@ class ArticleAnalyzer:
             self.crosstab_metric_vs('weighted_category', self.ai_columns,     writer, 'Weighted x AI')
             self.crosstab_metric_vs('roc-auc',           self.cancer_columns, writer, 'ROC-AUC x Cancer')
             self.crosstab_metric_vs('roc-auc',           self.ai_columns,     writer, 'ROC-AUC x AI')
-            
+            # ОПЦІОНАЛЬНИЙ ПАТЧ: аналіз для нової відокремленої метрики accuracy
+            if 'accuracy' in self.df.columns:
+                self.crosstab_metric_vs('accuracy', self.cancer_columns, writer, 'Accuracy x Cancer')
+                self.crosstab_metric_vs('accuracy', self.ai_columns,     writer, 'Accuracy x AI')
+
+            meta_columns = ['cancer_detected_in', 'ai_detected_in', 'composite_source', 'all_tasks']
+            for meta_col in meta_columns:
+                if meta_col in self.df.columns:
+                    sheet_name = f"Meta_{meta_col}"[:31] 
+                    meta_counts = self.df[meta_col].fillna('Unknown').value_counts().reset_index()
+                    meta_counts.columns = [meta_col, 'Count']
+                    meta_counts.to_excel(writer, sheet_name=sheet_name, index=False)            
             self.count_tasks_by_year(writer)
             self.count_by_years(self.cancer_columns, 'Cancer Types by Year', writer)
             self.count_by_years(self.ai_columns,     'AI Models by Year',   writer)
