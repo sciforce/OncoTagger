@@ -1,13 +1,15 @@
 metric,synonym
-precision,accuracy
+accuracy,accuracy
+accuracy,acc
+accuracy,overall accuracy
+accuracy,classification accuracy
+accuracy,correct classification rate
+accuracy,prediction accuracy
+accuracy,diagnostic accuracy
 precision,positive predictive rate
-precision,acc
 precision,precision
 precision,ppv
 precision,positive predictive value
-precision,overall accuracy
-precision,classification accuracy
-precision,correct classification rate
 sensitivity,sensitivity
 sensitivity,hit rate
 sensitivity,recall
