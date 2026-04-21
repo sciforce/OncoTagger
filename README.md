@@ -1,10 +1,10 @@
 # OncoTagger
 
-End-to-end, rule-based pipeline for rebuilding an analytic corpus of Web of Science articles about artificial intelligence in oncology. The repository merges WoS exports, deduplicates records, excludes publication year 2026, filters records for oncology and AI relevance, annotates cancer types, AI model families, study tasks, performance metrics, and then produces analysis tables for manual review, figures, and audit.
+End-to-end, rule-based pipeline for rebuilding an analytic corpus of Web of Science articles about artificial intelligence in oncology. The repository merges WoS exports, deduplicates records, excludes publication year 2026, filters records for oncology and AI relevance, annotates cancer types, AI model families, study tasks, performance metrics, and then produces analysis tables for manual review, figures, audit, and article-supporting supplementary outputs.
 
-The research goal is to make the article-selection and annotation workflow reproducible for a review of AI applications in oncology. The primary input is a set of WoS `savedrecs*` exports. The final outputs are filtered article workbooks, binary annotation workbooks, metric categories, and aggregated counter tables under `data/results/`.
+The research goal is to make the article-selection and annotation workflow reproducible for a review of AI applications in oncology. The primary input is a set of WoS `savedrecs*` exports. The main derived outputs are filtered article workbooks, binary annotation workbooks, metric categories, aggregated counter tables under `data/results/`, manual validation artifacts under `data/manual validation/`, and synchronized article-supporting release artifacts under `data/supplementary material/`.
 
-> Raw WoS exports are not part of the repository. Place your own exports in `data/raw/` and rebuild the derived files from the scripts and dictionaries committed here.
+> The pipeline expects WoS export files in `data/raw/`. If you redistribute a snapshot publicly, verify that sharing of raw Web of Science exports is permitted by the applicable Clarivate license.
 
 ## Pipeline
 
@@ -34,10 +34,16 @@ Run scripts from the repository root in this order:
 8. **Aggregation / counters / outputs**
    `src/counter.py` reads the binary annotation workbook and writes an analysis workbook with frequencies, year trends, cross-tabs, country summaries, source-title summaries, no-metrics summaries, and AI class mapping tables.
 
+9. **Article-facing helper outputs**
+   `src/build_article_to_population_ratio.py` derives the population-normalized country workbook from the analysis workbook and a population CSV in `sources/`.
+   `src/build_translational_subset.py` derives a supplementary translational subset from the binary annotation workbook using external-validation and implementation-oriented signals.
+
 ## Repository Structure
 
 ```text
 data/
+  manual validation/
+    manual reference sets, audit CSVs, and validation summaries
   raw/
     combined_dataset.xlsx
   processed/
@@ -50,14 +56,14 @@ data/
   results/
     filtered_dataset_binary_classification.xlsx
     filtered_dataset_binary_classification_analysis.xlsx
-docs/
-  samples/
-    sample_savedrecs.xlsx
-    sample_combined_dataset.xlsx
-    sample_filtered_dataset_binary_classification.xlsx
+    article to population ratio.xlsx
+  supplementary material/
+    synchronized supplementary workbooks and release summaries
 sources/
-  controlled vocabularies, thresholds, task priorities, mappings
+  controlled vocabularies, thresholds, task priorities, mappings, population source tables
 src/
+  build_article_to_population_ratio.py
+  build_translational_subset.py
   combine_wos_exports.py
   to_delete_duplicates_by_DOI.py
   filter_dataset.py
@@ -65,7 +71,7 @@ src/
   counter.py
 ```
 
-Some `data/` files are generated artifacts or local analysis files. Rebuild them from your own WoS snapshot when reproducing a run.
+Some `data/` files are generated artifacts or synchronized local analysis files. Rebuild them from your own WoS snapshot when reproducing a run.
 
 ## Input Data
 
@@ -156,6 +162,33 @@ Output: `data/results/filtered_dataset_binary_classification_analysis.xlsx`
 
 Builds analysis sheets for cancer frequencies, AI model frequencies, AI class frequencies, task frequencies, task-by-year tables, cancer/model/class-by-year tables, metric-by-year tables, metric-by-task tables, cross-tabs, country summaries, source-title summaries, no-metrics summaries, and top-10 temporal trends.
 
+### `src/build_article_to_population_ratio.py`
+
+Input:
+
+- `data/results/filtered_dataset_binary_classification_analysis.xlsx`
+- `sources/total-population-by-country-2025 (1) (1).csv`
+
+Output:
+
+- `data/results/article to population ratio.xlsx`
+
+Builds a population-normalized corresponding-author country workbook with full rankings plus `>=20` and `>=100` article threshold views.
+
+### `src/build_translational_subset.py`
+
+Input:
+
+- `data/results/filtered_dataset_binary_classification.xlsx`
+
+Primary output:
+
+- manuscript-facing translational subset workbook and summary files
+
+Use:
+
+Builds a cautious supplementary translational subset from external-validation context signals and title-level implementation-oriented phrases such as prospective, real-world, multicenter, calculator, platform, interface, or decision-support wording.
+
 ## How Classification Works
 
 ### Cancer Typing
@@ -219,8 +252,9 @@ Typical generated files:
 - `data/filtered/filtered_dataset_audit_all_decisions.xlsx` - full filter audit table.
 - `data/results/filtered_dataset_binary_classification.xlsx` - article-level annotation and metric workbook.
 - `data/results/filtered_dataset_binary_classification_analysis.xlsx` - aggregated counters, trends, and cross-tabs.
-
-The repository also contains sample workbooks in `docs/samples/` for orientation.
+- `data/results/article to population ratio.xlsx` - population-normalized corresponding-author country output.
+- `data/manual validation/` - manual audit files, ordinal validation tables, and detection-audit summaries.
+- `data/supplementary material/` - synchronized article-supporting release artifacts and summary manifests.
 
 ## Validation / Audit Layers
 
@@ -235,8 +269,10 @@ The workflow includes several audit layers:
 - Metric trace columns: context, raw value, sentence, source type, and suspicious extraction flag.
 - `no_metrics_reported` and no-metrics analysis sheets.
 - Dictionary enrichment via editable files in `sources/`.
+- Repository-facing manual validation artifacts in `data/manual validation/`.
+- Repository-facing supplementary release artifacts in `data/supplementary material/`.
 
-Manual validation sets can be kept in `data/raw/` or `data/filtered/`, but they are not required for a basic pipeline run.
+Manual validation and supplementary release folders are not required for a basic pipeline run, but they are useful for article support, reproducibility, and auditability.
 
 ## Reproducibility
 
@@ -263,6 +299,9 @@ python src/to_delete_duplicates_by_DOI.py
 python src/filter_dataset.py
 python src/main_binary.py
 python src/counter.py
+python src/build_article_to_population_ratio.py
+# optional article-facing helper
+python src/build_translational_subset.py
 ```
 
 Given a fixed WoS export snapshot and fixed `sources/` dictionaries, the pipeline is deterministic. WoS itself can change over time, so record the export date/time and repository commit when publishing derived results.
@@ -283,6 +322,7 @@ Given a fixed WoS export snapshot and fixed `sources/` dictionaries, the pipelin
 - `en_core_web_sm` missing: run `python -m spacy download en_core_web_sm`.
 - Unexpected filtering decisions: inspect `data/filtered/filtered_dataset_audit_all_decisions.xlsx`, especially score, hit, flag, and `decision_reason` columns.
 - Country aliases missing: add them to `sources/country_synonyms.csv`.
+- README/release mismatch: treat `data/supplementary material/` as a synchronized release layer, not as the sole source of truth for rerunning the core pipeline.
 
 ## License
 
