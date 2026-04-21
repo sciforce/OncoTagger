@@ -1,0 +1,20 @@
+Submission Snapshot Manifest
+============================
+
+Snapshot label
+- `npjdm_submission_snapshot_2026-04-21`
+
+Anchor commit
+- `5e59699a9ac0dc688bfe557e936137d46e37f432`
+
+Core synchronized counts
+- Raw WoS records: `59,994`
+- Records after deduplication and 2026 exclusion: `59,828`
+- Final filtered corpus: `20,766`
+- Metric-bearing abstracts: `12,538`
+- Scoreable weighted/composite records: `12,225`
+
+Purpose
+- This manifest is a lightweight reproducibility anchor for the article-facing
+  supplementary artifacts stored under `data/supplementary material/`.
+

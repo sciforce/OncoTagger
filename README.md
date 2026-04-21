@@ -1,6 +1,6 @@
 # OncoTagger
 
-End-to-end, rule-based pipeline for rebuilding an analytic corpus of Web of Science articles about artificial intelligence in oncology. The repository merges WoS exports, removes DOI duplicates, filters records for oncology and AI relevance, annotates cancer types, AI model families, study tasks, performance metrics, and then produces analysis tables for manual review, figures, and audit.
+End-to-end, rule-based pipeline for rebuilding an analytic corpus of Web of Science articles about artificial intelligence in oncology. The repository merges WoS exports, deduplicates records, excludes publication year 2026, filters records for oncology and AI relevance, annotates cancer types, AI model families, study tasks, performance metrics, and then produces analysis tables for manual review, figures, and audit.
 
 The research goal is to make the article-selection and annotation workflow reproducible for a review of AI applications in oncology. The primary input is a set of WoS `savedrecs*` exports. The final outputs are filtered article workbooks, binary annotation workbooks, metric categories, and aggregated counter tables under `data/results/`.
 
@@ -13,11 +13,11 @@ Run scripts from the repository root in this order:
 1. **WoS export merge**
    `src/combine_wos_exports.py` reads `data/raw/savedrecs*.csv|xls|xlsx` and writes `data/raw/combined_dataset.xlsx`.
 
-2. **DOI deduplication**
-   `src/to_delete_duplicates_by_DOI.py` reads the combined workbook, drops duplicate `DOI` values, and writes `data/processed/processed_dataset.xlsx`.
+2. **Deduplication and year exclusion**
+   `src/to_delete_duplicates_by_DOI.py` reads the combined workbook, normalizes non-empty `DOI` values, applies a conservative title/year fallback, excludes publication year `2026`, reports each removal count, and writes `data/processed/processed_dataset.xlsx`.
 
 3. **Eligibility filter**
-   `src/filter_dataset.py` scores oncology and AI relevance, excludes 2026 records by default, applies severe-negative gates, and writes include/manual-review/excluded/audit workbooks.
+   `src/filter_dataset.py` scores oncology and AI relevance, keeps a publication-year exclusion safeguard, applies severe-negative gates, and writes include/manual-review/excluded/audit workbooks.
 
 4. **Cancer typing**
    `src/main_binary.py` scans title, abstract, and author keywords with hard and soft cancer vocabularies, then creates one-hot cancer columns plus detection metadata.
@@ -125,7 +125,7 @@ Input: `data/raw/combined_dataset.xlsx`
 
 Output: `data/processed/processed_dataset.xlsx`
 
-Drops duplicate rows by exact `DOI`, keeping the first occurrence.
+Removes duplicate rows by normalized non-empty `DOI`, keeping the first occurrence. Rows without DOI are not collapsed together. A conservative `Article Title` + `Publication Year` fallback removes likely no-DOI duplicates or DOI/no-DOI copies while preserving rows with conflicting DOI values. Publication year `2026` is excluded at this preprocessing stage and the terminal summary reports how many records were removed for that year.
 
 ### `src/filter_dataset.py`
 
@@ -138,7 +138,7 @@ Outputs:
 - `data/filtered/filtered_dataset_excluded.xlsx`
 - `data/filtered/filtered_dataset_audit_all_decisions.xlsx`
 
-Adds oncology and AI scores, hit traces, flags, WoS exclusion hits, final `decision`, and `decision_reason`. The default run excludes publication year `2026`.
+Adds oncology and AI scores, hit traces, flags, WoS exclusion hits, final `decision`, and `decision_reason`. The default run keeps a publication-year exclusion safeguard for `2026`, which should normally remove zero records after the preprocessing step above.
 
 ### `src/main_binary.py`
 
@@ -212,7 +212,7 @@ For the same task-specific metric ladder, all usable detected metrics are conver
 Typical generated files:
 
 - `data/raw/combined_dataset.xlsx` - merged WoS exports.
-- `data/processed/processed_dataset.xlsx` - DOI-deduplicated records.
+- `data/processed/processed_dataset.xlsx` - deduplicated records after publication year `2026` exclusion.
 - `data/filtered/filtered_dataset.xlsx` - included records after eligibility filtering.
 - `data/filtered/filtered_dataset_manual_review.xlsx` - borderline records selected for manual review.
 - `data/filtered/filtered_dataset_excluded.xlsx` - excluded records with scores and reasons.
@@ -273,7 +273,7 @@ Given a fixed WoS export snapshot and fixed `sources/` dictionaries, the pipelin
 - Metastatic-site language can be ambiguous when the primary tumor site and metastatic site are both mentioned.
 - Country parsing depends on `Reprint Addresses`, address formatting, and `country_synonyms.csv`; it is useful for summaries but not a full affiliation parser.
 - Metric extraction is abstract-only and may miss values reported only in full text, tables, supplements, or figures.
-- DOI deduplication currently uses exact `DOI` values; upstream DOI normalization should be added if exports contain inconsistent casing, URLs, or prefixes.
+- Deduplication depends on DOI and title/year metadata quality; rows with conflicting DOI values but the same normalized title/year are preserved for manual review rather than automatically collapsed.
 - Rule-based keywords are transparent and auditable, but they require periodic enrichment when new terminology appears.
 
 ## Troubleshooting

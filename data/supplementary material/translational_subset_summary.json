@@ -1,0 +1,38 @@
+{
+  "input_rows": 20766,
+  "external_validation_context_signal": 755,
+  "prospective_title_signal": 138,
+  "real_world_title_signal": 116,
+  "multicenter_title_signal": 628,
+  "interface_title_signal": 2444,
+  "external_validation_title_signal": 139,
+  "high_confidence_translational_subset": 225,
+  "high_confidence_high_or_very_high": 147,
+  "high_confidence_years": {
+    "2019": 3,
+    "2020": 3,
+    "2021": 13,
+    "2022": 26,
+    "2023": 35,
+    "2024": 47,
+    "2025": 98
+  },
+  "high_confidence_tasks": {
+    "prognosis": 103,
+    "classification": 98,
+    "segmentation": 17,
+    "synthesis": 3,
+    "integration": 2,
+    "NaN": 1,
+    "genomic": 1
+  },
+  "high_confidence_weighted_category": {
+    "high": 82,
+    "very high": 65,
+    "medium": 49,
+    "low": 15,
+    "very low": 8,
+    "NaN": 6
+  },
+  "selection_rule": "high_confidence_translational_signal = external_validation_context_signal AND (prospective_title_signal OR real_world_title_signal OR multicenter_title_signal OR interface_title_signal OR external_validation_title_signal)"
+}
