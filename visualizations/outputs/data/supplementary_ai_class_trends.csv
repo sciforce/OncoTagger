@@ -1,0 +1,16 @@
+﻿AI Class,Total count,Share of full corpus (%),2019 count,2025 count,2019 share (%),2025 share (%),2019 to 2025 share change (pp),First detected year,Peak year,Peak count,2019-2021 count,2023-2025 count,Late/early annualized ratio
+Tree_Based_and_Boosting_Ensembles,3892,18.74,124,1325,16.73,22.01,5.27,2019,2025,1325,706,2671,3.78
+Linear_and_Regularized_Models,2913,14.03,66,1088,8.91,18.07,9.16,2019,2025,1088,412,2139,5.19
+CNN_Backbones,2871,13.83,48,955,6.48,15.86,9.38,2019,2025,955,390,2051,5.26
+Support_Vector_Methods,2558,12.32,133,745,17.95,12.37,-5.58,2019,2025,745,585,1572,2.69
+U_Net_and_Encoder_Decoder_Segmentation_Architectures,1737,8.36,49,485,6.61,8.06,1.44,2019,2025,485,330,1153,3.49
+Survival_Specific_Models,1463,7.05,31,519,4.18,8.62,4.44,2019,2025,519,220,1086,4.94
+Feedforward_Neural_Networks,1262,6.08,72,316,9.72,5.25,-4.47,2019,2025,316,319,729,2.29
+Instance_Based_and_Probabilistic_Classical_Models,969,4.67,39,267,5.26,4.43,-0.83,2019,2025,267,200,609,3.04
+Generative_and_Representation_Learning_Models,908,4.37,36,252,4.86,4.19,-0.67,2019,2025,252,207,583,2.82
+Vision_Transformers_and_Vision_Foundation_Encoders,746,3.59,5,429,0.67,7.13,6.45,2019,2025,429,27,683,25.3
+Detection_and_Localization_Architectures,484,2.33,19,135,2.56,2.24,-0.32,2019,2025,135,104,317,3.05
+Sequence_and_State_Space_Models,446,2.15,9,155,1.21,2.57,1.36,2019,2025,155,75,311,4.15
+Vision_Language_and_Multimodal_Transformer_Models,337,1.62,2,187,0.27,3.11,2.84,2019,2025,187,19,284,14.95
+Transformer_Language_Models,245,1.18,2,161,0.27,2.67,2.4,2019,2025,161,4,238,59.5
+Graph_Neural_Networks,202,0.97,2,65,0.27,1.08,0.81,2019,2025,65,27,144,5.33

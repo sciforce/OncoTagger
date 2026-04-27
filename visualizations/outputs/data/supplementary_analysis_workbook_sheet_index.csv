@@ -1,0 +1,65 @@
+﻿Sheet,Rows excluding header,Columns,First columns,Suggested supplementary role
+Reprint Country Overall,113,3,Reprint-address country; Count; Share_of_all_articles,Corresponding-author geography
+Reprint Country Missing,2,3,Reprint-address status; Count; Share_of_all_articles,Corresponding-author geography
+Reprint Country by Year,7,114,Publication Year; Afghanistan; Albania; Algeria; Angola; Argentina; Armenia; Australia,Corresponding-author geography
+Reprint Country by Task,9,114,Primary Task; Afghanistan; Albania; Algeria; Angola; Argentina; Armenia; Australia,Corresponding-author geography
+Reprint Country Miss Year,7,4,Publication Year; N_articles; N_missing_reprint_country; Missing_share,Corresponding-author geography
+Composite Src Overall,20,3,Composite source; Count; Share_of_all_articles,Metric reporting and reported performance
+Composite Src by Year,7,21,Publication Year; accuracy; balanced accuracy; c-index; cohen's kappa; dice; f1-score; fpr,Metric reporting and reported performance
+Composite Src by Task,9,21,Primary Task; accuracy; balanced accuracy; c-index; cohen's kappa; dice; f1-score; fpr,Metric reporting and reported performance
+Composite Src by Source,20,20,Source Title; accuracy; balanced accuracy; c-index; cohen's kappa; dice; f1-score; fpr,Metric reporting and reported performance
+Composite Src by Cancer,167,3,Cancer Type; Composite Source; Count,Metric reporting and reported performance
+No Metrics Overall,2,3,Reporting status; Count; Share_of_parsed_articles,Metric reporting and reported performance
+No Metrics by Year,7,4,Publication Year; N_articles; N_no_metrics_reported; Share_no_metrics_reported,Metric reporting and reported performance
+No Metrics by Task,9,4,Primary Task; N_articles; N_no_metrics_reported; Share_no_metrics_reported,Metric reporting and reported performance
+No Metrics by Source,1829,4,Source Title; N_articles; N_no_metrics_reported; Share_no_metrics_reported,Metric reporting and reported performance
+NoMetrics Src Hi N5,553,4,Source Title; N_articles; N_no_metrics_reported; Share_no_metrics_reported,Metric reporting and reported performance
+NoMetrics Src Lo N5,553,4,Source Title; N_articles; N_no_metrics_reported; Share_no_metrics_reported,Metric reporting and reported performance
+No Metrics by Cancer,10,4,Cancer Type; N_articles; N_no_metrics_reported; Share_no_metrics_reported,Metric reporting and reported performance
+Source Titles Overall,20,3,Source Title; Count; Share_of_articles_with_source_title,Journal/source-title summary
+Source Titles by Task,180,4,Primary Task; Rank_within_task; Source Title; Count,"Task, cancer, and AI cross-tabulation"
+Source Titles by Cancer,200,4,Cancer Type; Rank_within_cancer; Source Title; Count,Journal/source-title summary
+SourceTitle Year Top,7,21,Publication Year; APPLIED SCIENCES-BASEL; BIOENGINEERING-BASEL; BMC CANCER; BMC MEDICAL IMAGING; CANCER MEDICINE; CANCERS; CMC-COMPUTERS MATERIALS & CONTINUA,Journal/source-title summary
+Task Categories Frequency,8,2,Task Category; Count,"Task, cancer, and AI cross-tabulation"
+Cancer Types Frequency,36,2,Cancer Type; Count,Descriptor frequency table
+AI Models Frequency,47,2,AI Model; Count,Descriptor frequency table
+AI Classes Frequency,15,2,AI Class; Count,Descriptor frequency table
+AI Class Map,47,3,AI Family; AI Class; Subgroup,General aggregate output
+AI Class Breakdown,47,5,AI Class; AI Family; Article Count; Share of All Articles; Share Within Class Articles,Descriptor frequency table
+Number of AI Models,13,2,Number of AI Models; Count,Descriptor frequency table
+Number of AI Classes,8,2,Number of AI Classes; Count,Descriptor frequency table
+Cancer Type Distribution,38,3,Cancer Study Type; Count,Descriptor frequency table
+Composite Total,6,2,Composite Total; Count,Metric reporting and reported performance
+Weighted Total,6,2,Weighted Total; Count,Metric reporting and reported performance
+Composite Metric by Year,7,7,Publication Year; very high; high; medium; low; very low; no metrics reported,Metric reporting and reported performance
+Composite Metric by Task,6,9,Composite Metric; classification; segmentation; prognosis; synthesis; integration; nlp; genomic,Metric reporting and reported performance
+Weighted Category by Year,7,7,Publication Year; very high; high; medium; low; very low; no metrics reported,Metric reporting and reported performance
+Weighted Category by Task,6,9,Weighted Category; classification; segmentation; prognosis; synthesis; integration; nlp; genomic,Metric reporting and reported performance
+Roc-Auc by Year,7,7,Publication Year; very high; high; medium; low; very low; no metrics reported,Metric reporting and reported performance
+Roc-Auc by Task,6,9,Roc-Auc; classification; segmentation; prognosis; synthesis; integration; nlp; genomic,Metric reporting and reported performance
+Task x Cancer,8,37,Task Category; Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer,"Task, cancer, and AI cross-tabulation"
+Task x AI Models,8,48,Task Category; Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees,"Task, cancer, and AI cross-tabulation"
+Task x AI Classes,8,16,Task Category; CNN_Backbones; Detection_and_Localization_Architectures; Feedforward_Neural_Networks; Generative_and_Representation_Learning_Models; Graph_Neural_Networks; Instance_Based_and_Probabilistic_Classical_Models; Linear_and_Regularized_Models,"Task, cancer, and AI cross-tabulation"
+Composite x Cancer,6,37,Composite Metric; Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer,Metric reporting and reported performance
+Composite x AI,6,48,Composite Metric; Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees,Metric reporting and reported performance
+Composite x AI Classes,6,16,Composite Metric; CNN_Backbones; Detection_and_Localization_Architectures; Feedforward_Neural_Networks; Generative_and_Representation_Learning_Models; Graph_Neural_Networks; Instance_Based_and_Probabilistic_Classical_Models; Linear_and_Regularized_Models,Metric reporting and reported performance
+Weighted x Cancer,6,37,Weighted Category; Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer,Metric reporting and reported performance
+Weighted x AI,6,48,Weighted Category; Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees,Metric reporting and reported performance
+Weighted x AI Classes,6,16,Weighted Category; CNN_Backbones; Detection_and_Localization_Architectures; Feedforward_Neural_Networks; Generative_and_Representation_Learning_Models; Graph_Neural_Networks; Instance_Based_and_Probabilistic_Classical_Models; Linear_and_Regularized_Models,Metric reporting and reported performance
+ROC-AUC x Cancer,6,37,Roc-Auc; Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer,Metric reporting and reported performance
+ROC-AUC x AI,6,48,Roc-Auc; Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees,Metric reporting and reported performance
+ROC-AUC x AI Classes,6,16,Roc-Auc; CNN_Backbones; Detection_and_Localization_Architectures; Feedforward_Neural_Networks; Generative_and_Representation_Learning_Models; Graph_Neural_Networks; Instance_Based_and_Probabilistic_Classical_Models; Linear_and_Regularized_Models,Metric reporting and reported performance
+Meta_cancer_detected_in,4,2,cancer_detected_in; Count,Audit metadata frequency table
+Meta_ai_detected_in,8,2,ai_detected_in; Count,Audit metadata frequency table
+Meta_composite_source,20,2,composite_source; Count,Metric reporting and reported performance
+Meta_all_tasks,184,2,all_tasks; Count,"Task, cancer, and AI cross-tabulation"
+Tasks by Year,7,9,Publication Year; classification; segmentation; prognosis; synthesis; integration; nlp; genomic,"Task, cancer, and AI cross-tabulation"
+Cancer Types by Year Dynamics,36,9,Publication Year; 2019; 2020; 2021; 2022; 2023; 2024; 2025,Cancer-site temporal dynamics
+AI Models by Year,7,48,Publication Year; Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees,AI model/class temporal dynamics
+AI Classes by Year,7,16,Publication Year; CNN_Backbones; Detection_and_Localization_Architectures; Feedforward_Neural_Networks; Generative_and_Representation_Learning_Models; Graph_Neural_Networks; Instance_Based_and_Probabilistic_Classical_Models; Linear_and_Regularized_Models,AI model/class temporal dynamics
+Accuracy x Cancer,6,37,Accuracy; Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer,Metric reporting and reported performance
+Accuracy x AI,6,48,Accuracy; Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees,Metric reporting and reported performance
+Accuracy x AI Classes,6,16,Accuracy; CNN_Backbones; Detection_and_Localization_Architectures; Feedforward_Neural_Networks; Generative_and_Representation_Learning_Models; Graph_Neural_Networks; Instance_Based_and_Probabilistic_Classical_Models; Linear_and_Regularized_Models,Metric reporting and reported performance
+Top-10 Cancers by Year,7,11,Publication Year; Breast cancer; Brain/CNS cancer; Lung Cancer; Colorectal cancer; Hepato-biliary cancers; Prostate cancer; Head and neck cancer,Cancer-site temporal dynamics
+Top-10 AI Models by Year,7,11,Publication Year; Random_Forests; SVM; Gradient_Boosting_Trees; Logistic_Regression; ResNet_Family; Penalized_Regression; U_Net_Family,AI model/class temporal dynamics
+Top-10 AI Classes by Year,7,11,Publication Year; Tree_Based_and_Boosting_Ensembles; Linear_and_Regularized_Models; CNN_Backbones; Support_Vector_Methods; U_Net_and_Encoder_Decoder_Segmentation_Architectures; Survival_Specific_Models; Feedforward_Neural_Networks,AI model/class temporal dynamics

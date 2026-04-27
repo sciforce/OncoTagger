@@ -1,0 +1,24 @@
+﻿File,Rows excluding header,Columns,Column names,Purpose
+sources\ai_family_map.csv,47,3,subfamily_column; main_family; subgroup,Maps individual AI model-family flags to broader AI classes.
+sources\ai_keywords.csv,109,47,Logistic_Regression; Penalized_Regression; SVM; SVR; Decision_Trees; Random_Forests; Gradient_Boosting_Trees; k_Nearest_Neighbours; Naive_Bayes; MLP_ANN_DNN; ResNet_Family; DenseNet_Family,Curated model-family keyword dictionary used for article-level AI tagging.
+sources\ai_terms_filter_moderate.csv,345,1,term,Moderate AI evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
+sources\ai_terms_filter_remove.csv,114,1,term,Negative AI terms used to reduce false inclusions. This file is treated as a line-oriented dictionary for manifest counting.
+sources\ai_terms_filter_strong.csv,1875,1,term,Strong AI evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
+sources\ai_terms_filter_weak.csv,77,1,term,Weak AI evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
+sources\cancer_keywords.csv,70,36,Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer; Colorectal cancer; Endometrial cancer; Esophageal cancer; Head and neck cancer; Lung Cancer,Hard cancer-site dictionary used for cancer-site tagging.
+sources\cancer_keywords_soft.csv,70,36,Anal cancer; Hepato-biliary cancers; Bladder cancer; Bone cancers; Brain/CNS cancer; Breast cancer; Cervical cancer; Colorectal cancer; Endometrial cancer; Esophageal cancer; Head and neck cancer; Lung Cancer,Soft cancer-site dictionary for broader article-level cancer-site evidence.
+sources\category_scores.csv,5,2,category; score,Numeric scores assigned to ordinal performance categories.
+sources\country_synonyms.csv,79,2,raw; normalized,Country-name harmonization overrides for corresponding-author geography.
+sources\metric_synonyms.csv,111,2,metric; synonym,Metric synonym dictionary used by abstract-level performance-metric extraction.
+sources\onco_terms_filter.csv,2426,1,onco_terms,Original oncology filtering term dictionary. This file is treated as a line-oriented dictionary for manifest counting.
+sources\onco_terms_filter_moderate.csv,380,1,term,Moderate oncology evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
+sources\onco_terms_filter_remove.csv,286,1,term,Negative oncology terms used to reduce false inclusions. This file is treated as a line-oriented dictionary for manifest counting.
+sources\onco_terms_filter_strong.csv,1701,1,term,Strong oncology evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
+sources\onco_terms_filter_weak.csv,251,1,term,Weak oncology evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
+sources\raw_ai_terms_filter.csv,2827,1,raw ai terms,Raw AI filtering term source retained for auditability. This file is treated as a line-oriented dictionary for manifest counting.
+sources\task_keywords.csv,76,8,"Classification / Detection; Segmentation; Prognosis (survival, recurrence, risk); Synthesis / Image Enhancement; Integration / Recommendation (CDSS, multimodal); NLP (text classification, information extraction); Genomic Models; Auxiliary Algorithmic Classes",Curated keyword dictionary for primary and secondary task detection.
+sources\task_metric_priority.csv,145,3,task; metric; order,Task-specific metric priority ladder used for composite and weighted categories.
+sources\task_priority.csv,8,2,task; priority,Priority order used to select a single primary task when multiple tasks are detected.
+sources\thresholds.csv,95,4,metric; cutoff; label; comparison,Metric-specific thresholds used to map raw values to ordinal categories.
+sources\total-population-by-country-2025 (1) (1).csv,234,11,pop2025; pop2050; country; area; landAreaKm; cca2; cca3; density; growthRate; worldPercentage; rank,2025 population denominator source used for per-capita country normalization.
+sources\wos_exclusion_categories.tsv,380,1,Agricultural Economics & Policy,WoS categories used to support exclusion or ambiguity decisions.

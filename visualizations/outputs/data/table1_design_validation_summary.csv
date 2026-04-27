@@ -1,0 +1,15 @@
+﻿Item,Value,Note
+Records identified from Web of Science exports,"59,994",Raw merged WoS records
+Duplicate records removed,38,37 DOI duplicates and 1 title/year fallback duplicate
+Publication-year 2026 records excluded,128,Out-of-scope future-year records
+Records screened after deduplication and year filtering,"59,828",Screening denominator
+Records included by automated filtering,"20,723",Before manual-review additions
+Manual-review records retained,43 of 48,Borderline records adjudicated by authors
+Final filtered corpus,"20,766",Main descriptive denominator
+Abstracts with at least one detected metric,"12,538",60.4% of final corpus
+Scoreable performance-category corpus,"12,225",Weighted/composite category available
+Primary ordinal validation sample,400,Manual category labels
+Manual versus composite exact agreement,76.8%,N=379 comparable records
+Manual versus composite linear weighted kappa,0.615,Ordinal agreement
+Metric-detection audit sample,200,Stratified 200-record audit
+Metric-detection accuracy,90.5%,Sensitivity 84.6%; specificity 98.8%
