@@ -1,0 +1,106 @@
+﻿sample_name,N,annotation_layer,metric,value,95CI_low,95CI_high,notes
+primary_400,400,primary_task,exact_agreement,0.6475,0.6,0.6925,Tetiana vs Maksym before consensus
+primary_400,400,primary_task,cohen_kappa,0.46389871107562447,0.3995248840842257,0.5229431970199611,Tetiana vs Maksym before consensus
+primary_400,400,all_tasks,exact_set_match,0.415,0.3675,0.46,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,all_tasks,mean_jaccard,0.7184285714285714,0.6902962797619048,0.7447562499999999,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,all_tasks,median_jaccard,0.75,,,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,all_tasks,micro_F1,0.8137203166226913,0.7944572302627986,0.8310004625208879,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,all_tasks,macro_F1,0.6415938458165299,,,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,cancer_sites,exact_set_match,0.865,0.8275,0.8975624999999999,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,cancer_sites,mean_jaccard,0.9077083333333335,0.8824947916666667,0.932921875,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,cancer_sites,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,cancer_sites,micro_F1,0.9205955334987593,0.8980086810843741,0.9408902534751624,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,cancer_sites,macro_F1,0.8816532230716445,,,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,ai_families,exact_set_match,0.83,0.7925,0.865,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,ai_families,mean_jaccard,0.8932083333333333,0.8664093750000001,0.9167947916666668,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,ai_families,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,ai_families,micro_F1,0.9167643610785463,0.8972586736653436,0.9334982889752573,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,ai_families,macro_F1,0.9187971031057406,,,Inter-reviewer concordance; set-based multi-label comparison
+primary_400,400,cancer_site_detectable,exact_agreement,0.9625,0.9425,0.98,Uncertain treated as separate class if present
+primary_400,400,cancer_site_detectable,cohen_kappa,0.7340897004077294,0.5937286038119916,0.8494178372185696,Uncertain treated as separate class if present
+primary_400,400,ai_family_detectable,exact_agreement,0.935,0.91,0.9575,Uncertain treated as separate class if present
+primary_400,400,ai_family_detectable,cohen_kappa,0.8628294072647658,0.8087834964095044,0.907053910600344,Uncertain treated as separate class if present
+task_unassigned_300,300,primary_task,exact_agreement,0.45,0.39,0.5033333333333333,Tetiana vs Maksym before consensus
+task_unassigned_300,300,primary_task,cohen_kappa,0.32330827067669177,0.2545701266293263,0.3836443975397656,Tetiana vs Maksym before consensus
+task_unassigned_300,300,all_tasks,exact_set_match,0.3566666666666667,0.2966666666666667,0.41,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,all_tasks,mean_jaccard,0.46361111111111114,0.4113819444444445,0.5125,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,all_tasks,median_jaccard,0.5,,,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,all_tasks,micro_F1,0.5136186770428014,0.46665605095541407,0.560634328358209,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,all_tasks,macro_F1,0.5247506484399861,,,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,cancer_sites,exact_set_match,0.9133333333333333,0.88,0.9433333333333334,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,cancer_sites,mean_jaccard,0.9394444444444444,0.9127777777777777,0.9616666666666667,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,cancer_sites,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,cancer_sites,micro_F1,0.9553264604810997,0.937176313041768,0.9703443104361805,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,cancer_sites,macro_F1,0.9419799031997421,,,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,ai_families,exact_set_match,0.97,0.95,0.9866666666666667,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,ai_families,mean_jaccard,0.9716666666666667,0.9533333333333334,0.9866666666666667,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,ai_families,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,ai_families,micro_F1,0.9473684210526314,0.9101796407185629,0.9759246287475484,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,ai_families,macro_F1,0.9820261437908497,,,Inter-reviewer concordance; set-based multi-label comparison
+task_unassigned_300,300,cancer_site_detectable,exact_agreement,0.9633333333333334,0.94,0.9833333333333333,Uncertain treated as separate class if present
+task_unassigned_300,300,cancer_site_detectable,cohen_kappa,0.7800000000000004,0.643717295551219,0.8888888888888887,Uncertain treated as separate class if present
+task_unassigned_300,300,ai_family_detectable,exact_agreement,0.9733333333333334,0.9566666666666667,0.99,Uncertain treated as separate class if present
+task_unassigned_300,300,ai_family_detectable,cohen_kappa,0.9247176913425347,0.8701699120687253,0.9710201860386887,Uncertain treated as separate class if present
+cancer_no_detected_100,100,primary_task,exact_agreement,0.62,0.53,0.72,Tetiana vs Maksym before consensus
+cancer_no_detected_100,100,primary_task,cohen_kappa,0.43861722558723587,0.32280546954393846,0.5666391536284682,Tetiana vs Maksym before consensus
+cancer_no_detected_100,100,all_tasks,exact_set_match,0.37,0.27,0.47,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,all_tasks,mean_jaccard,0.6915,0.6356375,0.7485166666666666,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,all_tasks,median_jaccard,0.6666666666666666,,,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,all_tasks,micro_F1,0.7888631090487239,0.7467965867974119,0.8322326405252124,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,all_tasks,macro_F1,0.7149692569335426,,,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,cancer_sites,exact_set_match,0.91,0.85,0.96,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,cancer_sites,mean_jaccard,0.915,0.859875,0.96,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,cancer_sites,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,cancer_sites,micro_F1,0.6428571428571429,0.41,0.8182400932400933,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,cancer_sites,macro_F1,0.9259259259259259,,,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,ai_families,exact_set_match,0.86,0.79,0.92,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,ai_families,mean_jaccard,0.9113333333333334,0.8566666666666667,0.9523499999999999,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,ai_families,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,ai_families,micro_F1,0.9316239316239316,0.8888888888888888,0.9621345718596757,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,ai_families,macro_F1,0.9345583160800552,,,Inter-reviewer concordance; set-based multi-label comparison
+cancer_no_detected_100,100,cancer_site_detectable,exact_agreement,0.93,0.88,0.97,Uncertain treated as separate class if present
+cancer_no_detected_100,100,cancer_site_detectable,cohen_kappa,0.700854700854701,0.4698669588397171,0.8790371279414055,Uncertain treated as separate class if present
+cancer_no_detected_100,100,ai_family_detectable,exact_agreement,0.95,0.9,0.98,Uncertain treated as separate class if present
+cancer_no_detected_100,100,ai_family_detectable,cohen_kappa,0.8972884141331141,0.7980285537911922,0.96,Uncertain treated as separate class if present
+ai_family_no_detected_100,100,primary_task,exact_agreement,0.68,0.57975,0.77,Tetiana vs Maksym before consensus
+ai_family_no_detected_100,100,primary_task,cohen_kappa,0.4579027613078097,0.31325853493536837,0.5872032012252894,Tetiana vs Maksym before consensus
+ai_family_no_detected_100,100,all_tasks,exact_set_match,0.47,0.37,0.57,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,all_tasks,mean_jaccard,0.7328333333333333,0.6746291666666666,0.7895041666666669,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,all_tasks,median_jaccard,0.775,,,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,all_tasks,micro_F1,0.8194444444444444,0.7740489481156427,0.8611781593019983,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,all_tasks,macro_F1,0.7177169245888879,,,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,cancer_sites,exact_set_match,0.87,0.8,0.93,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,cancer_sites,mean_jaccard,0.9,0.845,0.9466666666666665,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,cancer_sites,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,cancer_sites,micro_F1,0.911764705882353,0.8502244452994742,0.9583333333333333,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,cancer_sites,macro_F1,0.8993422033740961,,,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,ai_families,exact_set_match,0.93,0.87,0.9702499999999997,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,ai_families,mean_jaccard,0.93,0.87,0.9702499999999997,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,ai_families,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,ai_families,micro_F1,0.42857142857142855,0.15384615384615383,0.75,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,ai_families,macro_F1,0.7222222222222222,,,Inter-reviewer concordance; set-based multi-label comparison
+ai_family_no_detected_100,100,cancer_site_detectable,exact_agreement,0.94,0.89,0.98,Uncertain treated as separate class if present
+ai_family_no_detected_100,100,cancer_site_detectable,cohen_kappa,0.5973154362416108,0.25985444113897227,0.8531961142121078,Uncertain treated as separate class if present
+ai_family_no_detected_100,100,ai_family_detectable,exact_agreement,0.94,0.89,0.98,Uncertain treated as separate class if present
+ai_family_no_detected_100,100,ai_family_detectable,cohen_kappa,0.5419847328244275,0.15739564428312275,0.8230088495575221,Uncertain treated as separate class if present
+optional_positive_audit_100,100,primary_task,exact_agreement,0.64,0.55,0.74,Tetiana vs Maksym before consensus
+optional_positive_audit_100,100,primary_task,cohen_kappa,0.4696523276370065,0.3457334207390106,0.5944210280052407,Tetiana vs Maksym before consensus
+optional_positive_audit_100,100,all_tasks,exact_set_match,0.49,0.4,0.59,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,all_tasks,mean_jaccard,0.7655000000000001,0.7159916666666668,0.8163374999999999,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,all_tasks,median_jaccard,0.775,,,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,all_tasks,micro_F1,0.8607068607068606,0.8305195441166616,0.8920663577867755,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,all_tasks,macro_F1,0.7803541286299908,,,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,cancer_sites,exact_set_match,0.86,0.79,0.93,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,cancer_sites,mean_jaccard,0.8983333333333333,0.845,0.95,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,cancer_sites,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,cancer_sites,micro_F1,0.926829268292683,0.8900510471204188,0.9629914529914531,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,cancer_sites,macro_F1,0.8994602873550241,,,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,ai_families,exact_set_match,0.81,0.73,0.88,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,ai_families,mean_jaccard,0.8913333333333333,0.8368291666666666,0.9358375000000001,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,ai_families,median_jaccard,1.0,,,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,ai_families,micro_F1,0.9106382978723404,0.8732221761944213,0.9435596774193548,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,ai_families,macro_F1,0.9018384393384394,,,Inter-reviewer concordance; set-based multi-label comparison
+optional_positive_audit_100,100,cancer_site_detectable,exact_agreement,0.94,0.89,0.98,Uncertain treated as separate class if present
+optional_positive_audit_100,100,cancer_site_detectable,cohen_kappa,0.5454545454545451,0.1853360488798371,0.8466257668711654,Uncertain treated as separate class if present
+optional_positive_audit_100,100,ai_family_detectable,exact_agreement,0.95,0.9,0.99,Uncertain treated as separate class if present
+optional_positive_audit_100,100,ai_family_detectable,cohen_kappa,0.8820754716981131,0.7674146924581613,0.9729729729729729,Uncertain treated as separate class if present

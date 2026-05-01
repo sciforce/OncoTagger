@@ -15,6 +15,7 @@ DATA_DIR = OUTPUT_DIR / "data"
 ANALYSIS_XLSX = ROOT / "data" / "results" / "filtered_dataset_binary_classification_analysis.xlsx"
 ARTICLE_XLSX = ROOT / "data" / "results" / "filtered_dataset_binary_classification.xlsx"
 AI_FAMILY_MAP = ROOT / "sources" / "ai_family_map.csv"
+THRESHOLDS_CSV = ROOT / "sources" / "thresholds.csv"
 SOURCES_DIR = ROOT / "sources"
 QUERY_PATH = ROOT / "documentation" / "self-documented docs" / "Web of Science search query.txt"
 INSIGHTS_TXT = ROOT / "documentation" / "article" / "supplementary_results_insights.txt"
@@ -46,8 +47,8 @@ SOURCE_PURPOSES = {
     "cancer_keywords.csv": "Hard cancer-site dictionary used for cancer-site tagging.",
     "cancer_keywords_soft.csv": "Soft cancer-site dictionary for broader article-level cancer-site evidence.",
     "metric_synonyms.csv": "Metric synonym dictionary used by abstract-level performance-metric extraction.",
-    "thresholds.csv": "Metric-specific thresholds used to map raw values to ordinal categories.",
-    "task_metric_priority.csv": "Task-specific metric priority ladder used for composite and weighted categories.",
+    "thresholds.csv": "Author-defined metric-specific ordinal proxy thresholds used to map raw abstract-level values to standardized reported-performance categories.",
+    "task_metric_priority.csv": "Task-specific metric hierarchy used for composite and weighted categories.",
     "task_priority.csv": "Priority order used to select a single primary task when multiple tasks are detected.",
     "category_scores.csv": "Numeric scores assigned to ordinal performance categories.",
     "country_synonyms.csv": "Country-name harmonization overrides for corresponding-author geography.",
@@ -62,6 +63,7 @@ SOURCE_PURPOSES = {
     "ai_terms_filter_weak.csv": "Weak AI evidence terms for eligibility filtering.",
     "ai_terms_filter_remove.csv": "Negative AI terms used to reduce false inclusions.",
     "raw_ai_terms_filter.csv": "Raw AI filtering term source retained for auditability.",
+    "total-population-by-country-2025.csv": "2025 population denominator source used for per-capita country normalization.",
     "total-population-by-country-2025 (1) (1).csv": "2025 population denominator source used for per-capita country normalization.",
 }
 
@@ -168,6 +170,64 @@ def build_dictionary_manifest() -> pd.DataFrame:
                     + " This file is treated as a line-oriented dictionary for manifest counting.",
                 }
             )
+    return pd.DataFrame(rows)
+
+
+def _format_number(value: object) -> str:
+    if pd.isna(value):
+        return ""
+    if value == np.inf or str(value).lower() == "inf":
+        return "inf"
+    numeric = float(value)
+    if numeric.is_integer():
+        return str(int(numeric))
+    return f"{numeric:g}"
+
+
+def build_metric_threshold_table() -> pd.DataFrame:
+    thresholds = pd.read_csv(THRESHOLDS_CSV)
+    label_order = ["Very High", "High", "Medium", "Low", "Very Low"]
+    rows = []
+    for metric, group in thresholds.groupby("metric", sort=False):
+        group = group.copy()
+        comparison = group["comparison"].iloc[0]
+        direction = "Higher values indicate better reported performance" if comparison == "ge" else "Lower values indicate better reported performance"
+        cutoffs = {row["label"]: row["cutoff"] for _, row in group.iterrows()}
+        ranges: dict[str, str] = {}
+        if comparison == "ge":
+            for i, label in enumerate(label_order):
+                cutoff = cutoffs[label]
+                if label == "Very High":
+                    ranges[label] = f">= {_format_number(cutoff)}"
+                elif label == "Very Low":
+                    previous = cutoffs["Low"]
+                    ranges[label] = f"< {_format_number(previous)}"
+                else:
+                    previous = cutoffs[label_order[i - 1]]
+                    ranges[label] = f">= {_format_number(cutoff)} and < {_format_number(previous)}"
+        else:
+            for i, label in enumerate(label_order):
+                cutoff = cutoffs[label]
+                if label == "Very High":
+                    ranges[label] = f"<= {_format_number(cutoff)}"
+                elif label == "Very Low":
+                    previous = cutoffs["Low"]
+                    ranges[label] = f"> {_format_number(previous)}"
+                else:
+                    previous = cutoffs[label_order[i - 1]]
+                    ranges[label] = f"> {_format_number(previous)} and <= {_format_number(cutoff)}"
+        rows.append(
+            {
+                "Metric": metric,
+                "Direction": direction,
+                "Very high": ranges["Very High"],
+                "High": ranges["High"],
+                "Medium": ranges["Medium"],
+                "Low": ranges["Low"],
+                "Very low": ranges["Very Low"],
+                "Source": "Author-defined ordinal proxy threshold encoded in sources/thresholds.csv",
+            }
+        )
     return pd.DataFrame(rows)
 
 
@@ -412,6 +472,7 @@ def main() -> None:
 
     save_csv(sheet_index, "supplementary_analysis_workbook_sheet_index.csv")
     save_csv(dictionary_manifest, "supplementary_dictionary_manifest.csv")
+    save_csv(build_metric_threshold_table(), "supplementary_metric_thresholds_readable.csv")
     save_csv(model_trends.sort_values("Total count", ascending=False), "supplementary_ai_model_trends.csv")
     save_csv(class_trends.sort_values("Total count", ascending=False), "supplementary_ai_class_trends.csv")
     save_csv(cancer_trends.sort_values("Total count", ascending=False), "supplementary_cancer_site_trends.csv")

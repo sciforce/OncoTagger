@@ -13,3 +13,11 @@ Manual versus composite exact agreement,76.8%,N=379 comparable records
 Manual versus composite linear weighted kappa,0.615,Ordinal agreement
 Metric-detection audit sample,200,Stratified 200-record audit
 Metric-detection accuracy,90.5%,Sensitivity 84.6%; specificity 98.8%
+Taxonomy validation sample,400,Proportional year-stratified sample with blinded dual review and oncology-domain adjudication
+Primary-task exact agreement,68.0%,Pipeline versus manual consensus; kappa 0.508
+All-task multi-label micro-F1,0.723,Pipeline versus manual consensus; exact set match 29.3%
+Cancer-site multi-label micro-F1,0.907,Pipeline versus manual consensus; exact set match 83.8%
+AI-family multi-label micro-F1,0.886,Pipeline versus manual consensus; exact set match 78.3%
+Task-unassigned census,300,250 manually identifiable tasks; 50 remained unassigned
+Cancer-site no-detected challenge sample,100,8 records had a manually detectable specific cancer site
+AI-family no-detected challenge sample,100,5 records had a manually detectable AI-family label

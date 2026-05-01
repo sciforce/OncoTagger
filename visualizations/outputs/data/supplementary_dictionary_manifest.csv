@@ -17,8 +17,8 @@ sources\onco_terms_filter_strong.csv,1701,1,term,Strong oncology evidence terms 
 sources\onco_terms_filter_weak.csv,251,1,term,Weak oncology evidence terms for eligibility filtering. This file is treated as a line-oriented dictionary for manifest counting.
 sources\raw_ai_terms_filter.csv,2827,1,raw ai terms,Raw AI filtering term source retained for auditability. This file is treated as a line-oriented dictionary for manifest counting.
 sources\task_keywords.csv,76,8,"Classification / Detection; Segmentation; Prognosis (survival, recurrence, risk); Synthesis / Image Enhancement; Integration / Recommendation (CDSS, multimodal); NLP (text classification, information extraction); Genomic Models; Auxiliary Algorithmic Classes",Curated keyword dictionary for primary and secondary task detection.
-sources\task_metric_priority.csv,145,3,task; metric; order,Task-specific metric priority ladder used for composite and weighted categories.
+sources\task_metric_priority.csv,145,3,task; metric; order,Task-specific metric hierarchy used for composite and weighted categories.
 sources\task_priority.csv,8,2,task; priority,Priority order used to select a single primary task when multiple tasks are detected.
-sources\thresholds.csv,95,4,metric; cutoff; label; comparison,Metric-specific thresholds used to map raw values to ordinal categories.
-sources\total-population-by-country-2025 (1) (1).csv,234,11,pop2025; pop2050; country; area; landAreaKm; cca2; cca3; density; growthRate; worldPercentage; rank,2025 population denominator source used for per-capita country normalization.
+sources\thresholds.csv,95,4,metric; cutoff; label; comparison,Author-defined metric-specific ordinal proxy thresholds used to map raw abstract-level values to standardized reported-performance categories.
+sources\total-population-by-country-2025.csv,234,11,pop2025; pop2050; country; area; landAreaKm; cca2; cca3; density; growthRate; worldPercentage; rank,2025 population denominator source used for per-capita country normalization.
 sources\wos_exclusion_categories.tsv,380,1,Agricultural Economics & Policy,WoS categories used to support exclusion or ambiguity decisions.
