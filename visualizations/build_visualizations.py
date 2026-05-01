@@ -270,90 +270,153 @@ def build_flow_figure() -> None:
     )
     save_csv(flow, "figure1_prisma_flow.csv")
 
-    fig, ax = plt.subplots(figsize=(9.5, 10.5))
+    fig, ax = plt.subplots(figsize=(8.0, 11.8))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 16)
     ax.set_axis_off()
 
-    def box(x: float, y: float, w: float, h: float, title: str, count: int, fc: str = "white") -> None:
+    main_fc = "#eaf2fb"
+    exclusion_fc = "#f5f5f5"
+    manual_fc = "#fff0dd"
+    phase_fc = "#eef2f6"
+
+    def box(
+        cx: float,
+        cy: float,
+        w: float,
+        h: float,
+        title: str,
+        count: int,
+        fc: str,
+        ec: str = COLORS["dark"],
+        wrap_width: int = 30,
+    ) -> None:
+        x = cx - w / 2
+        y = cy - h / 2
         patch = FancyBboxPatch(
             (x, y),
             w,
             h,
-            boxstyle="round,pad=0.012,rounding_size=0.018",
+            boxstyle="round,pad=0.025,rounding_size=0.08",
             linewidth=1.2,
-            edgecolor=COLORS["dark"],
+            edgecolor=ec,
             facecolor=fc,
         )
         ax.add_patch(patch)
-        ax.text(x + w / 2, y + h * 0.62, wrap(title, 34), ha="center", va="center", fontsize=8.5)
-        ax.text(x + w / 2, y + h * 0.26, f"n = {count:,}", ha="center", va="center", fontsize=10, fontweight="bold")
+        ax.text(cx, cy + h * 0.13, wrap(title, wrap_width), ha="center", va="center", fontsize=9.4)
+        ax.text(cx, cy - h * 0.30, f"n = {count:,}", ha="center", va="center", fontsize=10.5, fontweight="bold")
 
-    def arrow(start: tuple[float, float], end: tuple[float, float]) -> None:
+    def phase_label(label: str, y0: float, y1: float) -> None:
+        patch = FancyBboxPatch(
+            (0.25, y0),
+            0.48,
+            y1 - y0,
+            boxstyle="round,pad=0.02,rounding_size=0.06",
+            linewidth=0.8,
+            edgecolor="#c9d2df",
+            facecolor=phase_fc,
+        )
+        ax.add_patch(patch)
+        ax.text(
+            0.49,
+            (y0 + y1) / 2,
+            label,
+            ha="center",
+            va="center",
+            rotation=90,
+            fontsize=8.7,
+            fontweight="bold",
+            color="#44556a",
+        )
+
+    def connector(points: list[tuple[float, float]], color: str = COLORS["dark"]) -> None:
+        if len(points) < 2:
+            return
+        if len(points) > 2:
+            xs = [point[0] for point in points[:-1]]
+            ys = [point[1] for point in points[:-1]]
+            ax.plot(xs, ys, color=color, linewidth=1.15, solid_capstyle="round", zorder=0)
         ax.add_patch(
             FancyArrowPatch(
-                start,
-                end,
+                points[-2],
+                points[-1],
                 arrowstyle="-|>",
                 mutation_scale=12,
-                linewidth=1.1,
-                color=COLORS["dark"],
+                linewidth=1.15,
+                color=color,
+                shrinkA=0,
+                shrinkB=3,
+                zorder=0,
             )
         )
 
-    box(0.30, 0.88, 0.40, 0.075, "Records identified from Web of Science exports", 59994, "#eaf3f8")
-    box(0.72, 0.775, 0.25, 0.075, "Duplicates removed", 38, "#f7f7f7")
-    box(0.72, 0.665, 0.25, 0.075, "Publication-year 2026 records removed", 128, "#f7f7f7")
-    box(0.30, 0.71, 0.40, 0.075, "Records screened after deduplication and year filtering", 59828, "#eaf3f8")
-    box(0.08, 0.545, 0.29, 0.085, "Included by automated bibliographic filtering", 20723, "#e8f5e9")
-    box(0.40, 0.545, 0.20, 0.085, "Assigned to manual review", 48, "#fff8e1")
-    box(0.63, 0.545, 0.29, 0.085, "Excluded by automated bibliographic filtering", 39057, "#f5f5f5")
-    box(0.26, 0.39, 0.23, 0.08, "Manual-review records retained", 43, "#e8f5e9")
-    box(0.53, 0.39, 0.23, 0.08, "Manual-review records not included", 5, "#f5f5f5")
-    box(0.30, 0.235, 0.40, 0.085, "Final filtered corpus", 20766, "#eaf3f8")
-    box(0.05, 0.075, 0.27, 0.085, "Abstracts with at least one detected metric", 12538, "#e8f5e9")
-    box(0.365, 0.075, 0.27, 0.085, "Scoreable performance-category corpus", 12225, "#e8f5e9")
-    box(0.68, 0.075, 0.27, 0.085, "No abstract-level metric detected", 8228, "#f5f5f5")
+    phase_label("Identification", 13.85, 15.25)
+    phase_label("Screening", 10.15, 13.05)
+    phase_label("Manual review", 7.85, 9.95)
+    phase_label("Final corpus", 5.75, 6.95)
+    phase_label("Metric analysis", 1.85, 4.55)
+
+    box(4.15, 14.65, 4.35, 1.05, "Records identified from Web of Science exports", 59994, main_fc)
+    box(8.20, 14.95, 2.65, 0.78, "Duplicate records removed", 38, exclusion_fc, wrap_width=22)
+    box(8.20, 13.90, 2.65, 0.85, "Publication-year 2026 records excluded", 128, exclusion_fc, wrap_width=22)
+    box(4.15, 12.55, 4.35, 1.05, "Records screened after deduplication and year filtering", 59828, main_fc)
+
+    box(2.15, 10.65, 2.75, 1.05, "Included by automated bibliographic filtering", 20723, main_fc, wrap_width=23)
+    box(5.00, 10.65, 2.25, 1.05, "Assigned to manual review", 48, manual_fc, wrap_width=20)
+    box(8.05, 10.65, 2.85, 1.05, "Excluded by automated bibliographic filtering", 39057, exclusion_fc, wrap_width=23)
+
+    box(3.65, 8.55, 2.50, 1.00, "Manual-review records retained", 43, manual_fc, wrap_width=22)
+    box(6.55, 8.55, 2.50, 1.00, "Manual-review records not included", 5, exclusion_fc, wrap_width=22)
+    box(4.95, 6.35, 4.55, 1.05, "Final filtered corpus", 20766, main_fc)
+
+    box(3.10, 4.10, 2.85, 1.00, "Abstracts with at least one detected metric", 12538, main_fc, wrap_width=24)
+    box(6.90, 4.10, 2.85, 1.00, "No abstract-level metric detected", 8228, exclusion_fc, wrap_width=24)
+    box(3.10, 2.35, 2.85, 1.00, "Scoreable performance-category corpus", 12225, main_fc, wrap_width=24)
+
     ax.text(
-        0.50,
-        0.03,
-        "An additional 313 metric-bearing records had no final weighted/composite performance category.",
+        5.0,
+        1.25,
+        "An additional 313 metric-bearing records had a detected metric but no final weighted or composite category.",
         ha="center",
         va="center",
-        fontsize=8,
+        fontsize=8.3,
         color=COLORS["gray"],
     )
-
-    arrow((0.50, 0.88), (0.50, 0.785))
-    arrow((0.70, 0.917), (0.72, 0.817))
-    arrow((0.70, 0.745), (0.72, 0.707))
-    arrow((0.50, 0.71), (0.23, 0.63))
-    arrow((0.50, 0.71), (0.50, 0.63))
-    arrow((0.50, 0.71), (0.77, 0.63))
-    arrow((0.50, 0.545), (0.38, 0.47))
-    arrow((0.50, 0.545), (0.64, 0.47))
-    arrow((0.225, 0.545), (0.42, 0.32))
-    arrow((0.375, 0.39), (0.46, 0.32))
-    arrow((0.50, 0.235), (0.19, 0.16))
-    arrow((0.50, 0.235), (0.50, 0.16))
-    arrow((0.50, 0.235), (0.81, 0.16))
-
     ax.text(
-        0.5,
-        0.985,
-        "PRISMA-inspired Web of Science corpus flow",
+        5.0,
+        0.65,
+        "PRISMA-inspired automated bibliographic screening flow, not a full systematic review.",
         ha="center",
-        va="top",
-        fontsize=13,
-        fontweight="bold",
-    )
-    ax.text(
-        0.5,
-        0.965,
-        "Automated bibliographic screening with manual adjudication of borderline records",
-        ha="center",
-        va="top",
-        fontsize=9,
+        va="center",
+        fontsize=8.3,
         color=COLORS["gray"],
+        style="italic",
     )
+
+    connector([(4.15, 14.13), (4.15, 13.08)])
+    connector([(6.33, 14.85), (6.75, 14.85), (6.75, 14.95), (6.88, 14.95)])
+    connector([(4.15, 13.58), (6.75, 13.58), (6.75, 13.90), (6.88, 13.90)])
+
+    connector([(4.15, 12.03), (4.15, 11.62)])
+    ax.plot([2.15, 8.05], [11.62, 11.62], color=COLORS["dark"], linewidth=1.15, zorder=0)
+    connector([(2.15, 11.62), (2.15, 11.18)])
+    connector([(5.00, 11.62), (5.00, 11.18)])
+    connector([(8.05, 11.62), (8.05, 11.18)])
+
+    connector([(5.00, 10.13), (5.00, 9.58)])
+    ax.plot([3.65, 6.55], [9.58, 9.58], color=COLORS["dark"], linewidth=1.15, zorder=0)
+    connector([(3.65, 9.58), (3.65, 9.08)])
+    connector([(6.55, 9.58), (6.55, 9.08)])
+
+    connector([(2.15, 10.13), (2.15, 7.20), (4.40, 7.20), (4.40, 6.90)])
+    connector([(3.65, 8.03), (3.65, 7.45), (4.80, 7.45), (4.80, 6.90)])
+
+    connector([(4.95, 5.83), (4.95, 5.18)])
+    ax.plot([3.10, 6.90], [5.18, 5.18], color=COLORS["dark"], linewidth=1.15, zorder=0)
+    connector([(3.10, 5.18), (3.10, 4.63)])
+    connector([(6.90, 5.18), (6.90, 4.63)])
+    connector([(3.10, 3.60), (3.10, 2.88)])
+
     fig.savefig(FIGURE_DIR / "fig1_PRISMA-flow diagram.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
