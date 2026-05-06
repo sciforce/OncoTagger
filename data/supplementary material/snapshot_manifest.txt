@@ -1,0 +1,41 @@
+Supplementary Material Snapshot Manifest
+========================================
+
+Purpose
+-------
+This manifest documents the article-facing supplementary files stored under
+`data/supplementary material/`. The package supports verification of aggregate
+manuscript counts, supplementary tables, dictionary inputs, and validation
+summaries without redistributing licensed raw Web of Science Core Collection
+exports.
+
+Core synchronized counts
+------------------------
+- Raw WoS records: `59,994`
+- Records after deduplication and 2026 exclusion: `59,828`
+- Final filtered corpus: `20,766`
+- Metric-bearing abstracts: `12,538`
+- Scoreable weighted/composite records: `12,225`
+
+Visible supplementary files
+---------------------------
+- `Supplementary_Information.md`
+- `filtered_dataset_binary_classification_analysis.xlsx`
+- `article to population ratio.xlsx`
+- `supplementary_translational_subset.xlsx`
+- `current_full_pipeline_summary.json`
+- `article_to_population_ratio_summary.json`
+- `translational_subset_summary.json`
+- `Supplementary_Data_2_curated_search_and_dictionaries.zip`
+- `Supplementary_Data_8_derived_supplementary_trend_tables.zip`
+
+Related visible validation package
+----------------------------------
+- `data/manual validation/`
+- `data/manual validation/taxonomy_validation/`
+
+Release note
+------------
+The manuscript should cite the final immutable public repository release or DOI
+after it is created. This working package is prepared for editor/reviewer
+verification before that public release step.

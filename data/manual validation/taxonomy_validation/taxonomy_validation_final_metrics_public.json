@@ -1,0 +1,149 @@
+{
+  "package": "OncoTagger taxonomy validation public summary",
+  "status": "final_consensus_complete",
+  "validation_design": {
+    "primary_sample": "400-record proportional year-stratified random sample from the final 20,766-record corpus",
+    "task_unassigned_census": "complete 300-record census of records with blank primary_task and all_tasks",
+    "cancer_no_detected_challenge": "100-record challenge sample from records without pipeline-detected cancer-site labels",
+    "ai_family_no_detected_challenge": "100-record challenge sample from records without pipeline-detected AI-family labels",
+    "reviewer_blinding": "two independent medically trained reviewers were blinded to pipeline outputs",
+    "adjudication": "reviewer disagreements were resolved by oncology-domain adjudication",
+    "text_fields_used": [
+      "Article Title",
+      "Abstract",
+      "Author Keywords",
+      "Keywords Plus"
+    ],
+    "full_text_used": false
+  },
+  "sample_sizes": {
+    "primary_400": 400,
+    "task_unassigned_300": 300,
+    "cancer_no_detected_100": 100,
+    "ai_family_no_detected_100": 100,
+    "optional_positive_audit_100": 100
+  },
+  "consensus_status": {
+    "completed_consensus_records": 1000,
+    "pending_adjudication_records": 0,
+    "completed_consensus_by_sheet": {
+      "primary_400": 400,
+      "task_unassigned_300": 300,
+      "cancer_no_detected_100": 100,
+      "ai_family_no_detected_100": 100,
+      "optional_positive_audit_100": 100
+    }
+  },
+  "primary_400_key_metrics": {
+    "primary_task_exact_agreement": 0.68,
+    "primary_task_cohen_kappa": 0.5082785909108372,
+    "all_tasks_micro_F1": 0.7226709746903607,
+    "all_tasks_exact_set_match": 0.2925,
+    "cancer_sites_micro_F1": 0.9068627450980392,
+    "cancer_sites_exact_set_match": 0.8375,
+    "ai_families_micro_F1": 0.8861330326944757,
+    "ai_families_exact_set_match": 0.7825,
+    "cancer_site_any_detection_sensitivity": 1.0,
+    "cancer_site_any_detection_PPV": 0.9238578680203046,
+    "ai_family_any_detection_sensitivity": 0.9506172839506173,
+    "ai_family_any_detection_specificity": 0.8662420382165605
+  },
+  "error_analysis_summaries": {
+    "task_unassigned_summary": [
+      {
+        "manual_primary_task": "classification",
+        "count": 83,
+        "percentage": 0.27666666666666667
+      },
+      {
+        "manual_primary_task": "unassigned",
+        "count": 50,
+        "percentage": 0.16666666666666666
+      },
+      {
+        "manual_primary_task": "nlp",
+        "count": 43,
+        "percentage": 0.14333333333333334
+      },
+      {
+        "manual_primary_task": "prognosis",
+        "count": 41,
+        "percentage": 0.13666666666666666
+      },
+      {
+        "manual_primary_task": "auxiliary",
+        "count": 41,
+        "percentage": 0.13666666666666666
+      },
+      {
+        "manual_primary_task": "genomic",
+        "count": 24,
+        "percentage": 0.08
+      },
+      {
+        "manual_primary_task": "integration",
+        "count": 9,
+        "percentage": 0.03
+      },
+      {
+        "manual_primary_task": "synthesis",
+        "count": 6,
+        "percentage": 0.02
+      },
+      {
+        "manual_primary_task": "segmentation",
+        "count": 3,
+        "percentage": 0.01
+      }
+    ],
+    "cancer_no_detected_summary": [
+      {
+        "manual_cancer_site_detectable": "no",
+        "count": 92,
+        "percentage": 0.92
+      },
+      {
+        "manual_cancer_site_detectable": "yes",
+        "count": 8,
+        "percentage": 0.08
+      }
+    ],
+    "ai_family_no_detected_summary": [
+      {
+        "manual_ai_family_detectable": "no",
+        "count": 95,
+        "percentage": 0.95
+      },
+      {
+        "manual_ai_family_detectable": "yes",
+        "count": 5,
+        "percentage": 0.05
+      }
+    ]
+  },
+  "included_files": [
+    "README.md",
+    "taxonomy_validation_row_level_labels_redacted.csv",
+    "taxonomy_validation_summary_tables.xlsx",
+    "taxonomy_validation_final_metrics_public.json",
+    "tables_csv/Table_A_completion.csv",
+    "tables_csv/Table_B_inter_reviewer.csv",
+    "tables_csv/Table_C_primary400_metrics.csv",
+    "tables_csv/Table_D_task_confusion.csv",
+    "tables_csv/Table_E_task_per_class.csv",
+    "tables_csv/Table_F_cancer_metrics.csv",
+    "tables_csv/Table_G_ai_metrics.csv",
+    "tables_csv/Table_H_task_unassigned.csv",
+    "tables_csv/Table_I_cancer_challenge.csv",
+    "tables_csv/Table_I_recovered_cancer.csv",
+    "tables_csv/Table_J_ai_challenge.csv",
+    "tables_csv/Table_J_recovered_ai.csv",
+    "checksums_sha256.txt"
+  ],
+  "excluded_from_public_package": [
+    "reviewer workbooks with article titles and abstracts",
+    "adjudication workbooks with article titles and abstracts",
+    "internal guides, local manifests, and manuscript drafts",
+    "raw Web of Science exports and licensed source records"
+  ]
+}

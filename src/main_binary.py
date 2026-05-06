@@ -7,8 +7,8 @@ import logging
 import os
 from pathlib import Path
 
-script_dir   = Path(__file__).parent.resolve()        # …/wos_oncoarticleclassifier/src
-project_root = script_dir.parent                      # …/wos_oncoarticleclassifier
+script_dir   = Path(__file__).parent.resolve()        # Project src directory
+project_root = script_dir.parent                      # Project root directory
 sources_dir  = project_root / 'sources'
 filtered_path = project_root / 'data' / 'filtered' / 'filtered_dataset.xlsx'
 results_dir  = project_root / 'data' / 'results'
@@ -19,9 +19,9 @@ class CancerClassifier:
     def __init__(self):
         # Load keywords for cancer types and AI models
         # main location
-        script_dir = Path(__file__).parent.resolve()    # …/wos_oncoarticleclassifier/src
-        project_root = script_dir.parent               # …/wos_oncoarticleclassifier
-        sources_dir = project_root / 'sources'         # …/wos_oncoarticleclassifier/sources
+        script_dir = Path(__file__).parent.resolve()    # Project src directory
+        project_root = script_dir.parent               # Project root directory
+        sources_dir = project_root / 'sources'         # Project sources directory
 
         self.cancer_keywords = self._read_keyword_table(sources_dir / 'cancer_keywords.csv', min_expected_columns=5)
         self.task_keywords   = self._read_keyword_table(sources_dir / 'task_keywords.csv', min_expected_columns=3)
@@ -1889,7 +1889,7 @@ class CancerClassifier:
         n = len(prio)
         if n == 0:
             return {}
-        raw = {m: n - idx for idx, m in enumerate(prio)}       # найважливіша: n, остання: 1
+        raw = {m: n - idx for idx, m in enumerate(prio)}       # Highest priority: n, lowest priority: 1
         total = sum(raw.values())
         return {m: raw[m] / total for m in raw}
 

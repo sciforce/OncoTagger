@@ -1,0 +1,11 @@
+﻿AI Model,Count
+Random_Forests,2610
+SVM,2520
+Gradient_Boosting_Trees,1851
+Logistic_Regression,1820
+ResNet_Family,1619
+Penalized_Regression,1548
+U_Net_Family,1480
+Classical_Survival_Models,1393
+MLP_ANN_DNN,1262
+Decision_Trees,927

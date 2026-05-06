@@ -1,0 +1,15 @@
+﻿step_id,label,count
+identified,Records identified from WoS exports,59994
+duplicates_removed,Duplicate records removed,38
+year_2026_removed,Publication-year 2026 records removed,128
+screened,Records screened after deduplication and year filtering,59828
+auto_included,Included by automated bibliographic filtering,20723
+manual_review,Assigned to manual review,48
+auto_excluded,Excluded by automated bibliographic filtering,39057
+manual_retained,Manual-review records retained,43
+manual_not_included,Manual-review records not included,5
+final_corpus,Final filtered corpus,20766
+metric_bearing,Abstracts with at least one detected metric,12538
+scoreable,Scoreable performance-category corpus,12225
+no_metrics,No abstract-level metric detected,8228
+metric_no_category,Detected metric but no final category,313

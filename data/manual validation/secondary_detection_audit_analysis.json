@@ -1,0 +1,49 @@
+{
+  "N_total_audited": 200,
+  "N_clean_binary": 200,
+  "N_uncertain_or_missing": 0,
+  "human_metric_reported": 117,
+  "human_no_metric_reported": 83,
+  "correct_metric_detected_TP": 99,
+  "correct_no_metric_detected_TN": 82,
+  "false_positive_metric_detected_FP": 1,
+  "false_negative_metric_missed_FN": 18,
+  "accuracy": 0.905,
+  "sensitivity_metric_detection": 0.8461538461538461,
+  "specificity_no_metric_detection": 0.9879518072289156,
+  "positive_predictive_value": 0.99,
+  "negative_predictive_value": 0.82,
+  "false_positive_rate": 0.012048192771084338,
+  "false_negative_rate": 0.15384615384615385,
+  "confusion_table_pipeline_rows_human_columns": {
+    "metric_reported": {
+      "metric_reported": 99,
+      "no_metric_reported": 18
+    },
+    "no_metric_reported": {
+      "metric_reported": 1,
+      "no_metric_reported": 82
+    }
+  },
+  "false_negative_metric_family_counts": {
+    "roc-auc": 13,
+    "accuracy": 5
+  },
+  "false_positive_titles": [
+    "Determining the prognosis of Lung cancer from mutated genes using a deep learning survival model: a large multi-center study"
+  ],
+  "prediction_stratum_weighted_population_estimates": {
+    "prediction_stratum_predicted_metric_n": 12538,
+    "prediction_stratum_predicted_no_metric_n": 8228,
+    "estimated_true_positive_count": 12412.619999999999,
+    "estimated_false_positive_count": 125.38000000000001,
+    "estimated_false_negative_count": 1481.04,
+    "estimated_true_negative_count": 6746.96,
+    "weighted_accuracy_estimate": 0.9226418183569295,
+    "weighted_sensitivity_estimate": 0.8934017386347441,
+    "weighted_specificity_estimate": 0.9817558502635201,
+    "estimated_human_metric_reported_count": 13893.66,
+    "estimated_human_no_metric_reported_count": 6872.34,
+    "estimated_human_metric_reported_share": 0.6690580757006646
+  }
+}

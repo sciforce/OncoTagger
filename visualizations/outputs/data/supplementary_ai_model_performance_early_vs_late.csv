@@ -1,0 +1,26 @@
+﻿AI Model,Early 2019-2021 total,Early 2019-2021 scoreable,Early 2019-2021 mean score,Early 2019-2021 high/very high (%),Late 2024-2025 total,Late 2024-2025 scoreable,Late 2024-2025 mean score,Late 2024-2025 high/very high (%),Late minus early mean score,Late minus early high/very high (pp)
+Random_Forests,499,324,3.85,68.5,1374,959,4.08,75.5,0.23,7.0
+SVM,571,371,4.15,78.4,1162,841,4.18,78.7,0.03,0.3
+Gradient_Boosting_Trees,186,122,3.7,63.1,1147,837,4.01,71.3,0.31,8.2
+Logistic_Regression,291,189,3.71,64.6,1010,780,3.91,71.8,0.2,7.2
+ResNet_Family,203,151,4.39,86.1,886,729,4.41,84.8,0.02,-1.3
+Penalized_Regression,175,106,3.76,63.2,976,606,3.9,72.3,0.14,9.1
+U_Net_Family,261,170,3.99,72.4,708,507,4.25,81.5,0.26,9.1
+Classical_Survival_Models,202,95,3.22,49.5,788,367,3.74,65.4,0.52,15.9
+MLP_ANN_DNN,319,189,4.28,81.0,538,394,4.2,79.9,-0.08,-1.1
+Decision_Trees,200,125,3.83,66.4,420,306,4.14,77.8,0.31,11.4
+Inception_Family,132,92,4.4,87.0,392,321,4.58,90.0,0.18,3.0
+VGG_Family,130,96,4.38,85.4,391,316,4.55,89.2,0.17,3.8
+k_Nearest_Neighbours,142,87,4.14,77.0,359,280,4.31,81.1,0.17,4.1
+DenseNet_Family,79,54,4.52,90.7,343,295,4.51,87.5,-0.01,-3.2
+Vision_Transformers,1,1,5.0,100.0,450,343,4.46,86.6,-0.54,-13.4
+MobileNet_and_Lightweight_CNNs,31,21,4.76,100.0,282,235,4.6,91.9,-0.16,-8.1
+EfficientNet_Family,20,14,4.79,100.0,318,274,4.68,92.3,-0.11,-7.7
+GAN_Family,102,38,3.71,65.8,218,119,4.3,84.0,0.59,18.2
+Autoencoders_and_VAE,99,44,3.98,72.7,145,92,4.59,90.2,0.61,17.5
+Naive_Bayes,99,66,3.85,68.2,132,103,4.24,80.6,0.39,12.4
+Vision_Language_Models,19,11,3.91,81.8,242,138,4.12,76.8,0.21,-5.0
+General_Semantic_Segmentation_CNNs,82,46,4.37,84.8,120,83,4.27,83.1,-0.1,-1.7
+Attention_and_Residual_U_Net_Variants,26,18,4.0,72.2,153,119,4.39,84.0,0.39,11.8
+V_Net_and_3D_Encoder_Decoder_Segmentation,59,46,3.8,60.9,119,90,4.07,76.7,0.27,15.8
+YOLO_Family,17,12,4.33,75.0,172,127,4.23,78.7,-0.1,3.7

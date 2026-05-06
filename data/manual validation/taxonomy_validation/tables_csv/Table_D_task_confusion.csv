@@ -1,0 +1,10 @@
+﻿manual,auxiliary,classification,genomic,integration,nlp,prognosis,segmentation,synthesis,unassigned
+auxiliary,0,4,0,1,1,2,3,0,3
+classification,3,160,0,0,2,35,20,0,0
+genomic,1,11,1,0,0,3,0,2,0
+integration,0,0,0,0,0,0,1,0,0
+nlp,1,3,0,0,0,1,2,0,1
+prognosis,1,14,0,0,0,67,3,0,2
+segmentation,0,0,0,0,0,0,42,0,0
+synthesis,0,4,0,0,0,1,2,1,0
+unassigned,0,0,0,0,0,0,1,0,1

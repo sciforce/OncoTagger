@@ -1,0 +1,12 @@
+﻿display_item,placement,title,source,rationale
+Figure 1,main,PRISMA-inspired corpus flow,current_full_pipeline_summary.json; info for PRISMA schema.txt,"Shows the screening denominator, automated/manual split, and final analytic corpus."
+Figure 2,main,Temporal growth task redistribution and metric reporting,Tasks by Year; No Metrics by Year,Captures the main temporal story without dense cross-tabs.
+Figure 3,main,Top corpus descriptors dashboard,table2_top_corpus_descriptors.csv derived from the analysis workbook,Replaces a dense descriptor table with a reproducible four-panel figure.
+Figure 4,main,Geography and translational signals,Reprint Country Overall; article to population ratio.xlsx; translational_subset_summary.json,"Separates raw publication geography, per-capita output, and implementation-oriented signals."
+Table 1,main,Study design denominators and validation summary,summary JSON; validation JSON,Gives reviewers one compact denominator and validation table.
+Table 2,main,Performance-category distributions,table2_performance_category_distribution.csv,"Summarizes weighted_category and composite_metric distributions without overloading the Results prose."
+Supplementary Table 1,supplementary,Top corpus descriptors source table,analysis workbook,Source table for the Figure 3 descriptor dashboard.
+Supplementary Table 2,supplementary,Full country rankings,Reprint Country Overall; article to population ratio.xlsx,Too dense for main text.
+Supplementary Table 3,supplementary,Full cancer task and AI cross-tabs,Task x Cancer; Task x AI Models; Task x AI Classes,Useful for reuse but too wide for the Article display limit.
+Supplementary Table 4,supplementary,Metric ecology and validation confusion matrices,Composite Src sheets; manual-validation workbooks,Supports methods credibility without crowding the main results.
+Supplementary Table 5,supplementary,Translational subset article details,supplementary_translational_subset.xlsx,"Article-level examples are interpretive support, not the core corpus map."
