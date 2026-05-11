@@ -40,7 +40,10 @@ def main():
                     and p.suffix.lower() in (".xlsx", ".xls", ".csv")])
 
     if not files:
-        sys.exit(f"In {RAW_DIR} no files savedrecs*.xlsx|xls|csv found")
+        sys.exit(
+            f"In {RAW_DIR}, no files matching savedrecs*.{{csv,xls,xlsx}} were found. "
+            "Use WoS export filenames that start with 'savedrecs'."
+        )
 
     combined = []
     for f in files:

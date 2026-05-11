@@ -64,7 +64,7 @@ SOURCE_PURPOSES = {
     "ai_terms_filter_remove.csv": "Negative AI terms used to reduce false inclusions.",
     "raw_ai_terms_filter.csv": "Raw AI filtering term source retained for auditability.",
     "total-population-by-country-2025.csv": "2025 population denominator source used for per-capita country normalization.",
-    "total-population-by-country-2025 (1) (1).csv": "2025 population denominator source used for per-capita country normalization.",
+    "total-population-by-country-2025.csv": "2025 population denominator source used for per-capita country normalization.",
 }
 
 

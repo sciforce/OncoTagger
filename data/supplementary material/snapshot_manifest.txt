@@ -9,6 +9,10 @@ manuscript counts, supplementary tables, dictionary inputs, and validation
 summaries without redistributing licensed raw Web of Science Core Collection
 exports.
 
+Manuscript title
+----------------
+`A reproducible bibliographic landscape of AI in oncology`
+
 Core synchronized counts
 ------------------------
 - Raw WoS records: `59,994`
