@@ -5,6 +5,8 @@ OncoTagger submission snapshot. It is intended to give editors and reviewers
 the minimum derived material needed to verify the manuscript's aggregate claims
 without redistributing licensed raw Web of Science Core Collection exports.
 
+Current manuscript title: **"A reproducible bibliographic landscape of AI in oncology"**.
+
 ## Core Files
 
 - `Supplementary_Information.md`

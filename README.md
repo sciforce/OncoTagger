@@ -1,23 +1,29 @@
 # OncoTagger
 
-End-to-end, rule-based pipeline for rebuilding an analytic corpus of Web of Science articles about artificial intelligence in oncology. The repository merges WoS exports, deduplicates records, excludes publication year 2026, filters records for oncology and AI relevance, annotates cancer types, AI model families, study tasks, performance metrics, and then produces analysis tables for manual review, figures, audit, and article-supporting supplementary outputs.
+End-to-end, rule-based pipeline for rebuilding an analytic corpus of Web of Science articles about artificial intelligence in oncology. The repository supports the manuscript **"A reproducible bibliographic landscape of AI in oncology"**.
 
-The research goal is to make the article-selection and annotation workflow reproducible for a review of AI applications in oncology. The primary input is a set of WoS `savedrecs*` exports. The main derived outputs are filtered article workbooks, binary annotation workbooks, metric categories, aggregated counter tables under `data/results/`, manual validation artifacts under `data/manual validation/`, and synchronized article-supporting release artifacts under `data/supplementary material/`.
+## What this repository does
 
-> The pipeline expects WoS export files in `data/raw/`. If you redistribute a snapshot publicly, verify that sharing of raw Web of Science exports is permitted by the applicable Clarivate license.
+OncoTagger is a deterministic, abstract-level evidence-surveillance pipeline. It starts from user-supplied Web of Science Core Collection (WoSCC) export batches in `data/raw/`; raw WoSCC exports are not redistributed because they are licensed Clarivate content. The core outputs are a filtered workbook, a binary annotation workbook, an aggregate analysis workbook, manual validation artifacts, and manuscript-facing derived release artifacts such as population-normalized country outputs and candidate translational-signal subsets. Reproducibility depends on rerunning the documented script order from a fixed WoSCC snapshot and fixed dictionaries under `sources/`.
 
 ## Pipeline
+
+### Run order
 
 Run scripts from the repository root in this order:
 
 1. **WoS export merge**
-   `src/combine_wos_exports.py` reads `data/raw/savedrecs*.csv|xls|xlsx` and writes `data/raw/combined_dataset.xlsx`.
+   `src/combine_wos_exports.py` reads `data/raw/savedrecs*.{csv,xls,xlsx}` and writes `data/raw/combined_dataset.xlsx`. This means files in `data/raw/` with names beginning with `savedrecs` and one of the supported extensions.
 
 2. **Deduplication and year exclusion**
    `src/to_delete_duplicates_by_DOI.py` reads the combined workbook, normalizes non-empty `DOI` values, applies a conservative title/year fallback, excludes publication year `2026`, reports each removal count, and writes `data/processed/processed_dataset.xlsx`.
 
 3. **Eligibility filter**
-   `src/filter_dataset.py` scores oncology and AI relevance, keeps a publication-year exclusion safeguard, applies severe-negative gates, and writes include/manual-review/excluded/audit workbooks.
+   `src/filter_dataset.py` scores oncology and AI relevance, keeps a publication-year exclusion safeguard, applies severe-negative gates, and writes:
+   - `data/filtered/filtered_dataset.xlsx` - automatically included records.
+   - `data/filtered/filtered_dataset_manual_review.xlsx` - borderline records requiring manual review.
+   - `data/filtered/filtered_dataset_excluded.xlsx` - automatically excluded records.
+   - `data/filtered/filtered_dataset_audit_all_decisions.xlsx` - full audit table with scores, hits, flags, final decision, and `decision_reason`.
 
 4. **Cancer typing**
    `src/main_binary.py` scans title, abstract, and author keywords with hard and soft cancer vocabularies, then creates one-hot cancer columns plus detection metadata.
@@ -26,17 +32,24 @@ Run scripts from the repository root in this order:
    `src/main_binary.py` detects AI model families from curated keyword columns and records where the AI signal was found.
 
 6. **Task detection**
-   `src/main_binary.py` detects study task labels, keeps a single `primary_task` for metric interpretation, and stores all matched tasks in `all_tasks`.
+   `src/main_binary.py` detects study task labels. The script writes a single task label to the `primary_task` output column for downstream metric interpretation and preserves all matched task labels in the `all_tasks` output column.
 
 7. **Metric extraction**
    `src/main_binary.py` extracts performance metrics from abstracts, normalizes numeric values, bins them with metric-specific thresholds, and adds trace columns for context and raw values.
 
-8. **Aggregation / counters / outputs**
+8. **Aggregation, counters, and output tables**
    `src/counter.py` reads the binary annotation workbook and writes an analysis workbook with frequencies, year trends, cross-tabs, country summaries, source-title summaries, no-metrics summaries, and AI class mapping tables.
 
 9. **Article-facing helper outputs**
-   `src/build_article_to_population_ratio.py` derives the population-normalized country workbook from the analysis workbook and a population CSV in `sources/`.
-   `src/build_translational_subset.py` derives a supplementary translational subset from the binary annotation workbook using external-validation and implementation-oriented signals.
+   - `src/build_article_to_population_ratio.py`
+     - Input: `data/results/filtered_dataset_binary_classification_analysis.xlsx`
+     - Input: `sources/total-population-by-country-2025.csv`
+     - Output: `data/results/article to population ratio.xlsx`
+     - Purpose: derives population-normalized corresponding-author country outputs.
+   - `src/build_translational_subset.py`
+     - Input: `data/results/filtered_dataset_binary_classification.xlsx`
+     - Output: manuscript-facing translational subset workbook and summary files.
+     - Purpose: derives a cautious candidate translational-signal subset using external-validation context and implementation-oriented title signals.
 
 ## Repository Structure
 
@@ -59,6 +72,11 @@ data/
     article to population ratio.xlsx
   supplementary material/
     synchronized supplementary workbooks and release summaries
+docs/
+  samples/
+    sample_savedrecs.xlsx
+    sample_combined_dataset.xlsx
+    sample_filtered_dataset_binary_classification.xlsx
 sources/
   controlled vocabularies, thresholds, task priorities, mappings, population source tables
 src/
@@ -71,11 +89,18 @@ src/
   counter.py
 ```
 
-Some `data/` files are generated artifacts or synchronized local analysis files. Rebuild them from your own WoS snapshot when reproducing a run.
+Several files under `data/` are generated outputs from the pipeline rather than manually edited source files. To reproduce them, place your own WoSCC export batches in `data/raw/` and run the scripts in the documented [Run order](#run-order). The raw WoSCC exports are not redistributed because they are licensed Clarivate content.
+
+Input and output roles:
+
+- User-supplied input: WoSCC export batches under `data/raw/`.
+- Controlled source files: dictionaries, thresholds, priorities, and mappings under `sources/`.
+- Generated outputs: `data/raw/combined_dataset.xlsx`, `data/processed/processed_dataset.xlsx`, `data/filtered/*.xlsx`, and `data/results/*.xlsx`.
+- Manuscript-facing derived release artifacts: supplementary packages and submission-stage derived files, when present, under `data/supplementary material/` or the local submission staging area.
 
 ## Input Data
 
-Place WoS export batches in `data/raw/`. `combine_wos_exports.py` only picks files whose names start with `savedrecs` and whose extensions are `.csv`, `.xls`, or `.xlsx`.
+Place WoS export batches in `data/raw/`. The merge script looks for WoS export files whose filenames start with `savedrecs` and end in `.csv`, `.xls`, or `.xlsx`, for example `savedrecs1.xlsx`, `savedrecs(2).csv`, or `savedrecs_batch_03.xlsx`. In shell-style notation this is `data/raw/savedrecs*.{csv,xls,xlsx}`. The asterisk is a wildcard pattern, not a footnote marker.
 
 Expected WoS columns retained by the merge step:
 
@@ -113,13 +138,14 @@ The pipeline is driven by files in `sources/`:
 - `thresholds.csv` - metric-specific cutoffs for `Very High`, `High`, `Medium`, `Low`, and `Very Low`.
 - `category_scores.csv` - numeric scores for performance categories used by weighted aggregation.
 - `country_synonyms.csv` - country aliases used when parsing `Reprint Addresses`.
+- `total-population-by-country-2025.csv` - population denominators for the article-to-population helper output.
 - `wos_exclusion_categories.tsv` - WoS category trace layer for non-oncology or ambiguous records.
 
 ## Main Scripts
 
 ### `src/combine_wos_exports.py`
 
-Input: `data/raw/savedrecs*.csv|xls|xlsx`
+Input: `data/raw/savedrecs*.{csv,xls,xlsx}`. This means files in `data/raw/` with names beginning with `savedrecs` and one of the supported extensions.
 
 Output: `data/raw/combined_dataset.xlsx`
 
@@ -152,7 +178,19 @@ Input: `data/filtered/filtered_dataset.xlsx`
 
 Output: `data/results/filtered_dataset_binary_classification.xlsx`
 
-Adds binary cancer, AI model, and task labels; `primary_task`; `all_tasks`; metric category columns; metric trace columns; `composite_metric`; `composite_source`; `weighted_score`; and `weighted_category`.
+`src/main_binary.py` adds:
+
+- binary cancer-site columns;
+- binary AI model/family columns;
+- binary task columns;
+- `primary_task`;
+- `all_tasks`;
+- metric category columns;
+- metric trace columns;
+- `composite_metric`;
+- `composite_source`;
+- `weighted_score`;
+- `weighted_category`.
 
 ### `src/counter.py`
 
@@ -160,20 +198,44 @@ Input: `data/results/filtered_dataset_binary_classification.xlsx`
 
 Output: `data/results/filtered_dataset_binary_classification_analysis.xlsx`
 
-Builds analysis sheets for cancer frequencies, AI model frequencies, AI class frequencies, task frequencies, task-by-year tables, cancer/model/class-by-year tables, metric-by-year tables, metric-by-task tables, cross-tabs, country summaries, source-title summaries, no-metrics summaries, and top-10 temporal trends.
+Builds analysis sheets grouped as:
+
+- frequency tables:
+  - cancer-site frequencies;
+  - AI model frequencies;
+  - AI class frequencies;
+  - task frequencies;
+- temporal tables:
+  - task-by-year;
+  - cancer-by-year;
+  - AI model-by-year;
+  - AI class-by-year;
+  - metric-by-year;
+- cross-tabulations:
+  - task x cancer;
+  - task x model;
+  - task x AI class;
+  - metric-category cross-tabs against cancer, AI model, and AI class outputs;
+- reporting-quality summaries:
+  - no-metrics summaries;
+  - source-title summaries;
+- geography outputs:
+  - corresponding-author country summaries;
+- trend summaries:
+  - top-10 temporal trends.
 
 ### `src/build_article_to_population_ratio.py`
 
-Input:
+Inputs:
 
 - `data/results/filtered_dataset_binary_classification_analysis.xlsx`
-- `sources/total-population-by-country-2025 (1) (1).csv`
+- `sources/total-population-by-country-2025.csv`
 
 Output:
 
 - `data/results/article to population ratio.xlsx`
 
-Builds a population-normalized corresponding-author country workbook with full rankings plus `>=20` and `>=100` article threshold views.
+Purpose: derives population-normalized corresponding-author country outputs.
 
 ### `src/build_translational_subset.py`
 
@@ -181,13 +243,11 @@ Input:
 
 - `data/results/filtered_dataset_binary_classification.xlsx`
 
-Primary output:
+Output:
 
-- manuscript-facing translational subset workbook and summary files
+- manuscript-facing translational subset workbook and summary files.
 
-Use:
-
-Builds a cautious supplementary translational subset from external-validation context signals and title-level implementation-oriented phrases such as prospective, real-world, multicenter, calculator, platform, interface, or decision-support wording.
+Purpose: derives a cautious candidate translational-signal subset using external-validation context and implementation-oriented title signals.
 
 ## How Classification Works
 
@@ -256,6 +316,8 @@ Typical generated files:
 - `data/manual validation/` - manual audit files, ordinal validation tables, and detection-audit summaries.
 - `data/supplementary material/` - synchronized article-supporting release artifacts and summary manifests.
 
+The repository also contains sample workbooks in `docs/samples/` for orientation.
+
 ## Validation / Audit Layers
 
 The workflow includes several audit layers:
@@ -266,8 +328,13 @@ The workflow includes several audit layers:
 - `decision_reason` explaining the final eligibility decision.
 - Cancer hard/soft source metadata.
 - Task source metadata through `task_source_field`.
-- Metric trace columns: context, raw value, sentence, source type, and suspicious extraction flag.
-- `no_metrics_reported` and no-metrics analysis sheets.
+- Metric trace columns:
+  - context;
+  - raw value;
+  - sentence;
+  - source type;
+  - suspicious extraction flag.
+- `no_metrics_reported` column and no-metrics analysis sheets.
 - Dictionary enrichment via editable files in `sources/`.
 - Repository-facing manual validation artifacts in `data/manual validation/`.
 - Repository-facing supplementary release artifacts in `data/supplementary material/`.
@@ -279,8 +346,10 @@ Manual validation and supplementary release folders are not required for a basic
 Recommended environment:
 
 - Python 3.11 or newer
-- spaCy `en_core_web_sm`
-- Dependencies from `requirements.txt`
+- Python packages from `requirements.txt`, including `pandas`, `numpy`, `spacy`, `tqdm`, and `pycountry`
+- Excel engine dependency: `openpyxl` for `.xlsx` files
+- Optional Excel engine dependency for legacy `.xls` exports: `xlrd>=2.0.1`
+- spaCy English language model: `en_core_web_sm`
 
 Setup:
 
@@ -317,10 +386,10 @@ Given a fixed WoS export snapshot and fixed `sources/` dictionaries, the pipelin
 
 ## Troubleshooting
 
-- `No files savedrecs*.xlsx|xls|csv found`: put WoS batches in `data/raw/` and keep the `savedrecs` filename prefix.
-- Excel engine errors: install `openpyxl`; install `xlrd>=2.0.1` only for legacy `.xls` files.
-- `en_core_web_sm` missing: run `python -m spacy download en_core_web_sm`.
-- Unexpected filtering decisions: inspect `data/filtered/filtered_dataset_audit_all_decisions.xlsx`, especially score, hit, flag, and `decision_reason` columns.
+- `No files matching savedrecs*.{csv,xls,xlsx} found`: put WoS batches in `data/raw/` and keep the `savedrecs` filename prefix.
+- Excel engine errors: install `openpyxl` for `.xlsx` files; install `xlrd>=2.0.1` only for legacy `.xls` files.
+- Missing spaCy English language model: if `en_core_web_sm` is missing, run `python -m spacy download en_core_web_sm`.
+- Unexpected filtering decisions: inspect `data/filtered/filtered_dataset_audit_all_decisions.xlsx`, especially columns containing `score`, `hit`, or `flag`, plus the exact `decision_reason` column. These fields explain why a record was included, excluded, or routed to manual review.
 - Country aliases missing: add them to `sources/country_synonyms.csv`.
 - README/release mismatch: treat `data/supplementary material/` as a synchronized release layer, not as the sole source of truth for rerunning the core pipeline.
 

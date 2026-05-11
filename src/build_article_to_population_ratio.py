@@ -8,7 +8,7 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_WORKBOOK = PROJECT_ROOT / "data" / "results" / "filtered_dataset_binary_classification_analysis.xlsx"
-POPULATION_CSV = PROJECT_ROOT / "sources" / "total-population-by-country-2025 (1) (1).csv"
+POPULATION_CSV = PROJECT_ROOT / "sources" / "total-population-by-country-2025.csv"
 OUTPUT_XLSX = PROJECT_ROOT / "data" / "results" / "article to population ratio.xlsx"
 OUTPUT_JSON = PROJECT_ROOT / "documentation" / "self-documented docs" / "article_to_population_ratio_summary.json"
 OUTPUT_TXT = PROJECT_ROOT / "documentation" / "self-documented docs" / "article_to_population_ratio_summary.txt"

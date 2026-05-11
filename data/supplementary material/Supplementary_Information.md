@@ -3,7 +3,7 @@ Supplementary Information
 
 Manuscript
 ----------
-A reproducible evidence-surveillance resource for artificial intelligence in oncology
+A reproducible bibliographic landscape of AI in oncology
 
 Purpose
 -------
