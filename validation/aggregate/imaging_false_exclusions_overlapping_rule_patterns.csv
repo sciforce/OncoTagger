@@ -1,0 +1,7 @@
+overlapping_pattern,count,denominator,share,note
+Radiomics not treated as a primary AI signal,0,22,0.0,Pattern counts overlap and do not sum to 22.
+Hyphenated AI phrase mismatch,0,22,0.0,Pattern counts overlap and do not sum to 22.
+Specific method beyond screening abstract,0,22,0.0,Pattern counts overlap and do not sum to 22.
+Mammography downweighted for oncology,0,22,0.0,Pattern counts overlap and do not sum to 22.
+Oncology context mainly outside screening text,0,22,0.0,Pattern counts overlap and do not sum to 22.
+False exclusion-criteria trigger,0,22,0.0,Pattern counts overlap and do not sum to 22.

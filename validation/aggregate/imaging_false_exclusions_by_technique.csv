@@ -1,0 +1,7 @@
+technique_group,count,denominator,share
+Handcrafted radiomics / texture modeling,11,22,0.5
+Segmentation / labeling,4,22,0.18181818181818182
+Deep-learning image classification,3,22,0.13636363636363635
+Hybrid deep radiomics,2,22,0.09090909090909091
+Image enhancement / reconstruction,1,22,0.045454545454545456
+Workflow triage / integration,1,22,0.045454545454545456

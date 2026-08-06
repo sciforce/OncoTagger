@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use OncoTagger, please cite the accompanying manuscript and this software repository."
+title: "OncoTagger"
+type: software
+authors:
+  - family-names: "Khilchevskyi"
+    given-names: "Bohdan"
+  - family-names: "Talapova"
+    given-names: "Polina"
+  - family-names: "Kaduk"
+    given-names: "Denys"
+  - family-names: "Trofymenko"
+    given-names: "Maksym"
+  - family-names: "Nesmiian"
+    given-names: "Tetiana"
+repository-code: "https://github.com/sciforce/OncoTagger"
+license: MIT
+version: "2.1.0"
+date-released: "2026-08-06"

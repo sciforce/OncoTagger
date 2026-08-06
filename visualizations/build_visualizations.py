@@ -14,10 +14,10 @@ FIGURE_DIR = OUTPUT_DIR / "figures"
 
 ANALYSIS_XLSX = ROOT / "data" / "results" / "filtered_dataset_binary_classification_analysis.xlsx"
 POPULATION_XLSX = ROOT / "data" / "results" / "article to population ratio.xlsx"
-SUMMARY_JSON = ROOT / "data" / "supplementary material" / "current_full_pipeline_summary.json"
-TRANSLATIONAL_JSON = ROOT / "data" / "supplementary material" / "translational_subset_summary.json"
-PRIMARY_VALIDATION_JSON = ROOT / "data" / "manual validation" / "primary_validation_400_analysis.json"
-DETECTION_AUDIT_JSON = ROOT / "data" / "manual validation" / "secondary_detection_audit_analysis.json"
+RELEASE_MANIFEST = ROOT / "RELEASE_MANIFEST.json"
+VALIDATION_METRICS_CSV = ROOT / "validation" / "aggregate" / "validation_metrics_with_ci.csv"
+WEIGHTED_DETECTION_CSV = ROOT / "validation" / "aggregate" / "metric_detection_weighted_bootstrap_ci.csv"
+TRANSLATIONAL_JSON = ROOT / "documentation" / "self-documented docs" / "translational_subset_summary.json"
 
 
 COLORS = {
@@ -116,7 +116,7 @@ def write_display_plan() -> None:
             "display_item": "Figure 1",
             "placement": "main",
             "title": "PRISMA-inspired corpus flow",
-            "source": "current_full_pipeline_summary.json; info for PRISMA schema.txt",
+            "source": "RELEASE_MANIFEST.json",
             "rationale": "Shows the screening denominator, automated/manual split, and final analytic corpus.",
         },
         {
@@ -144,7 +144,7 @@ def write_display_plan() -> None:
             "display_item": "Table 1",
             "placement": "main",
             "title": "Study design denominators and validation summary",
-            "source": "summary JSON; validation JSON",
+            "source": "RELEASE_MANIFEST.json; public aggregate validation CSV files",
             "rationale": "Gives reviewers one compact denominator and validation table.",
         },
         {
@@ -172,7 +172,7 @@ def write_display_plan() -> None:
             "display_item": "Supplementary Table 4",
             "placement": "supplementary",
             "title": "Metric ecology and validation confusion matrices",
-            "source": "Composite Src sheets; manual-validation workbooks",
+            "source": "Composite Src sheets; public aggregate validation CSV files",
             "rationale": "Supports methods credibility without crowding the main results.",
         },
         {
@@ -187,30 +187,90 @@ def write_display_plan() -> None:
 
 
 def build_table_data() -> None:
-    summary = load_json(SUMMARY_JSON)["summary"]
-    full_corpus_n = int(summary["filtered_rows_input_to_main"])
-    primary = load_json(PRIMARY_VALIDATION_JSON)
-    detection = load_json(DETECTION_AUDIT_JSON)
+    release = load_json(RELEASE_MANIFEST)
+    counts = release["record_counts"]
+    full_corpus_n = int(counts["final_corpus_records"])
+    validation = pd.read_csv(VALIDATION_METRICS_CSV)
+    weighted_detection = pd.read_csv(WEIGHTED_DETECTION_CSV).set_index("metric")
 
-    weighted = primary["manual_vs_weighted_category"]
-    composite = primary["manual_vs_composite_metric"]
+    def validation_row(comparison: str, metric: str) -> pd.Series:
+        rows = validation[
+            (validation["comparison"] == comparison)
+            & (validation["metric"] == metric)
+        ]
+        if len(rows) != 1:
+            raise ValueError(f"Expected one validation row for {comparison!r}, {metric!r}")
+        return rows.iloc[0]
+
+    def percent_ci(row: pd.Series) -> str:
+        return (
+            f"{float(row['estimate']) * 100:.1f}% "
+            f"(95% CI {float(row['ci_low_95']) * 100:.1f}-{float(row['ci_high_95']) * 100:.1f}%)"
+        )
+
+    def statistic_ci(row: pd.Series) -> str:
+        return (
+            f"{float(row['estimate']):.3f} "
+            f"(95% CI {float(row['ci_low_95']):.3f}-{float(row['ci_high_95']):.3f})"
+        )
+
+    def weighted_detection_ci(row: pd.Series) -> str:
+        return (
+            f"{float(row['estimate']) * 100:.1f}% "
+            f"(95% CI {float(row['ci_lower_95']) * 100:.1f}-{float(row['ci_upper_95']) * 100:.1f}%)"
+        )
+
+    composite_exact = validation_row("Manual category vs composite_metric", "exact_agreement")
+    weighted_exact = validation_row("Manual category vs weighted_category", "exact_agreement")
+    composite_kappa = validation_row("Manual category vs composite_metric", "linear_weighted_kappa")
+    weighted_kappa = validation_row("Manual category vs weighted_category", "linear_weighted_kappa")
+    primary_task_exact = validation_row("Pipeline vs consensus primary task", "exact_agreement")
+    primary_task_kappa = validation_row("Pipeline vs consensus primary task", "cohen_kappa")
+
+    accuracy = weighted_detection.loc["accuracy"]
+    sensitivity = weighted_detection.loc["sensitivity"]
+    specificity = weighted_detection.loc["specificity"]
 
     table1 = pd.DataFrame(
         [
-            ("Records identified from Web of Science exports", "59,994", "Raw merged WoS records"),
-            ("Duplicate records removed", "38", "37 DOI duplicates and 1 title/year fallback duplicate"),
-            ("Publication-year 2026 records excluded", "128", "Out-of-scope future-year records"),
-            ("Records screened after deduplication and year filtering", "59,828", "Screening denominator"),
-            ("Records included by automated filtering", "20,723", "Before manual-review additions"),
-            ("Manual-review records retained", "43 of 48", "Borderline records adjudicated by authors"),
-            ("Final filtered corpus", f"{summary['filtered_rows_input_to_main']:,}", "Main descriptive denominator"),
-            ("Abstracts with at least one detected metric", f"{summary['no_metrics_reported_0_metric_bearing']:,}", "60.4% of final corpus"),
-            ("Scoreable performance-category corpus", f"{summary['weighted_category_available']:,}", "Weighted/composite category available"),
-            ("Primary ordinal validation sample", f"{primary['N']}", "Manual category labels"),
-            ("Manual versus composite exact agreement", pct(composite["exact_agreement"]), "N=379 comparable records"),
-            ("Manual versus composite linear weighted kappa", f"{composite['linear_weighted_kappa']:.3f}", "Ordinal agreement"),
-            ("Metric-detection audit sample", f"{detection['N_total_audited']}", "Stratified 200-record audit"),
-            ("Metric-detection accuracy", pct(detection["accuracy"]), "Sensitivity 84.6%; specificity 98.8%"),
+            ("Records identified from Web of Science exports", f"{counts['woscc_export_records']:,}", "Raw merged WoS records"),
+            ("Duplicate records removed", f"{counts['duplicate_records_removed']:,}", "37 DOI duplicates and 1 title/year fallback duplicate"),
+            ("Publication-year 2026 records excluded", f"{counts['publication_year_2026_records_excluded']:,}", "Out-of-scope future-year records"),
+            ("Records screened after deduplication and year filtering", f"{counts['records_screened']:,}", "Screening denominator"),
+            ("Records included by automated filtering", f"{counts['automatically_included_records']:,}", "Before manual-review additions"),
+            ("Manual-review records retained", f"{counts['manual_review_records_retained']} of {counts['manual_review_records']}", "Borderline records adjudicated by authors"),
+            ("Final filtered corpus", f"{counts['final_corpus_records']:,}", "Main descriptive denominator"),
+            ("Article records with at least one metric detected in the abstract", f"{counts['metric_bearing_records']:,}", "60.4% of final corpus"),
+            ("Scoreable performance-category corpus", f"{counts['scoreable_performance_category_records']:,}", "Weighted/composite category available"),
+            ("Primary ordinal validation sample", f"{int(composite_exact['sample_n'])}", "Manual category labels"),
+            (
+                "Manual versus composite exact agreement",
+                percent_ci(composite_exact),
+                f"N={int(composite_exact['comparable_n'])} comparable records; weighted-category exact agreement "
+                f"{float(weighted_exact['estimate']) * 100:.1f}% "
+                f"({float(weighted_exact['ci_low_95']) * 100:.1f}-{float(weighted_exact['ci_high_95']) * 100:.1f}%)",
+            ),
+            (
+                "Manual versus composite linear weighted kappa",
+                statistic_ci(composite_kappa),
+                f"Weighted-category kappa {float(weighted_kappa['estimate']):.3f} "
+                f"({float(weighted_kappa['ci_low_95']):.3f}-{float(weighted_kappa['ci_high_95']):.3f})",
+            ),
+            ("Metric-detection audit sample", "200", "Stratified 200-record audit"),
+            (
+                "Metric-detection accuracy (corpus-weighted)",
+                weighted_detection_ci(accuracy),
+                f"Prediction-stratum weighted; sensitivity {float(sensitivity['estimate']) * 100:.1f}% "
+                f"({float(sensitivity['ci_lower_95']) * 100:.1f}-{float(sensitivity['ci_upper_95']) * 100:.1f}%); "
+                f"specificity {float(specificity['estimate']) * 100:.1f}% "
+                f"({float(specificity['ci_lower_95']) * 100:.1f}-{float(specificity['ci_upper_95']) * 100:.1f}%)",
+            ),
+            (
+                "Primary-task validation",
+                percent_ci(primary_task_exact).replace(" (95% CI", " exact agreement (95% CI"),
+                f"Cohen's kappa {float(primary_task_kappa['estimate']):.3f} "
+                f"({float(primary_task_kappa['ci_low_95']):.3f}-{float(primary_task_kappa['ci_high_95']):.3f}); moderate agreement",
+            ),
         ],
         columns=["Item", "Value", "Note"],
     )
@@ -423,15 +483,20 @@ def build_flow_figure() -> None:
 
 def build_temporal_figure() -> None:
     plt, _, _ = require_matplotlib()
-    summary = load_json(SUMMARY_JSON)
-    years = sorted(int(y) for y in summary["years_all"].keys())
-    annual = pd.DataFrame(
-        {
-            "Publication Year": years,
-            "Articles": [summary["years_all"][str(y)] for y in years],
-            "Metric-bearing abstracts": [summary["years_metric_bearing"][str(y)] for y in years],
-        }
-    )
+    no_metrics = read_sheet("No Metrics by Year").copy()
+    annual = no_metrics.rename(columns={"N_articles": "Articles"})[
+        ["Publication Year", "Articles", "N_no_metrics_reported"]
+    ]
+    annual["Publication Year"] = pd.to_numeric(
+        annual["Publication Year"], errors="raise"
+    ).astype(int)
+    annual["Articles"] = pd.to_numeric(annual["Articles"], errors="raise").astype(int)
+    annual["N_no_metrics_reported"] = pd.to_numeric(
+        annual["N_no_metrics_reported"], errors="raise"
+    ).astype(int)
+    annual["Metric-bearing abstracts"] = annual["Articles"] - annual["N_no_metrics_reported"]
+    annual = annual.drop(columns="N_no_metrics_reported").sort_values("Publication Year")
+    years = annual["Publication Year"].tolist()
     annual["Metric-bearing share"] = annual["Metric-bearing abstracts"] / annual["Articles"]
     save_csv(annual, "figure2_annual_counts_metric_share.csv")
 
@@ -559,7 +624,7 @@ def build_descriptor_dashboard_figure() -> None:
 
         panel = descriptors[descriptors["Descriptor group"] == group].copy()
         panel["Descriptor"] = panel["Descriptor"].map(descriptor_label)
-        max_count = float(panel["Count"].max())
+        max_count = max(float(panel["Count"].max()) if not panel.empty else 0.0, 1.0)
         rows = len(panel)
         ax.set_ylim(-0.2, rows + 1.1)
 

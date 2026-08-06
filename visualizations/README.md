@@ -1,17 +1,22 @@
-# Visualization Pipeline
+# Visualization pipeline
 
-This folder contains reproducible figure/table generation for the manuscript.
-It is intentionally outside `documentation/` so the scripts and display data can
-be tracked in git.
+This folder contains the manuscript-linked figure/table generation scripts and
+their aggregate output tables. The published output files contain no WoSCC
+article text or bibliographic identifiers.
 
 ## Inputs
 
-- `data/supplementary material/current_full_pipeline_summary.json`
+- `RELEASE_MANIFEST.json`
+- `validation/aggregate/validation_metrics_with_ci.csv`
+- `validation/aggregate/metric_detection_weighted_bootstrap_ci.csv`
 - `data/results/filtered_dataset_binary_classification_analysis.xlsx`
 - `data/results/article to population ratio.xlsx`
-- `data/supplementary material/translational_subset_summary.json`
-- `data/manual validation/primary_validation_400_analysis.json`
-- `data/manual validation/secondary_detection_audit_analysis.json`
+- `documentation/self-documented docs/translational_subset_summary.json`
+
+The first three inputs are public aggregate release artifacts. The remaining
+workbooks and translational summary are generated locally from an authorized
+WoSCC export and are intentionally excluded from Git because they derive from
+licensed row-level records.
 
 ## Outputs
 
@@ -22,7 +27,7 @@ python visualizations/build_visualizations.py
 python visualizations/build_supplementary_outputs.py
 ```
 
-The script writes:
+The scripts write:
 
 - publication-ready draft PNG figures to `visualizations/outputs/figures/`
 - figure/table CSV data to `visualizations/outputs/data/`

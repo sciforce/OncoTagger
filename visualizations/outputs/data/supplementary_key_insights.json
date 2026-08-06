@@ -9,7 +9,7 @@
     2024,
     2025
   ],
-  "web_of_science_query_file": "documentation\\self-documented docs\\Web of Science search query.txt",
+  "web_of_science_query_file": "docs\\wos_search_query.txt",
   "insights": {
     "top_ai_models_overall": [
       {

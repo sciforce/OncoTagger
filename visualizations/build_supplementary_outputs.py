@@ -17,7 +17,7 @@ ARTICLE_XLSX = ROOT / "data" / "results" / "filtered_dataset_binary_classificati
 AI_FAMILY_MAP = ROOT / "sources" / "ai_family_map.csv"
 THRESHOLDS_CSV = ROOT / "sources" / "thresholds.csv"
 SOURCES_DIR = ROOT / "sources"
-QUERY_PATH = ROOT / "documentation" / "self-documented docs" / "Web of Science search query.txt"
+QUERY_PATH = ROOT / "docs" / "wos_search_query.txt"
 INSIGHTS_TXT = ROOT / "documentation" / "article" / "supplementary_results_insights.txt"
 
 YEAR_COL = "Publication Year"
@@ -262,6 +262,22 @@ def derive_inputs() -> tuple[pd.DataFrame, list[str], list[str], list[str]]:
 
 
 def build_trend_table(df: pd.DataFrame, items: list[str], label: str) -> pd.DataFrame:
+    columns = [
+        label,
+        "Total count",
+        "Share of full corpus (%)",
+        "2019 count",
+        "2025 count",
+        "2019 share (%)",
+        "2025 share (%)",
+        "2019 to 2025 share change (pp)",
+        "First detected year",
+        "Peak year",
+        "Peak count",
+        "2019-2021 count",
+        "2023-2025 count",
+        "Late/early annualized ratio",
+    ]
     year_counts = df[YEAR_COL].value_counts().sort_index().reindex(YEARS, fill_value=0)
     rows = []
     grouped = df.groupby(YEAR_COL)
@@ -293,10 +309,24 @@ def build_trend_table(df: pd.DataFrame, items: list[str], label: str) -> pd.Data
                 "Late/early annualized ratio": round(float(late_early_ratio), 2) if np.isfinite(late_early_ratio) else "Inf",
             }
         )
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=columns)
 
 
 def build_performance_table(df: pd.DataFrame, items: list[str], label: str, min_total: int = 20) -> pd.DataFrame:
+    columns = [
+        label,
+        "Total labelled records",
+        "Scoreable records",
+        "Scoreable share of labelled records (%)",
+        "Very high",
+        "High",
+        "Medium",
+        "Low",
+        "Very low",
+        "High or very high share of scoreable records (%)",
+        "Very high share of scoreable records (%)",
+        "Mean weighted category score",
+    ]
     rows = []
     for col in items:
         sub = df[df[col] == 1]
@@ -323,10 +353,23 @@ def build_performance_table(df: pd.DataFrame, items: list[str], label: str, min_
                 "Mean weighted category score": round(float(scoreable["_weighted_score"].mean()), 2) if scoreable_n else np.nan,
             }
         )
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=columns)
 
 
 def build_performance_change_table(df: pd.DataFrame, model_trends: pd.DataFrame) -> pd.DataFrame:
+    columns = [
+        "AI Model",
+        "Early 2019-2021 total",
+        "Early 2019-2021 scoreable",
+        "Early 2019-2021 mean score",
+        "Early 2019-2021 high/very high (%)",
+        "Late 2024-2025 total",
+        "Late 2024-2025 scoreable",
+        "Late 2024-2025 mean score",
+        "Late 2024-2025 high/very high (%)",
+        "Late minus early mean score",
+        "Late minus early high/very high (pp)",
+    ]
     rows = []
     top_models = model_trends.sort_values("Total count", ascending=False).head(25)["AI Model"].tolist()
     for model in top_models:
@@ -342,7 +385,7 @@ def build_performance_change_table(df: pd.DataFrame, model_trends: pd.DataFrame)
         row["Late minus early mean score"] = round(row["Late 2024-2025 mean score"] - row["Early 2019-2021 mean score"], 2)
         row["Late minus early high/very high (pp)"] = round(row["Late 2024-2025 high/very high (%)"] - row["Early 2019-2021 high/very high (%)"], 1)
         rows.append(row)
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=columns)
 
 
 def top_records(df: pd.DataFrame, sort_col: str, n: int = 6, ascending: bool = False) -> list[dict]:

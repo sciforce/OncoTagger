@@ -1,0 +1,5 @@
+exclusive_failure_path,count,denominator,share
+AI score below inclusion threshold,10,22,0.45454545454545453
+Direct AI method not established,8,22,0.36363636363636365
+Direct oncology gate not met,3,22,0.13636363636363635
+False severe-negative trigger,1,22,0.045454545454545456

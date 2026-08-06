@@ -66,7 +66,7 @@ def main():
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     out_df.to_excel(OUT_PATH, index=False, engine="openpyxl")
-    print(f"\nSaved {len(out_df):,} rows → {OUT_PATH}")
+    print(f"\nSaved {len(out_df):,} rows -> {OUT_PATH}")
 
 if __name__ == "__main__":
     main()

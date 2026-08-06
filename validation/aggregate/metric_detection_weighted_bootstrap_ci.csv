@@ -1,0 +1,4 @@
+metric,estimate,ci_lower_95,ci_upper_95,reporting_role,ci_method,bootstrap_iterations,seed
+accuracy,0.9226418183569295,0.8888683424829047,0.9524530482519503,Primary corpus-level estimate,prediction-stratified record-level percentile bootstrap,10000,20260615
+sensitivity,0.8934017386347441,0.8542454732757023,0.932673167161097,Primary corpus-level estimate,prediction-stratified record-level percentile bootstrap,10000,20260615
+specificity,0.9817558502635201,0.9446193130851978,1,Primary corpus-level estimate,prediction-stratified record-level percentile bootstrap,10000,20260615

@@ -1,0 +1,13 @@
+prediction_stratum_weighted_metric,value
+prediction_stratum_predicted_metric_n,12538.0
+prediction_stratum_predicted_no_metric_n,8228.0
+estimated_true_positive_count,12412.62
+estimated_false_positive_count,125.38
+estimated_false_negative_count,1481.04
+estimated_true_negative_count,6746.96
+weighted_accuracy_estimate,0.9226418183569295
+weighted_sensitivity_estimate,0.8934017386347441
+weighted_specificity_estimate,0.9817558502635201
+estimated_human_metric_reported_count,13893.66
+estimated_human_no_metric_reported_count,6872.34
+estimated_human_metric_reported_share,0.6690580757006646

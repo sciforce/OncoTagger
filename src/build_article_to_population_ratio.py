@@ -60,8 +60,11 @@ def build_summary(df: pd.DataFrame) -> dict:
 
     def top_rows(frame: pd.DataFrame, n: int = 10) -> list[dict]:
         cols = ["Country", "Articles count", "Population in 2025", "Articles per 1M of population"]
+        matched = frame.dropna(
+            subset=["Population in 2025", "Articles per 1M of population"]
+        )
         out = []
-        for _, row in frame.head(n)[cols].iterrows():
+        for _, row in matched.head(n)[cols].iterrows():
             out.append(
                 {
                     "Country": row["Country"],
