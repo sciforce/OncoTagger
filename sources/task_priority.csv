@@ -1,0 +1,9 @@
+task,priority
+segmentation,1
+classification,2
+prognosis,3
+synthesis,4
+genomic,5
+integration,6
+nlp,7
+auxiliary,8

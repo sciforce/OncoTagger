@@ -1,0 +1,64 @@
+(((((ALL=("cancer-free survival"
+OR "tumor-free survival"
+OR "recurrence-free survival"
+OR "RFS"
+OR "relapse-free survival"
+OR "metastasis-free survival"
+OR "MFS"
+OR "metastasis absence survival"
+OR "no metastasis survival"
+OR cancer*
+OR tumor*
+OR neoplas*
+OR onco*
+OR carcinoma*
+OR adenocarcinoma*
+OR sarcoma*
+OR malignan*
+OR tnbc
+OR lumpectomy
+OR mastectomy
+OR familial adenomatous polyposis
+OR castration-resistant 
+OR glioma
+OR astrocytoma
+OR glioblastoma
+OR brainstem tumor
+OR medulloblastoma
+OR meningioma
+OR intrahepatic cholangiocarcinoma
+OR melanoma
+OR mesothelioma
+OR thymoma
+OR osteosarcoma
+OR chondrosarcoma
+OR multiple myeloma
+OR leukemia
+OR lymphoma))
+AND ALL=(artificial intelligent*
+OR computational intelligence
+OR intelligent learning
+OR machine learning
+OR image* segmentation
+OR supervised learning
+OR deep network*
+OR deep learning
+OR neural network*
+OR neural learning
+OR neural nets model
+OR artificial neural network
+OR ai
+OR cnn
+OR convolutional neural network)) 
+NOT ti=(diabetes
+OR atrial fibrillation
+OR pulmonary embolism
+OR alzheimer*
+OR covid-19
+OR schizophrenia
+OR multiple sclerosis
+OR ulcerative colitis))
+AND py=(2019-2025))
+AND dt=(article)
+AND la=(english)
+AND OPEN access

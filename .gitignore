@@ -1,0 +1,43 @@
+/.vscode/
+/.codegpt/
+/documentation/
+/output/
+/tmp/
+/revision_tools/
+
+__pycache__/
+*.py[cod]
+*.log
+*.inspect.ndjson
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+~$*
+
+# Licensed Web of Science inputs and all row-level pipeline derivatives.
+/data/**
+!/data/README.md
+!/data/raw/
+!/data/raw/.gitkeep
+!/data/processed/
+!/data/processed/.gitkeep
+!/data/filtered/
+!/data/filtered/.gitkeep
+!/data/results/
+!/data/results/.gitkeep
+!/data/supplementary material/
+!/data/supplementary material/.gitkeep
+
+# Private validation inputs and working outputs.
+/validation/private/
+/validation/work/
+/validation/generated/
+
+# Local manuscript and submission artifacts.
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.zip

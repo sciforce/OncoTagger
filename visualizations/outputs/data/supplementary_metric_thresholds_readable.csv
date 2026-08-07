@@ -1,0 +1,20 @@
+﻿Metric,Direction,Very high,High,Medium,Low,Very low,Source
+precision,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.5 and < 0.7,< 0.5,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+sensitivity,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+specificity,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+f1-score,Higher values indicate better reported performance,>= 0.85,>= 0.75 and < 0.85,>= 0.6 and < 0.75,>= 0.5 and < 0.6,< 0.5,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+roc-auc,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+pr-auc,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+balanced accuracy,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+mcc,Higher values indicate better reported performance,>= 0.7,>= 0.5 and < 0.7,>= 0.3 and < 0.5,>= 0.1 and < 0.3,< 0.1,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+cohen's kappa,Higher values indicate better reported performance,>= 0.7,>= 0.5 and < 0.7,>= 0.3 and < 0.5,>= 0.1 and < 0.3,< 0.1,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+npv,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+fpr,Lower values indicate better reported performance,<= 0.05,> 0.05 and <= 0.1,> 0.1 and <= 0.2,> 0.2 and <= 0.3,> 0.3,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+dice,Higher values indicate better reported performance,>= 0.8,>= 0.7 and < 0.8,>= 0.6 and < 0.7,>= 0.5 and < 0.6,< 0.5,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+iou,Higher values indicate better reported performance,>= 0.7,>= 0.6 and < 0.7,>= 0.4 and < 0.6,>= 0.3 and < 0.4,< 0.3,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+hd95,Lower values indicate better reported performance,<= 2,> 2 and <= 5,> 5 and <= 10,> 10 and <= 20,> 20,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+mae,Lower values indicate better reported performance,<= 2,> 2 and <= 5,> 5 and <= 10,> 10 and <= 15,> 15,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+rmse,Lower values indicate better reported performance,<= 2,> 2 and <= 5,> 5 and <= 10,> 10 and <= 15,> 15,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+r2,Higher values indicate better reported performance,>= 0.85,>= 0.7 and < 0.85,>= 0.5 and < 0.7,>= 0.3 and < 0.5,< 0.3,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+c-index,Higher values indicate better reported performance,>= 0.8,>= 0.7 and < 0.8,>= 0.6 and < 0.7,>= 0.55 and < 0.6,< 0.55,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv
+accuracy,Higher values indicate better reported performance,>= 0.9,>= 0.8 and < 0.9,>= 0.7 and < 0.8,>= 0.6 and < 0.7,< 0.6,Author-defined ordinal proxy threshold encoded in sources/thresholds.csv

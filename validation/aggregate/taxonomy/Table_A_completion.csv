@@ -1,0 +1,11 @@
+﻿sample_name,reviewer,N,primary_task_filled,primary_task_filled_pct,all_tasks_filled,all_tasks_filled_pct,cancer_sites_filled,cancer_sites_filled_pct,cancer_site_detectable_filled,cancer_site_detectable_filled_pct,ai_families_filled,ai_families_filled_pct,ai_family_detectable_filled,ai_family_detectable_filled_pct,notes_filled,notes_filled_pct,completion_warnings
+primary_400,Tetiana,400,400,1.0,400,1.0,400,1.0,400,1.0,400,1.0,400,1.0,180,0.45,
+primary_400,Maksym,400,400,1.0,400,1.0,400,1.0,400,1.0,400,1.0,400,1.0,165,0.4125,
+task_unassigned_300,Tetiana,300,300,1.0,300,1.0,300,1.0,300,1.0,300,1.0,300,1.0,243,0.81,
+task_unassigned_300,Maksym,300,300,1.0,300,1.0,300,1.0,300,1.0,300,1.0,300,1.0,297,0.99,
+cancer_no_detected_100,Tetiana,100,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,93,0.93,
+cancer_no_detected_100,Maksym,100,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,92,0.92,
+ai_family_no_detected_100,Tetiana,100,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,95,0.95,
+ai_family_no_detected_100,Maksym,100,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,89,0.89,
+optional_positive_audit_100,Tetiana,100,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,38,0.38,
+optional_positive_audit_100,Maksym,100,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,100,1.0,33,0.33,

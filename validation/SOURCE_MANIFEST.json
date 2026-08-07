@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "checksum_mode": "sha256 after CRLF and CR line endings are normalized to LF",
+  "files": [
+    {
+      "path": "validation/aggregate/false_exclusions_by_cancer_site.csv",
+      "sha256_lf_normalized": "ab7ce4987d7946dba583a15e9e404fdd7e69d76a76c218a74f186d8b48b92027",
+      "canonical_bytes": 704
+    },
+    {
+      "path": "validation/aggregate/false_exclusions_by_corresponding_author_country.csv",
+      "sha256_lf_normalized": "845f81f0cfaf82595e56408542e6633d86e69e15b89c2c552b74374c8c63669c",
+      "canonical_bytes": 545
+    },
+    {
+      "path": "validation/aggregate/false_exclusions_by_data_domain.csv",
+      "sha256_lf_normalized": "31f0cae33a6f580eb71527cdf8704f1e69e89e524c8d9844d6449bb7bb16c676",
+      "canonical_bytes": 404
+    },
+    {
+      "path": "validation/aggregate/false_exclusions_by_study_type.csv",
+      "sha256_lf_normalized": "6c01d159f2c2e4f0972e67ea084325d1748b6b50ddcc26834fa290e8112bca0f",
+      "canonical_bytes": 330
+    },
+    {
+      "path": "validation/aggregate/false_exclusions_by_task.csv",
+      "sha256_lf_normalized": "4ef90ebd812ce5a3fe0b867f13df83d757e9aad91e00f1347b5fcfb82a58cd1a",
+      "canonical_bytes": 323
+    },
+    {
+      "path": "validation/aggregate/false_exclusions_by_year.csv",
+      "sha256_lf_normalized": "0eeb1e53550b4e1ba113f02475d3c1bc7ee1c499611ac33e441c670b490b1479",
+      "canonical_bytes": 219
+    },
+    {
+      "path": "validation/aggregate/imaging_false_exclusions_by_failure_path.csv",
+      "sha256_lf_normalized": "4cf54c31b1959b1981c94033602d0c8879f375c77360bce03c4478c3bbef566b",
+      "canonical_bytes": 276
+    },
+    {
+      "path": "validation/aggregate/imaging_false_exclusions_by_modality.csv",
+      "sha256_lf_normalized": "ed7100222953ea59b8f9327ec3a3e5932dfac3bf84dd4b765ecc3ea827e4b375",
+      "canonical_bytes": 242
+    },
+    {
+      "path": "validation/aggregate/imaging_false_exclusions_by_task.csv",
+      "sha256_lf_normalized": "d04386d35cf39b573c7022620334c950b4ce0c87cf14e086f4e993de44c998c4",
+      "canonical_bytes": 224
+    },
+    {
+      "path": "validation/aggregate/imaging_false_exclusions_by_technique.csv",
+      "sha256_lf_normalized": "90b5698c807bf68222d1f96f24815f6f2e752a39d5c17b0a7c5e0080e3e531ee",
+      "canonical_bytes": 364
+    },
+    {
+      "path": "validation/aggregate/imaging_false_exclusions_overlapping_rule_patterns.csv",
+      "sha256_lf_normalized": "1fcf46b4a10722ab5321124f0aaaec9038821ce7d66645aa7956bd698638ba29",
+      "canonical_bytes": 608
+    },
+    {
+      "path": "validation/aggregate/manual_audit_results_with_ci.csv",
+      "sha256_lf_normalized": "134dd60e8cf277f40edbd9b7c29adc1d5aea8e32c758ffbc034fc5b49a0a30c2",
+      "canonical_bytes": 2141
+    },
+    {
+      "path": "validation/aggregate/metric_detection_balanced_audit_metrics.csv",
+      "sha256_lf_normalized": "15190dcf4a8b4a20cb2ed4525c00baa9a5f75fa3943fe6628fca34f99fe6e777",
+      "canonical_bytes": 564
+    },
+    {
+      "path": "validation/aggregate/metric_detection_confusion_matrix.csv",
+      "sha256_lf_normalized": "ca11dfac63fdf53699fddbff87f2da47863c175e3930f018428aecc57ca1cb2b",
+      "canonical_bytes": 101
+    },
+    {
+      "path": "validation/aggregate/metric_detection_false_negative_families.csv",
+      "sha256_lf_normalized": "4a3ab6168197b855144f05d3176f034cf8255281d0a94ec4c65d5ce850b86d68",
+      "canonical_bytes": 42
+    },
+    {
+      "path": "validation/aggregate/metric_detection_prediction_stratum_weighted_estimates.csv",
+      "sha256_lf_normalized": "9088b454e2ebac742d26cf96a846ebcc5ff55f524c24644fe8efe7b31fc3e002",
+      "canonical_bytes": 586
+    },
+    {
+      "path": "validation/aggregate/metric_detection_weighted_bootstrap_ci.csv",
+      "sha256_lf_normalized": "eea885b262c6c7b5084e635f61f74eebf3df9e7838ac0538d5aec3fc43ee8a22",
+      "canonical_bytes": 580
+    },
+    {
+      "path": "validation/aggregate/performance_category_by_task_and_metric.csv",
+      "sha256_lf_normalized": "a8c2f30a8d2adf84045671889555dc02ac74fd351841f74b4b9ebc55f4c50665",
+      "canonical_bytes": 4779
+    },
+    {
+      "path": "validation/aggregate/task_unassigned_sensitivity.csv",
+      "sha256_lf_normalized": "d5841805798e0c03378f950e26323d7b7185543f2dd5cdbf5579bcdb8ac2af37",
+      "canonical_bytes": 16357
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_A_completion.csv",
+      "sha256_lf_normalized": "b26c6066dbfb2336bd84f1ffae17a7bb86ae9c8fb3357c31da6371df141e9009",
+      "canonical_bytes": 1277
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_B_inter_reviewer.csv",
+      "sha256_lf_normalized": "b0e0e9006d8ca3200c3aeecd10dec92da7bf6db45677ca6d03f9a4f11c9fda31",
+      "canonical_bytes": 14869
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_C_primary400_metrics.csv",
+      "sha256_lf_normalized": "e85956dc3391b192ab70df1c18ad7e249cd2a4f83a6e877b6771b315e70c0f17",
+      "canonical_bytes": 5729
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_D_task_confusion.csv",
+      "sha256_lf_normalized": "4b3e31a8115f9d95426f92536dcf77d67674a80ca93992cc61105766093a35eb",
+      "canonical_bytes": 366
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_E_task_per_class.csv",
+      "sha256_lf_normalized": "57e0b28adc6119ae3459192fb7902fff7a9cb49b7a4cb6d6eeff95400aa9d739",
+      "canonical_bytes": 517
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_F_cancer_metrics.csv",
+      "sha256_lf_normalized": "ed829f87280c8156555b5eded65c7542aebfc5983b0dd980947ed62f9adb5ab8",
+      "canonical_bytes": 2051
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_G_ai_metrics.csv",
+      "sha256_lf_normalized": "d097876470687ed273d36542e7ed2f0a510740c65f438806b76acc8daa5d1f65",
+      "canonical_bytes": 2631
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_H_task_unassigned.csv",
+      "sha256_lf_normalized": "7b673dd09c00d56fa7e764ca59b279657bea51d8aaf34d7ac7ba130f78827026",
+      "canonical_bytes": 277
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_I_cancer_challenge.csv",
+      "sha256_lf_normalized": "8cba0c0d7390e05fa14e30fdcbfeb35cb868e38ef10315cd9aced896aebbce11",
+      "canonical_bytes": 72
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_I_recovered_cancer.csv",
+      "sha256_lf_normalized": "c578d09dd639ec615badbd5f46740bd543ba0fb8965e06fd3fda97d6e4129f9e",
+      "canonical_bytes": 155
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_J_ai_challenge.csv",
+      "sha256_lf_normalized": "da57dcfa66d819eed6b25feafb25e16562fd4672a1cded3f00dd312e8085e190",
+      "canonical_bytes": 70
+    },
+    {
+      "path": "validation/aggregate/taxonomy/Table_J_recovered_ai.csv",
+      "sha256_lf_normalized": "5d84b39e6b6b9110746a669b149ffbc3204f3a808a12b620bf5c7a6010590c76",
+      "canonical_bytes": 72
+    },
+    {
+      "path": "validation/aggregate/taxonomy/taxonomy_validation_final_metrics_public.json",
+      "sha256_lf_normalized": "c582f0aaa60b26ed39e9c326badfca82a0ab564aa30004461ac3ce61fb51e4b5",
+      "canonical_bytes": 4828
+    },
+    {
+      "path": "validation/aggregate/validation_metrics_with_ci.csv",
+      "sha256_lf_normalized": "b4a405fbb437fcad20ce56fbb38f0b36382bb1bf86a6a320c47694e3725c9c43",
+      "canonical_bytes": 13616
+    },
+    {
+      "path": "validation/redacted_labels/task_unassigned_300_redacted.csv",
+      "sha256_lf_normalized": "8f98db2954db4987f756fe3dea644d57cca3a7aff40ca877d79cc8a47ecea767",
+      "canonical_bytes": 13488
+    },
+    {
+      "path": "validation/redacted_labels/taxonomy_validation_labels.csv",
+      "sha256_lf_normalized": "ac9bc83aefb28a65ce6d435faf236e28d11827f0fa098aaaefc4b3b530ac96a4",
+      "canonical_bytes": 381665
+    },
+    {
+      "path": "validation/reproduce_task_unassigned_sensitivity.py",
+      "sha256_lf_normalized": "faf3d15833be3dda804343f1f6b80c7ac28090d9ddae99c643038550153f9d9a",
+      "canonical_bytes": 6235
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+﻿audit,stratum,estimate_name,positive_count,evaluable_count,uncertain_count,missing_count,estimate,ci_lower_95,ci_upper_95,ci_method,source_label_column
+excluded_record_audit,random_automatically_excluded_WoSCC_export_records,false_exclusion_rate,36,250,0,0,0.144,0.10586256867804505,0.19291234056271145,Wilson score interval,manually_relevant_AI_oncology
+translational_signal_audit,candidate_included,candidate_subset_precision,46,50,0,0,0.92,0.8116175308165717,0.968450485911407,Wilson score interval,manual_candidate_translational_signal
+translational_signal_audit,all_near_miss_comparators,near_miss_positive_rate,31,49,1,0,0.6326530612244898,0.49267067560792427,0.7533482703131686,Wilson score interval,manual_candidate_translational_signal
+translational_signal_audit,near_miss_external_validation_without_title_signal,near_miss_positive_rate_component,20,24,1,0,0.8333333333333334,0.6414692935030095,0.9332132367136705,Wilson score interval,manual_candidate_translational_signal
+translational_signal_audit,near_miss_title_signal_without_external_validation,near_miss_positive_rate_component,11,25,0,0,0.44,0.26665638881067344,0.6293266813020123,Wilson score interval,manual_candidate_translational_signal
+curated_reference_set_coverage,all_40,captured_in_final_corpus,25,40,0,0,0.625,,,not calculated; curated coverage count,coverage-stage fields
+curated_reference_set_coverage,all_40,present_in_raw_but_filtered_out,2,40,0,0,0.05,,,not calculated; curated coverage count,coverage-stage fields
+curated_reference_set_coverage,all_40,not_present_in_raw_export,13,40,0,0,0.325,,,not calculated; curated coverage count,coverage-stage fields
+curated_reference_set_coverage,all_40,determinable_source_article_type_or_year_restriction,3,40,0,0,0.075,,,not calculated; curated coverage count,coverage-stage fields
+curated_reference_set_coverage,all_40,unresolved_not_in_raw,10,40,0,0,0.25,,,not calculated; curated coverage count,coverage-stage fields
+curated_reference_set_coverage,raw_export_records,retained_in_final_among_records_present_in_raw,25,27,0,0,0.9259259259259259,,,not calculated; curated coverage count,coverage-stage fields

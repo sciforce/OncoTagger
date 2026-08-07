@@ -1,0 +1,54 @@
+﻿sample_name,annotation_layer,N,metric,value,95CI_low,95CI_high,interpretation
+primary_400,primary_task,400,exact_agreement,0.68,0.6349375,0.7275,Single-label comparison; blank pipeline primary_task treated as unassigned for comparison only.
+primary_400,primary_task,400,accuracy,0.68,,,Single-label comparison; blank pipeline primary_task treated as unassigned for comparison only.
+primary_400,primary_task,400,cohen_kappa,0.5082785909108372,0.4407622486577999,0.5706948872899406,Single-label comparison; blank pipeline primary_task treated as unassigned for comparison only.
+primary_400,primary_task,400,macro_F1,0.44772428859802466,0.441397542797994,0.7299412014355275,Single-label comparison; blank pipeline primary_task treated as unassigned for comparison only.
+primary_400,primary_task,400,weighted_F1,0.6572947022801184,,,Single-label comparison; blank pipeline primary_task treated as unassigned for comparison only.
+primary_400,primary_task,400,micro_F1,0.68,,,Single-label comparison; blank pipeline primary_task treated as unassigned for comparison only.
+primary_400,all_tasks,400,exact_set_match,0.2925,,,Multi-label set comparison.
+primary_400,all_tasks,400,mean_jaccard,0.6162797619047619,,,Multi-label set comparison.
+primary_400,all_tasks,400,median_jaccard,0.55,,,Multi-label set comparison.
+primary_400,all_tasks,400,micro_precision,0.6946169772256728,,,Multi-label set comparison.
+primary_400,all_tasks,400,micro_recall,0.7530864197530864,,,Multi-label set comparison.
+primary_400,all_tasks,400,micro_F1,0.7226709746903607,,,Multi-label set comparison.
+primary_400,all_tasks,400,macro_precision,0.5779145519688134,,,Multi-label set comparison.
+primary_400,all_tasks,400,macro_recall,0.6114429373355857,,,Multi-label set comparison.
+primary_400,all_tasks,400,macro_F1,0.5696615710079206,,,Multi-label set comparison.
+primary_400,cancer_sites,400,exact_set_match,0.8375,0.8,0.8725,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,mean_jaccard,0.875,0.8458229166666666,0.9058333333333333,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,median_jaccard,1.0,,,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,micro_precision,0.891566265060241,,,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,micro_recall,0.9226932668329177,,,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,micro_F1,0.9068627450980392,0.880861985515162,0.9293723951273085,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,macro_precision,0.853064495977302,,,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,macro_recall,0.8418722087389028,,,Multi-label cancer-site comparison.
+primary_400,cancer_sites,400,macro_F1,0.8639378266719508,,,Multi-label cancer-site comparison.
+primary_400,cancer_site_any_detection,400,TP,364.0,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,FP,30.0,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,TN,6.0,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,FN,0.0,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,sensitivity,1.0,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,specificity,0.16666666666666666,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,PPV,0.9238578680203046,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,NPV,1.0,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,accuracy,0.925,,,Binary any-specific-cancer-site detection.
+primary_400,cancer_site_any_detection,400,F1,0.9604221635883905,,,Binary any-specific-cancer-site detection.
+primary_400,ai_families,400,exact_set_match,0.7825,0.74,0.8200624999999999,Multi-label AI-family comparison.
+primary_400,ai_families,400,mean_jaccard,0.8565595238095238,0.8257061011904763,0.8841001488095238,Multi-label AI-family comparison.
+primary_400,ai_families,400,median_jaccard,1.0,,,Multi-label AI-family comparison.
+primary_400,ai_families,400,micro_precision,0.841541755888651,,,Multi-label AI-family comparison.
+primary_400,ai_families,400,micro_recall,0.9357142857142857,,,Multi-label AI-family comparison.
+primary_400,ai_families,400,micro_F1,0.8861330326944757,0.8638856222517639,0.9062883392434434,Multi-label AI-family comparison.
+primary_400,ai_families,400,macro_precision,0.7316740313866751,,,Multi-label AI-family comparison.
+primary_400,ai_families,400,macro_recall,0.9418114818114818,,,Multi-label AI-family comparison.
+primary_400,ai_families,400,macro_F1,0.8810460480632885,,,Multi-label AI-family comparison.
+primary_400,ai_family_any_detection,400,TP,231.0,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,FP,21.0,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,TN,136.0,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,FN,12.0,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,sensitivity,0.9506172839506173,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,specificity,0.8662420382165605,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,PPV,0.9166666666666666,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,NPV,0.918918918918919,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,accuracy,0.9175,,,Binary any-specific-AI-family detection.
+primary_400,ai_family_any_detection,400,F1,0.9333333333333333,,,Binary any-specific-AI-family detection.

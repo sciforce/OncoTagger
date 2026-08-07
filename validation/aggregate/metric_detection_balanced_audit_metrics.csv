@@ -1,0 +1,17 @@
+unweighted_balanced_audit_metric,value
+N_total_audited,200.0
+N_clean_binary,200.0
+N_uncertain_or_missing,0.0
+human_metric_reported,117.0
+human_no_metric_reported,83.0
+correct_metric_detected_TP,99.0
+correct_no_metric_detected_TN,82.0
+false_positive_metric_detected_FP,1.0
+false_negative_metric_missed_FN,18.0
+accuracy,0.905
+sensitivity_metric_detection,0.8461538461538461
+specificity_no_metric_detection,0.9879518072289156
+positive_predictive_value,0.99
+negative_predictive_value,0.82
+false_positive_rate,0.01204819277108434
+false_negative_rate,0.1538461538461539

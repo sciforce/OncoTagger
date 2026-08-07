@@ -1,0 +1,37 @@
+﻿Descriptor group,Descriptor,Count,Share of full corpus (%)
+Primary task,classification,11281,54.32
+Primary task,prognosis,4926,23.72
+Primary task,segmentation,3454,16.63
+Primary task,synthesis,293,1.41
+Primary task,auxiliary,159,0.77
+Primary task,genomic,130,0.63
+Primary task,integration,124,0.6
+Primary task,nlp,99,0.48
+Cancer site,Breast cancer,3871,18.64
+Cancer site,Brain/CNS cancer,2734,13.17
+Cancer site,Lung cancer,2616,12.6
+Cancer site,Colorectal cancer,1649,7.94
+Cancer site,Hepato-biliary cancers,1215,5.85
+Cancer site,Prostate cancer,1169,5.63
+Cancer site,Head and neck cancer,1030,4.96
+Cancer site,Oncohematologic malignancies,805,3.88
+Cancer site,Skin cancer,683,3.29
+Cancer site,Cervical cancer,665,3.2
+AI family,Random Forests,2610,12.57
+AI family,SVM,2520,12.14
+AI family,Gradient Boosting Trees,1851,8.91
+AI family,Logistic Regression,1820,8.76
+AI family,ResNet Family,1619,7.8
+AI family,Penalized Regression,1548,7.45
+AI family,U Net Family,1480,7.13
+AI family,Classical Survival Models,1393,6.71
+AI family,MLP ANN DNN,1262,6.08
+AI family,Decision Trees,927,4.46
+Composite metric source,not available,8541,41.13
+Composite metric source,roc-auc,4720,22.73
+Composite metric source,accuracy,2579,12.42
+Composite metric source,sensitivity,1254,6.04
+Composite metric source,dice,1172,5.64
+Composite metric source,f1-score,805,3.88
+Composite metric source,precision,626,3.01
+Composite metric source,c-index,566,2.73

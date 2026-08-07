@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "release_version": "2.1.0",
+  "release_date": "2026-08-06",
+  "manuscript_title": "OncoTagger: a reproducible abstract-level landscape of open-access AI-oncology articles in Web of Science",
+  "dictionary_set_version": "manuscript-locked-v1",
+  "record_counts": {
+    "woscc_export_records": 59994,
+    "duplicate_records_removed": 38,
+    "publication_year_2026_records_excluded": 128,
+    "records_screened": 59828,
+    "automatically_included_records": 20723,
+    "manual_review_records": 48,
+    "automatically_excluded_records": 39057,
+    "manual_review_records_retained": 43,
+    "manual_review_records_not_included": 5,
+    "final_corpus_records": 20766,
+    "metric_bearing_records": 12538,
+    "no_metric_detected_records": 8228,
+    "scoreable_performance_category_records": 12225
+  },
+  "validation_counts": {
+    "primary_ordinal_validation_records": 400,
+    "secondary_metric_detection_audit_records": 200,
+    "automatically_excluded_audit_records": 250,
+    "false_exclusions_characterized": 36,
+    "task_unassigned_records_reviewed": 300,
+    "task_unassigned_records_with_manual_primary_task": 250
+  },
+  "public_validation_manifest": {
+    "path": "validation/SOURCE_MANIFEST.json",
+    "sha256_lf_normalized": "053c5598ca3f8f30dd1f20b17dc952d1b66198d970ee44d8d9f150a2a4be1448"
+  },
+  "checksum_mode": "sha256 after CRLF and CR line endings are normalized to LF",
+  "controlled_input_checksums_sha256_lf_normalized": {
+    "docs/wos_search_query.txt": "4a0f41e054e5c123e8410eb94ac79ba795f50fa1844aba59a94725176da3e0a4",
+    "sources/ai_family_map.csv": "ff9bae3eaf116c05f5032db4c693c493058cf2e6b123dca2452df0e4d9ce3870",
+    "sources/ai_keywords.csv": "fca10c6857b1808eae4b79e2cf63a5bbfa413ba9458c9425c4f8d2cff3165fc1",
+    "sources/ai_terms_filter_moderate.csv": "54af8f15b22c80e3c88d7c4d3668a044c77662abb450f4c677180842d15a209e",
+    "sources/ai_terms_filter_remove.csv": "8344bb23a9ad9ade02a4d90838772a7909a84c78b5c1ea685800328ca294d205",
+    "sources/ai_terms_filter_strong.csv": "54ec0aac46be28a66820e68999b21cbfd4c1f76b87cb80129cefd03bc06bcb2d",
+    "sources/ai_terms_filter_weak.csv": "f7e5e8bb5265c29a960d19a7f9b5ed14fb2fe467a133299a7b339b4cc160b73f",
+    "sources/cancer_keywords.csv": "d38782917681d3020b3c037b021c4b9fff4079642811d65a8f4f9dc9680ae0e0",
+    "sources/cancer_keywords_soft.csv": "5988c99e056a8490c9193f8d7d047843be7ca3f854d449d49de1373235aeb435",
+    "sources/category_scores.csv": "8d827894e6b61e2a6aed02fe2003873d0fe6d2db61d70920c157d21acbb5368d",
+    "sources/country_synonyms.csv": "8e0703a1dce42908618c58fec56296b497135715ea8462c995b708abf702d9e3",
+    "sources/metric_synonyms.csv": "9b6924b3c2f0e828ab5cfe0078a5998591b3da9134f9bbe95c1432d2bbb620e9",
+    "sources/onco_terms_filter.csv": "da664110a578c13801c645e5312f2be438362ab88fc4e31d88e5c73f25a06f2c",
+    "sources/onco_terms_filter_moderate.csv": "1344182d40b35cbbe132477488dd77db297a69d17331c2bad98a96de93caf257",
+    "sources/onco_terms_filter_remove.csv": "6057bdbc8836dbd10becaf96cae991da3774b0a0c123c2f9dc3066a0fc16d4e0",
+    "sources/onco_terms_filter_strong.csv": "fcd869482e430bf4b51ce103e0ab1886af536620cb3ced6f372409ccd72f00d8",
+    "sources/onco_terms_filter_weak.csv": "91cf960f2399c370a41c7e1d4014f7fb859c7b9417c2fb5a8a617dca4519c580",
+    "sources/raw_ai_terms_filter.csv": "d86727d85f7b84574f3dddc5d3ac4058f47f591e204e7a2a9201033c824adf80",
+    "sources/task_keywords.csv": "f8e39652387d65fbb40c97f43bc1f0e9aa3cbf0e74cce95751d93e2a62d2c3d1",
+    "sources/task_metric_priority.csv": "2e221c32a915413af53bbabcf11fc63012c7ed3956ec71b7ab8faef84e8cd3cc",
+    "sources/task_priority.csv": "1edc1c7d3999e4477452632d759719a79b3111737827cbc4063044df3cfea321",
+    "sources/thresholds.csv": "b5e524b9388ffd21d93b96e9f410fca15f78c7a4af7cb06ab7a69fbd39b0e566",
+    "sources/total-population-by-country-2025.csv": "d073640cf6a00e005c6d66753431097d51c572afb595e0aee7dd6d6fdabdc084",
+    "sources/wos_exclusion_categories.tsv": "2420f1258e43321f8ff43c3a25e830df12f0af7c39ebf27ee313fba65c21309e"
+  }
+}
